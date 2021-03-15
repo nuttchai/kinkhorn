@@ -45,16 +45,6 @@ const UserContextProvider = (props: Props) => {
     setCurrentUser(EmptyUser);
   };
 
-  // FIXME: for debugging purpose only
-  // useEffect(() => {
-  // eslint-disable-next-line max-len
-  //   const DummyToken = 'Bearer ' + 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InZpc2FydXQudEBjbWtsLmFjLnRoIiwibmFtZSI6IlZpc2FydXQgVGVjaGF0YW5hY2hhaSIsInBpY3R1cmUiOiJodHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vYS0vQU9oMTRHamRpeEJ2SVFodkhPZ2R3NmdXelIzeGcwWlNWaXdnZGlmTjFYREY9czk2LWMiLCJleHAiOjE2MTE3MzI2MjcsImp0aSI6IjEwNTU0NTc5MzI0NjE4OTQ5MjU5MSJ9.uVFKoHiT_M-JcoNnhm2FTEW9Mm_BNzaKT5wJGLpheQk';
-  //   setCurrentUser({
-  //     name: 'test',
-  //     picture: 'test.jpg',
-  //   }, DummyToken);
-  // }, []);
-
   return (
     <UserContext.Provider value={{
       user,
