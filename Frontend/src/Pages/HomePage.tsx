@@ -9,7 +9,7 @@ import { UserContext } from '../Context/UserContext';
 
 function Home() {
     const [homePageInfo,setHomePageInfo] = useState('');
-    const currentUser = useContext(UserContext).user;
+    const userContext = useContext(UserContext);
     // const fetchData = () =>{
     //     return axios.get('https://randomuser.me/api')
     //     .then((res) => {
@@ -27,6 +27,15 @@ function Home() {
     useEffect(() => {
         // fetchData();
         // console.log(userContext);
+        axios.get('https://randomuser.me/api')
+        .then((res) => {
+            userContext.setCurrentUser(res.data.results[0]);
+            console.log(res.data.results[0]);
+            userContext.user.name = res.data.results[0].id.name;
+            userContext.user.picture = res.data.results[0].picture.medium;
+            console.log(userContext.user);
+        })
+        .catch((err) => console.error(err));
     },[]);
     return (
         <>
@@ -34,9 +43,9 @@ function Home() {
             Kin Khorn HomePage
         </h1>
         <div>
-            {currentUser.name}
+            dear {userContext.user.name}
         </div>
-        <img src={currentUser.picture} alt='pic'/>
+        <img src={userContext.user.picture} alt='pic'/>
         <p>
             {homePageInfo}
         </p>

@@ -7,6 +7,7 @@ import SignInPage from './Pages/SignInPage';
 import SignOutPage from './Pages/SignOutPage';
 import { UserContext } from './Context/UserContext';
 import axios from 'axios';
+import BasicLayout from './Layouts/BasicLayout';
 
 const PrivateRoute = (props: RouteProps) => {
   const userContext = useContext(UserContext);
@@ -24,24 +25,26 @@ function App() {
   const userContext = useContext(UserContext);
   useLayoutEffect(() => {
     // axios.get('/api/user/info')
-    axios.get('https://randomuser.me/api')
-      .then((res) => {
-        userContext.setCurrentUser(res.data.results[0]);
-        console.log(res.data.results[0]);
-        userContext.user.name = res.data.results[0].id.name;
-        userContext.user.picture = res.data.results[0].picture.medium;
-        console.log(userContext.user);
-      })
-      .catch((err) => console.error(err));
+    // axios.get('https://randomuser.me/api')
+    //   .then((res) => {
+    //     userContext.setCurrentUser(res.data.results[0]);
+    //     console.log(res.data.results[0]);
+    //     userContext.user.name = res.data.results[0].id.name;
+    //     userContext.user.picture = res.data.results[0].picture.medium;
+    //     console.log(userContext.user);
+    //   })
+    //   .catch((err) => console.error(err));
   }, []);
  
   return (
     <div className='App'>
       <Switch>
+      <BasicLayout>
         <Route exact path='/' component={HomePage}/>
         <Route path='/signin' component={SignInPage}/>
         <Route path='/signout' component={SignOutPage}/> 
         <Route path='/oauth/login' />
+      </BasicLayout>
       </Switch>
     </div>
   );
