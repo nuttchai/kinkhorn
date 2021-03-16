@@ -1,7 +1,7 @@
 type User = {
     name: string;
     picture: string;
-    amount: number;
+    // amount: number;
   };
   
   // export const DummyUser: User = {
@@ -13,7 +13,7 @@ type User = {
   export const EmptyUser:User = {
     name: '',
     picture: '',
-    amount: 0,
+    // amount: 0,
   };
   
   export default User;
