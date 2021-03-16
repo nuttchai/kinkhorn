@@ -8,7 +8,7 @@ function SignInPage() {
     <div>
       SignInpage
     </div>
-    <Link to='/oauth/login'>Login</Link>
+    <Link to='/oauth/login'>Sign In With KMITL</Link>
     </>
   );
 }

@@ -12,11 +12,11 @@ import BasicLayout from './Layouts/BasicLayout';
 const PrivateRoute = (props: RouteProps) => {
   const userContext = useContext(UserContext);
   return <>
-    {/* {
+    {
       (userContext.isSignedIn)
         ? <Route {...props} />
         : <Redirect to="/signin" />
-    } */}
+    }
   </>;
 };
 
@@ -40,10 +40,14 @@ function App() {
     <div className='App'>
       <Switch>
       <BasicLayout>
-        <Route exact path='/' component={HomePage}/>
-        <Route path='/signin' component={SignInPage}/>
-        <Route path='/signout' component={SignOutPage}/> 
+        <PrivateRoute exact path='/' component={HomePage}/>
         <Route path='/oauth/login' />
+        <Route path='/signout' component={SignOutPage}/> 
+        {
+              (userContext.isSignedIn)
+                ? <Redirect from="/signin" to="/" />
+                : <Route path='/signin' component={SignInPage} />
+        }
       </BasicLayout>
       </Switch>
     </div>
