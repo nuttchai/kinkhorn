@@ -5,12 +5,16 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import {AppRoot} from './Layouts/Globalstyle';
-
+import UserProvider from './Context/UserContext';
 ReactDOM.render(
-  <BrowserRouter>
-    <AppRoot/>
-    <App />
-  </BrowserRouter>,
+  <UserProvider>
+    <React.StrictMode>
+      <BrowserRouter>
+        <AppRoot/>
+        <App />
+    </BrowserRouter>
+    </React.StrictMode>
+  </UserProvider>,
   document.getElementById('root')
 );
 

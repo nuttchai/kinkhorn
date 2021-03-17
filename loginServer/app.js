@@ -4,7 +4,6 @@ const session = require('express-session');
 const jwt = require('jsonwebtoken');
 const bodyParser = require('body-parser');
 const cookieParser = require("cookie-parser");
-
 app.use(bodyParser.json());
 
 app.set('view engine', 'ejs');
@@ -15,9 +14,9 @@ app.use(session({
   secret: 'SECRET' 
 }));
 
-app.get('/', function(req, res) {
-  res.send("Hello World!");
-});
+// app.get('/', function(req, res) {
+//   res.send("Hello World!");
+// });
 
 const port = process.env.PORT || 8080;
 app.listen(port , () => console.log('App listening on port ' + port));
@@ -96,7 +95,11 @@ app.get('/success', (req, res) => {
     secure: false, // set to true if your using https
     httpOnly: true,
   });
-  res.redirect('/');
+  // res.redirect('/');
+  res.writeHead(302, {
+    Location: 'http://localhost:3000/'
+    });
+    res.end();
 });
 
 app.get('/api/user/info', authenticateJWT, (req, res) => {

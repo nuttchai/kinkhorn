@@ -1,4 +1,5 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -8,7 +9,7 @@ function SignInPage() {
     <div>
       SignInpage
     </div>
-    <Link to='/oauth/login'>Sign In With KMITL</Link>
+    <a href='auth/google'>Sign In With KMITL</a>
     </>
   );
 }
