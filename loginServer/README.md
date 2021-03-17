@@ -1,5 +1,4 @@
-# READ ME
-## Login server
+# Login server
 
 This folder contains the authentication part of the system. The authentication uses google oauth2 with jwt stores in cookie.  
 ``This server will run on port 8080``
