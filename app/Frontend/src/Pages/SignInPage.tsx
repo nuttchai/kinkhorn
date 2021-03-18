@@ -9,7 +9,7 @@ function SignInPage() {
     <div>
       SignInpage
     </div>
-    <a href='auth/google'>Sign In With KMITL</a>
+    <a href='/oauth/google'>Sign In With KMITL</a>
     </>
   );
 }

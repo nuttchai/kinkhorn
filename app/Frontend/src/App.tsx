@@ -8,6 +8,7 @@ import SignOutPage from './Pages/SignOutPage';
 import { UserContext } from './Context/UserContext';
 import axios from 'axios';
 import BasicLayout from './Layouts/BasicLayout';
+import { FaBeer } from 'react-icons/fa';
 
 const PrivateRoute = (props: RouteProps) => {
   const userContext = useContext(UserContext);
@@ -24,7 +25,7 @@ function App() {
 
   const userContext = useContext(UserContext);
   useLayoutEffect(() => {
-    axios.get('/api/user/info')
+    axios.get('/oauth/user/info')
       .then((res) => {
         console.log("res : ",res.data.user);
         userContext.setCurrentUser(res.data.user);
@@ -35,7 +36,7 @@ function App() {
   return (
     <div className='App'>
       <Switch>
-      <BasicLayout>
+      {/* <BasicLayout> */}
         <Route exact path='/' component={HomePage}/>
         <Route path='/auth/google'/>
         <Route path='/signout' component={SignOutPage}/>
@@ -45,7 +46,7 @@ function App() {
           //   ? <Redirect from="/signin" to="/" />
           //   : <Route path='/signin' component={SignInPage} />
         }
-      </BasicLayout>
+      {/* </BasicLayout> */}
       </Switch>
     </div>
   );
