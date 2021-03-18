@@ -21,6 +21,17 @@ const Droplist = styled.div`
   white-space: nowrap;
 `;
 
+interface ShopInfo {
+    id : string;
+    menu : any;
+    owner : string;
+    shop : string;
+}
+
+interface Menu {
+    name : string;
+    price : number;
+}
 
 
 function Home() {
@@ -43,8 +54,20 @@ function Home() {
     };
     useEffect(() => {
         fetchShop();
-        console.log("myinfo ",homePageInfo);
-      }, []); 
+    }, []); 
+    console.log("myinfo ",homePageInfo);
+    const ShopData = (
+        <div>
+            {homePageInfo.map((data : ShopInfo,i) => (
+                <div>
+                    {data.shop} {data.menu.map((ele : Menu) => (
+                    <div>
+                    {ele.name} price : {ele.price}</div>))}
+                </div>
+            )
+            )}
+        </div>
+    )
     return (
         <>
         <Container>
@@ -76,11 +99,7 @@ function Home() {
                     <a href = '/cafeteriaL'>Cafeteria L</a>
                 </Droplist>
             )}
-            {/* {ShopData} */}
-            {homePageInfo.map((data,i)=>{
-                console.log("map data : ",data);
-            }
-            )}
+            {ShopData}
         </Container>
         </>
     );
