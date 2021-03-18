@@ -21,5 +21,5 @@ node app.js
 
 ### PATHs  
 
-+ `/auth/google`    Google login
-+ `/api/user/info`  Get user's information after logged in
++ `/oauth/google`    Google login
++ `/oauth/user/info`  Get user's information after logged in
