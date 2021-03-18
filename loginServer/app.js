@@ -37,7 +37,7 @@ passport.deserializeUser(function(obj, cb) {
 
 
 /* JWT */
-  const accessTokenSecret = 'youraccesstokensecret';
+  const accessTokenSecret = '9y$B&E)H@McQfTjWnZq4t7w!z%C*F-Ja';
 
   const authenticateJWT = (req, res, next) => {
     var cookie = req.cookies;
@@ -66,7 +66,7 @@ const GOOGLE_CLIENT_SECRET = 'inqzjtqak9ua5xcHVsSClB4y';
 passport.use(new GoogleStrategy({
     clientID: GOOGLE_CLIENT_ID,
     clientSecret: GOOGLE_CLIENT_SECRET,
-    callbackURL: "http://localhost:8080/auth/google/callback"
+    callbackURL: "http://localhost:8080/oauth/google/callback"
   },
   function(accessToken, refreshToken, profile, done) {
       userProfile=profile;
@@ -74,10 +74,10 @@ passport.use(new GoogleStrategy({
   }
 ));
  
-app.get('/auth/google', 
+app.get('/oauth/google', 
   passport.authenticate('google', { scope : ['profile', 'email'] }));
  
-app.get('/auth/google/callback', 
+app.get('/oauth/google/callback', 
   passport.authenticate('google', { failureRedirect: '/error' }),
   function(req, res) {
     // Successful authentication, redirect success.
@@ -102,7 +102,7 @@ app.get('/success', (req, res) => {
     res.end();
 });
 
-app.get('/api/user/info', authenticateJWT, (req, res) => {
+app.get('/oauth/user/info', authenticateJWT, (req, res) => {
   var cookie = req.cookies;
   var decoded = jwt.decode(cookie['token']);
   return res.json(decoded)
