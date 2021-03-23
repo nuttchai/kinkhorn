@@ -35,19 +35,19 @@ function App() {
   return (
     <div className='App'>
 
-      <Switch>
       <BasicLayout>
+      <Switch>
         <Route exact path='/' component={HomePage}/>
         <Route path='/auth/google'/>
-        <PrivateRoute path='/signout' component={SignOutPage}/>
-        <PrivateRoute path='/signin' component={SignInPage} />
+        <Route path='/signout' component={SignOutPage}/>
+        <Route path='/signin' component={SignInPage} />
         {/* {
           (userContext.isSignedIn)
             ? <Redirect from="/signin" to="/" />
             : <Route path='/signin' component={SignInPage} />
         } */}
-      </BasicLayout>
       </Switch>
+      </BasicLayout>
     </div>
   );
 }

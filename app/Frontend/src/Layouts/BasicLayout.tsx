@@ -18,9 +18,9 @@ function BasicLayout({children} : Props): JSX.Element {
         <>
         <Header/>
         <Menu/>
-        <Content/>
-        <Footer/>
         {children}
+        {/* <Content/> */}
+        <Footer/>
         </>
 
     );

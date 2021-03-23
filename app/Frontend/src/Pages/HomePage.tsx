@@ -70,7 +70,7 @@ function Home() {
     )
     return (
         <>
-        <Container>
+        <Container className="content-wrapper">
             <Row>
                 <Col>
                     <h1>
