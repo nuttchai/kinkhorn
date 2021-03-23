@@ -5,7 +5,7 @@ import axios from 'axios';
 import pic from '../img/img_avatar3.png';
 import User from '../Types/User.d';
 import { UserContext } from '../Context/UserContext';
-import { BsFillCaretDownFill } from "react-icons/bs";
+// import { BsFillCaretDownFill } from "react-icons/bs";
 import { Container, Row, Col } from 'react-grid-system';
 
 const CanteenStyled = styled.div`
@@ -89,7 +89,7 @@ function Home() {
                     </p> */}
                 </Col>
             </Row>
-            <CanteenStyled onClick = {toggleCanteenDropdown}>Canteen <BsFillCaretDownFill/> </CanteenStyled>
+            <CanteenStyled onClick = {toggleCanteenDropdown}>Canteen</CanteenStyled>
             {isCanteenOpen && (
                 <Droplist>
                     <a href = '/cafeteriaA'>Cafeteria A</a>

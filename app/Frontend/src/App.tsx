@@ -8,15 +8,14 @@ import SignOutPage from './Pages/SignOutPage';
 import { UserContext } from './Context/UserContext';
 import axios from 'axios';
 import BasicLayout from './Layouts/BasicLayout';
-import { FaBeer } from 'react-icons/fa';
 
 const PrivateRoute = (props: RouteProps) => {
   const userContext = useContext(UserContext);
   return <>
     {
-      // (userContext.isSignedIn)
-      //   ? <Route {...props} />
-      //   : <Redirect to="/signin" />
+      (userContext.isSignedIn)
+        ? <Route {...props} />
+        : <Redirect to="/signin" />
     }
   </>;
 };
@@ -35,18 +34,19 @@ function App() {
  
   return (
     <div className='App'>
+
       <Switch>
-      {/* <BasicLayout> */}
+      <BasicLayout>
         <Route exact path='/' component={HomePage}/>
         <Route path='/auth/google'/>
-        <Route path='/signout' component={SignOutPage}/>
-        <Route path='/signin' component={SignInPage} />
-        {
-          // (userContext.isSignedIn)
-          //   ? <Redirect from="/signin" to="/" />
-          //   : <Route path='/signin' component={SignInPage} />
-        }
-      {/* </BasicLayout> */}
+        <PrivateRoute path='/signout' component={SignOutPage}/>
+        <PrivateRoute path='/signin' component={SignInPage} />
+        {/* {
+          (userContext.isSignedIn)
+            ? <Redirect from="/signin" to="/" />
+            : <Route path='/signin' component={SignInPage} />
+        } */}
+      </BasicLayout>
       </Switch>
     </div>
   );
