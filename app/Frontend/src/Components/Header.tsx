@@ -1,6 +1,8 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { UserContext } from '../Context/UserContext';
 
 export default function Header() {
+    const userContext = useContext(UserContext);
     return (
         <nav className="main-header navbar navbar-expand navbar-white navbar-light">
             {/* Left navbar links */}

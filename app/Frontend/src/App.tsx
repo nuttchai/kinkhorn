@@ -33,8 +33,7 @@ function App() {
   }, []);
  
   return (
-    <div className='App'>
-
+    <div>
       <BasicLayout>
       <Switch>
         <Route exact path='/' component={HomePage}/>
@@ -53,3 +52,11 @@ function App() {
 }
 
 export default App;
+
+// export default function App() {
+//   return (
+//     <div>
+//       <BasicLayout/>
+//     </div>
+//   )
+// }

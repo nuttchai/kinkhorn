@@ -1,4 +1,4 @@
-import React, { Component, useEffect, useState, useContext } from 'react';
+import React, { Component, useEffect, useState, useContext, useRef } from 'react';
 import { Route, Link } from 'react-router-dom';
 import styled from 'styled-components';
 import axios from 'axios';
@@ -42,8 +42,10 @@ function Home() {
     const toggleCanteenDropdown = () => {
         setIsCanteenOpen((prevState) => !prevState);
       };
+
+    const fetchShop = useRef(()=>{});
       
-    const fetchShop = () => {
+    fetchShop.current = () => {
         axios.get('http://143.198.208.245:9000/api/shops/customer').then((res) => {
             console.log("shop ",res);
             console.log("set ",res.data.data);
@@ -53,8 +55,8 @@ function Home() {
         })
     };
     useEffect(() => {
-        fetchShop();
-    }, []); 
+        fetchShop.current();
+    }, [fetchShop]); 
     console.log("myinfo ",homePageInfo);
     const ShopData = (
         <div>
@@ -70,7 +72,7 @@ function Home() {
     )
     return (
         <>
-        <Container className="content-wrapper">
+        <div className="content-wrapper">
             <Row>
                 <Col>
                     <h1>
@@ -100,7 +102,7 @@ function Home() {
                 </Droplist>
             )}
             {ShopData}
-        </Container>
+        </div>
         </>
     );
 

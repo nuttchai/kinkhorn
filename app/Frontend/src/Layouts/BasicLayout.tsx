@@ -11,7 +11,7 @@ import Content from '../Components/Content';
 import Footer from '../Components/Footer';
 
 export type Props = {
-    children: React.ReactNode;
+    children?: React.ReactNode;
 }
 function BasicLayout({children} : Props): JSX.Element {
     return (

@@ -6,10 +6,12 @@ import styled from 'styled-components';
 function SignInPage() {
   return (
     <>
-    <div>
-      SignInpage
+    <div className="content-wrapper">
+      <div>
+        SignInpage
+      </div>
+      <a href='/oauth/google'>Sign In With KMITL</a>
     </div>
-    <a href='/oauth/google'>Sign In With KMITL</a>
     </>
   );
 }
