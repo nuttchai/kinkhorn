@@ -45,6 +45,7 @@ function App() {
             ? <Redirect from="/signin" to="/" />
             : <Route path='/signin' component={SignInPage} />
         } */}
+        
       </Switch>
       </BasicLayout>
     </div>
