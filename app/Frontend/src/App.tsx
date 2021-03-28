@@ -8,6 +8,9 @@ import SignOutPage from './Pages/SignOutPage';
 import { UserContext } from './Context/UserContext';
 import axios from 'axios';
 import BasicLayout from './Layouts/BasicLayout';
+import MyActivitiesPage from './Pages/MyActivitiesPage';
+import PaymentPage from './Pages/PaymentPage';
+import AccountPage from './Pages/AccountPage';
 
 const PrivateRoute = (props: RouteProps) => {
   const userContext = useContext(UserContext);
@@ -16,7 +19,7 @@ const PrivateRoute = (props: RouteProps) => {
       (userContext.isSignedIn)
         ? <Route {...props} />
         : <Redirect to="/signin" />
-    }
+    } 
   </>;
 };
 
@@ -40,6 +43,9 @@ function App() {
         <Route path='/auth/google'/>
         <Route path='/signout' component={SignOutPage}/>
         <Route path='/signin' component={SignInPage} />
+        <Route exact path='/myactivity' component={MyActivitiesPage}/>
+        <Route path='/myaccount' component={AccountPage}/>
+        <Route path='/payment' component={PaymentPage}/>
         {/* {
           (userContext.isSignedIn)
             ? <Redirect from="/signin" to="/" />
