@@ -40,7 +40,8 @@ function App() {
       <BasicLayout>
       <Switch>
         <Route exact path='/' component={HomePage}/>
-        <Route path='/auth/google'/>
+        <Route path='/oauth/google'/>
+        <Route path='/oauth/logout'/>
         <Route path='/signout' component={SignOutPage}/>
         <Route path='/signin' component={SignInPage} />
         <Route exact path='/myactivity' component={MyActivitiesPage}/>

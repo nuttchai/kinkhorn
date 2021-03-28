@@ -123,7 +123,7 @@ export default function Menu() {
             </a>
           </li>
           <li className="nav-item">
-            <a href="/" className="nav-link">
+            <a href="/oauth/logout" className="nav-link">
               <i className="nav-icon fas fa-sign-out-alt" />
               <p>
                 Sign out

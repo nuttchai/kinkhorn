@@ -4,7 +4,7 @@ import styled from 'styled-components';
 function SignOutPage() {
   return (
     <>
-      <div>
+      <div className="content-wrapper">
       SignOutPage
     </div>
 
