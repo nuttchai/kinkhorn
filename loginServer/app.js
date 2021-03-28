@@ -14,10 +14,6 @@ app.use(session({
   secret: 'SECRET' 
 }));
 
-// app.get('/', function(req, res) {
-//   res.send("Hello World!");
-// });
-
 const port = process.env.PORT || 8080;
 app.listen(port , () => console.log('App listening on port ' + port));
 
@@ -106,6 +102,11 @@ app.get('/oauth/user/info', authenticateJWT, (req, res) => {
   var cookie = req.cookies;
   var decoded = jwt.decode(cookie['token']);
   return res.json(decoded)
+});
+
+app.get('/oauth/logout', (req, res) => {
+  res.clearCookie("token");
+  res.redirect('/');
 });
 
 app.get('/error', (req, res) => res.send("error logging in"));
