@@ -38,6 +38,7 @@ const UserContextProvider = (props: Props) => {
     } else {
       setSignedIn(false);
     }
+
   };
 
   const signOut = () => {

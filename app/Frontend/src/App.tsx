@@ -33,25 +33,26 @@ function App() {
         userContext.setCurrentUser(res.data.user);
       })
       .catch((err) => console.error(err));
+      console.log(userContext.isSignedIn);
   }, []);
  
   return (
     <div>
       <BasicLayout>
       <Switch>
-        <Route exact path='/' component={HomePage}/>
+        <PrivateRoute exact path='/' component={HomePage}/>
+        <PrivateRoute exact path='/myactivity' component={MyActivitiesPage}/>
+        <PrivateRoute path='/myaccount' component={AccountPage}/>
+        <PrivateRoute path='/payment' component={PaymentPage}/>
+
+        <Route path='/signout' component={SignOutPage}/>
         <Route path='/oauth/google'/>
         <Route path='/oauth/logout'/>
-        <Route path='/signout' component={SignOutPage}/>
-        <Route path='/signin' component={SignInPage} />
-        <Route exact path='/myactivity' component={MyActivitiesPage}/>
-        <Route path='/myaccount' component={AccountPage}/>
-        <Route path='/payment' component={PaymentPage}/>
-        {/* {
+        {
           (userContext.isSignedIn)
-            ? <Redirect from="/signin" to="/" />
+            ? <Redirect from='/signin' to='/' />
             : <Route path='/signin' component={SignInPage} />
-        } */}
+        }
         
       </Switch>
       </BasicLayout>

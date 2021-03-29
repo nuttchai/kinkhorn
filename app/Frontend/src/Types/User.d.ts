@@ -4,11 +4,6 @@ type User = {
     // amount: number;
   };
   
-  // export const DummyUser: User = {
-  //   name: 'Visarut',
-  //   lastname: 'Techatanachai
-  //   picture: 'https://picsum.photos/200',
-  // };
   
   export const EmptyUser:User = {
     name: '',
