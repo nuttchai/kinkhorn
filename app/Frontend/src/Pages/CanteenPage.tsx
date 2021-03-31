@@ -33,7 +33,7 @@ const StyledKiosk = styled.div`
 export default function CanteenPage() {
   return (
     <>
-      <div>Breadcum</div>
+      <div>breadcrumbs</div>
       <h2>Canteen A</h2>
       <StyledCard>
         <StyledRow>
