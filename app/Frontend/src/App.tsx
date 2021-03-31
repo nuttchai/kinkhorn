@@ -11,9 +11,19 @@ import BasicLayout from './Layouts/BasicLayout';
 import MyActivitiesPage from './Pages/MyActivitiesPage';
 import PaymentPage from './Pages/PaymentPage';
 import AccountPage from './Pages/AccountPage';
+import CanteenPage from './Pages/CanteenPage';
 
 const PrivateRoute = (props: RouteProps) => {
   const userContext = useContext(UserContext);
+  // console.log("In private : ",userContext.isSignedIn);
+  // if(userContext.isSignedIn){
+  //   console.log("if");
+  //   return <Route {...props}/>
+  // } 
+  // else{
+  //   console.log("else na ja");
+  //   return <Redirect to="/signin" />
+  // }
   return <>
     {
       (userContext.isSignedIn)
@@ -26,34 +36,40 @@ const PrivateRoute = (props: RouteProps) => {
 function App() {
 
   const userContext = useContext(UserContext);
+
   useLayoutEffect(() => {
     axios.get('/oauth/user/info')
       .then((res) => {
-        console.log("res : ",res.data.user);
         userContext.setCurrentUser(res.data.user);
       })
       .catch((err) => console.error(err));
-      console.log(userContext.isSignedIn);
   }, []);
- 
+
+  let route;
+  if(userContext.isSignedIn){
+    console.log('in if');
+    route = (<>
+    <Route exact path='/' component={HomePage}/>
+    <Route exact path='/canteenA' component={CanteenPage}/>
+    <Route exact path='/myactivity' component={MyActivitiesPage}/>
+    <Route exact path='/myaccount' component={AccountPage}/>
+    <Route exact path='/payment' component={PaymentPage}/>
+    <Route exact path='/signout' component={SignOutPage}/>
+    <Route exact path='/oauth/logout'/>
+    </>)
+  }
+  else{
+    console.log('in else');
+    route = (<>
+    {/* <Redirect to='/signin'/> */}
+    <Route exact path='/signin' component={SignInPage}/>
+    </>)
+  }
   return (
     <div>
       <BasicLayout>
       <Switch>
-        <PrivateRoute exact path='/' component={HomePage}/>
-        <PrivateRoute exact path='/myactivity' component={MyActivitiesPage}/>
-        <PrivateRoute path='/myaccount' component={AccountPage}/>
-        <PrivateRoute path='/payment' component={PaymentPage}/>
-
-        <Route path='/signout' component={SignOutPage}/>
-        <Route path='/oauth/google'/>
-        <Route path='/oauth/logout'/>
-        {
-          (userContext.isSignedIn)
-            ? <Redirect from='/signin' to='/' />
-            : <Route path='/signin' component={SignInPage} />
-        }
-        
+        {route}
       </Switch>
       </BasicLayout>
     </div>

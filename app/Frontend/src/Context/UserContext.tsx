@@ -31,14 +31,16 @@ const UserContextProvider = (props: Props) => {
   const [isSignedIn, setSignedIn] = useState(false);
 
   const setCurrentUser = (user: User) => {
+    
     setUser(user);
-
     if (user.name) {
       setSignedIn(true);
-    } else {
-      setSignedIn(false);
-    }
-
+    } 
+    // else {
+      //   setSignedIn(false);
+      // }
+      
+    console.log(user.name);
   };
 
   const signOut = () => {
@@ -50,7 +52,6 @@ const UserContextProvider = (props: Props) => {
     <UserContext.Provider value={{
       user,
       isSignedIn,
-      // token,
       setCurrentUser,
       signOut,
     }}>

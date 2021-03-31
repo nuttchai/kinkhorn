@@ -20,7 +20,7 @@ function BasicLayout({children} : Props): JSX.Element {
         <Menu/>
         {children}
         {/* <Content/> */}
-        <Footer/>
+        {/* <Footer/> */}
         </>
 
     );

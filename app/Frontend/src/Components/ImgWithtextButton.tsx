@@ -14,7 +14,7 @@ const ButtonStyled = styled.div`
 
 export default function ImgWithtextButton({link, icon, name }: Props) : JSX.Element {
     return (<>
-        <Button  href={link}>
+        <Button href={link}>
         <ButtonStyled>
           <i className={icon}></i>
           <div>{name}</div>

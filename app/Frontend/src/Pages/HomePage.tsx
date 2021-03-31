@@ -4,12 +4,13 @@ import React, {
   useState,
   useContext,
   useRef,
+  useMemo,
 } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import { UserContext } from '../Context/UserContext';
 // import { BsFillCaretDownFill } from 'react-icons/bs';
-import { Container, Row, Col } from 'react-grid-system';
+import { Container, Row, Col, useScreenClass } from 'react-grid-system';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/swiper.scss';
 import SwiperCore, { Pagination, Controller, Thumbs } from 'swiper';
@@ -58,6 +59,8 @@ interface Menu {
 SwiperCore.use([Pagination, Controller, Thumbs]);
 
 function Home() {
+  const screenClass = useScreenClass();
+  const isMobile = useMemo(() => ['xs', 'sm'].includes(screenClass), [screenClass]);
   const slides = [];
   const [homePageInfo, setHomePageInfo] = useState([]);
   const [isCanteenOpen, setIsCanteenOpen] = useState(false);
@@ -82,8 +85,8 @@ function Home() {
   const fetchShop = useRef(() => {});
   fetchShop.current = () => {
     axios.get('http://143.198.208.245:9000/api/shops/customer').then((res) => {
-      console.log('shop ', res);
-      console.log('set ', res.data.data);
+      // console.log('shop ', res);
+      // console.log('set ', res.data.data);
       setHomePageInfo(res.data.data);
       // console.log('home ',homePageInfo);
       // console.log('map : ', homePageInfo[0].shop);
@@ -97,7 +100,7 @@ function Home() {
   const ShopData = (
     <div>
       {homePageInfo.map((data: ShopInfo, i) => (
-        <div>
+        <div key ={`data-${i}`}>
           {data.shop}{' '}
           {data.menu.map((ele: Menu) => (
             <div>
