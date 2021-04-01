@@ -2,6 +2,8 @@ import { Button, Card } from '@material-ui/core';
 import React from 'react';
 import { Col, Row } from 'react-grid-system';
 import styled from 'styled-components';
+import ColorLine from '../Components/ColorLine';
+import Subtitle from '../Components/Subtitle';
 
 const StyledCard = styled(Card)`
   margin: 16px;
@@ -30,6 +32,7 @@ const StyledKiosk = styled.div`
   width: 100%;
 `;
 
+
 export default function CanteenPage() {
   return (
     <>
@@ -38,7 +41,7 @@ export default function CanteenPage() {
       <StyledCard>
         <StyledRow>
           <Col>
-                <Styledlink href="/canteenA/Kiosk1">
+                <Styledlink href="/canteen/kiosk">
                     <img
                       src={`https://picsum.photos/70/70`}
                       alt={'canteen img'}
@@ -46,7 +49,7 @@ export default function CanteenPage() {
                     />
                     <StyledKiosk>
                       <div>Kiosk1</div>
-                      <div>Category</div>
+                      <Subtitle>Category</Subtitle>
                       <div>
                         <i className="fas fa-star"></i> 4.7 | open
                       </div>
@@ -54,6 +57,7 @@ export default function CanteenPage() {
                 </Styledlink>
           </Col>
         </StyledRow>
+        <ColorLine color="#C1C7CF" />
         <StyledRow>
           <Col>
             <Styledlink href='/'>
@@ -64,7 +68,7 @@ export default function CanteenPage() {
                 />
                 <StyledKiosk>
                   <div>Kiosk Name</div>
-                  <div>Category</div>
+                  <Subtitle>Category</Subtitle>
                   <div>
                     <i className="fas fa-star"></i> 4.7 | open
                   </div>

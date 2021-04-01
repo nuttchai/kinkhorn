@@ -133,21 +133,21 @@ function Home() {
           <Row style={{ textAlign: 'center' }}>
             <Col style={{ margin: '8px' }}>
               {/* <img src={`https://picsum.photos/43/43`} alt={'canteen img'}/> */}
-              <ImgWithtextButton link='/canteenA' icon='fas fa-utensils fa-2x' name='Canteen A'/>
+              <ImgWithtextButton link='/canteen' icon='fas fa-utensils fa-2x' name='Canteen A'/>
             </Col>
             <Col style={{ margin: '8px' }}>
-            <ImgWithtextButton link='/canteenA' icon='fas fa-utensils fa-2x' name='Canteen A'/>
+            <ImgWithtextButton link='/canteen' icon='fas fa-utensils fa-2x' name='Canteen A'/>
             </Col>
           </Row>
           <Row style={{ textAlign: 'center' }}>
             <Col>
-            <ImgWithtextButton link='/canteenA' icon='fas fa-utensils fa-2x' name='Canteen A'/>
+            <ImgWithtextButton link='/canteen' icon='fas fa-utensils fa-2x' name='Canteen A'/>
             </Col>
             <Col>
-            <ImgWithtextButton link='/canteenA' icon='fas fa-utensils fa-2x' name='Canteen A'/>
+            <ImgWithtextButton link='/canteen' icon='fas fa-utensils fa-2x' name='Canteen A'/>
             </Col>
             <Col>
-            <ImgWithtextButton link='/canteenA' icon='fas fa-utensils fa-2x' name='Canteen A'/>
+            <ImgWithtextButton link='/canteen' icon='fas fa-utensils fa-2x' name='Canteen A'/>
             </Col>
           </Row>
         </Card>

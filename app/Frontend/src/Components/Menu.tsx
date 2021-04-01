@@ -48,7 +48,7 @@ export default function Menu() {
   </div>
 </aside>);
   if(isSignedIn){
-    curUser = <aside className="main-sidebar sidebar-dark-primary elevation-4">
+    curUser = <aside className="main-sidebar sidebar-dark-primary elevation-4" style={{zIndex:2}}>
     {/* Brand Logo */}
     <a href="/" className="brand-link">
       <img

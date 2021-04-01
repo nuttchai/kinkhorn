@@ -12,6 +12,7 @@ import MyActivitiesPage from './Pages/MyActivitiesPage';
 import PaymentPage from './Pages/PaymentPage';
 import AccountPage from './Pages/AccountPage';
 import CanteenPage from './Pages/CanteenPage';
+import KioskPage from './Pages/KioskPage';
 
 const PrivateRoute = (props: RouteProps) => {
   const userContext = useContext(UserContext);
@@ -50,11 +51,12 @@ function App() {
     console.log('in if');
     route = (<>
     <Route exact path='/' component={HomePage}/>
-    <Route exact path='/canteenA' component={CanteenPage}/>
+    <Route exact path='/canteen' component={CanteenPage}/>
     <Route exact path='/myactivity' component={MyActivitiesPage}/>
     <Route exact path='/myaccount' component={AccountPage}/>
     <Route exact path='/payment' component={PaymentPage}/>
     <Route exact path='/signout' component={SignOutPage}/>
+    <Route path='/canteen/kiosk' component={KioskPage}/>
     <Route exact path='/oauth/logout'/>
     </>)
   }
