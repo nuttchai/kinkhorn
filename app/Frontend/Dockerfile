@@ -1,12 +1,16 @@
-FROM node:14.15.3
+# base image 
+FROM node:14.15.5
 
-# create app directory
+# set working dir
+WORKDIR /app/Frontend
 
-WORKDIR /app
+# install app dependencies
+COPY . /app
 
-COPY . ./app
-
-RUN npm install
+#RUN npm install -g npm@lastest
+RUN rm -rf node_modules
+RUN npm update & npm cache clean --force
+RUN npm install --silent
 
 CMD  npm start
 
