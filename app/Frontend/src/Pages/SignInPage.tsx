@@ -6,7 +6,7 @@ import styled from 'styled-components';
 function SignInPage() {
   return (
     <>
-    <div className="content-wrapper">
+    <div className="content-wrapper" style={{textAlign : 'center'}}>
       <div>
         SignInpage
       </div>

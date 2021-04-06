@@ -3,13 +3,12 @@ type User = {
     picture: string;
     // amount: number;
   };
-  
-  
-  export const EmptyUser:User = {
-    name: '',
-    picture: '',
-    // amount: 0,
-  };
-  
-  export default User;
+
+export const EmptyUser:User = {
+  name: '',
+  picture: '',
+  // amount: 0,
+};
+
+export default User;
   

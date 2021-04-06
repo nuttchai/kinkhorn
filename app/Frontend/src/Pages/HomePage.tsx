@@ -10,15 +10,14 @@ import styled from 'styled-components';
 import axios from 'axios';
 import { UserContext } from '../Context/UserContext';
 // import { BsFillCaretDownFill } from 'react-icons/bs';
-import { Container, Row, Col, useScreenClass } from 'react-grid-system';
+import { Row, Col, useScreenClass } from 'react-grid-system';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/swiper.scss';
 import SwiperCore, { Pagination, Controller, Thumbs } from 'swiper';
 import 'swiper/swiper-bundle.css';
-import { Button, Card } from '@material-ui/core';
+import { Card, Container } from '@material-ui/core';
 import '../style.css';
 import ImgWithtextButton from '../Components/ImgWithtextButton';
-
 // const CanteenStyled = styled.div`
 //   cursor: pointer;
 // `;
@@ -114,51 +113,53 @@ function Home() {
 
   return (
     <>
-      <div className="content-wrapper ">
-        <Card style={{ margin: '16px' }}>
-          <Swiper
-            id="main"
-            tag="section"
-            wrapperTag="ul"
-            // navigation
-            pagination
-            spaceBetween={0}
-            slidesPerView={1}
-            style={{ maxWidth: '414px' }}
-          >
-            {slides}
-          </Swiper>
-        </Card>
-        <Card>
-          <Row style={{ textAlign: 'center' }}>
-            <Col style={{ margin: '8px' }}>
-              {/* <img src={`https://picsum.photos/43/43`} alt={'canteen img'}/> */}
+      <div className="content-wrapper">
+        <Container maxWidth="lg">
+          <Card style={{ margin: '16px' }}>
+            <Swiper
+              id="main"
+              tag="section"
+              wrapperTag="ul"
+              // navigation
+              pagination
+              spaceBetween={0}
+              slidesPerView={1}
+              style={{ maxWidth: '414px' }}
+            >
+              {slides}
+            </Swiper>
+          </Card>
+          <Card>
+            <Row style={{ textAlign: 'center' }}>
+              <Col style={{ margin: '8px' }}>
+                {/* <img src={`https://picsum.photos/43/43`} alt={'canteen img'}/> */}
+                <ImgWithtextButton link='/canteen' icon='fas fa-utensils fa-2x' name='Canteen A'/>
+              </Col>
+              <Col style={{ margin: '8px' }}>
               <ImgWithtextButton link='/canteen' icon='fas fa-utensils fa-2x' name='Canteen A'/>
-            </Col>
-            <Col style={{ margin: '8px' }}>
-            <ImgWithtextButton link='/canteen' icon='fas fa-utensils fa-2x' name='Canteen A'/>
-            </Col>
-          </Row>
-          <Row style={{ textAlign: 'center' }}>
-            <Col>
-            <ImgWithtextButton link='/canteen' icon='fas fa-utensils fa-2x' name='Canteen A'/>
-            </Col>
-            <Col>
-            <ImgWithtextButton link='/canteen' icon='fas fa-utensils fa-2x' name='Canteen A'/>
-            </Col>
-            <Col>
-            <ImgWithtextButton link='/canteen' icon='fas fa-utensils fa-2x' name='Canteen A'/>
-            </Col>
-          </Row>
-        </Card>
-        <Card>
-          <Row>Recommend Menu</Row>
-          <Row style={{ display: 'flex', flexFlow: 'column' }}>
-            <img alt="food img"></img>
-            <div>Kiosk Name</div>
-            <div>Canteen A</div>
-          </Row>
-        </Card>
+              </Col>
+            </Row>
+            <Row style={{ textAlign: 'center' }}>
+              <Col>
+              <ImgWithtextButton link='/canteen' icon='fas fa-utensils fa-2x' name='Canteen A'/>
+              </Col>
+              <Col>
+              <ImgWithtextButton link='/canteen' icon='fas fa-utensils fa-2x' name='Canteen A'/>
+              </Col>
+              <Col>
+              <ImgWithtextButton link='/canteen' icon='fas fa-utensils fa-2x' name='Canteen A'/>
+              </Col>
+            </Row>
+          </Card>
+          <Card>
+            <Row>Recommend Menu</Row>
+            <Row style={{ display: 'flex', flexFlow: 'column' }}>
+              <img alt="food img"></img>
+              <div>Kiosk Name</div>
+              <div>Canteen A</div>
+            </Row>
+          </Card>
+        </Container>
       </div>
     </>
   );

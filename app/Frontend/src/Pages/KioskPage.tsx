@@ -1,10 +1,15 @@
-import { Card } from '@material-ui/core';
-import React from 'react';
+import React, { useState } from 'react';
+import { useQuery } from 'react-query';
+import { Badge, Card, CircularProgress, Drawer, Grid } from '@material-ui/core';
 import { Col, Container, Row } from 'react-grid-system';
 import styled from 'styled-components';
 import ColorLine from '../Components/ColorLine';
 import ColStyled from '../Components/ColStyled';
 import Subtitle from '../Components/Subtitle';
+import { Wrapper } from '../item/item.styles';
+import Item from '../item/item';
+import IconButton from '@material-ui/core/IconButton';
+import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 
 const BG = styled.div`
   background-color: #ebecf0;
@@ -12,94 +17,98 @@ const BG = styled.div`
   height: 100%;
 `;
 
-const Styledlink = styled.a`
+const LogoContainer = styled.div`
   display: flex;
-  flex-flow: row;
-  color: #000000;
+  justify-content: center;
 `;
 
-const StyledRow = styled(Row)`
-  padding-left: 8px;
-  width: 100%;
+const StyledButton = styled(IconButton)`
+  position: fixed;
+  z-index: 100;
+  right: -85%;
+  top: 0%;
 `;
 
-const StyledKiosk = styled.div`
-  margin-left: 16px;
-  display: flex;
-  flex-flow: column;
-  width: 100%;
-`;
+export type CartItemType = {
+  id: number;
+  category: string;
+  description: string;
+  image: string;
+  price: number;
+  title: string;
+  amount: number;
+};
+
+const getProducts = async (): Promise<CartItemType[]> =>
+  await (await fetch('https://fakestoreapi.com/products')).json();
 
 export default function KioskPage() {
+  const [cartItems, setCartItems] = useState([] as CartItemType[]);
+  const { data, isLoading, error } = useQuery<CartItemType[]>(
+    'products',
+    getProducts
+  );
+  if (isLoading)
+    return (
+      <LogoContainer>
+        {' '}
+        <CircularProgress />
+      </LogoContainer>
+    );
+  if (error) return <LogoContainer>Something went wrong ...</LogoContainer>;
+
+  const getTotalItems = (items: CartItemType[]) =>
+    items.reduce((ack: number, item) => ack + item.amount, 0);
+
+  const handleAddToCard = (clickedItem: CartItemType) => {
+    setCartItems((prev) => {
+      // 1. is the item already added in the card?
+      const isItemInCart = prev.find((item) => item.id === clickedItem.id);
+
+      if (isItemInCart) {
+        return prev.map((item) =>
+          item.id === clickedItem.id
+            ? { ...item, amount: item.amount + 1 }
+            : item
+        );
+      }
+
+      // First time the item is added
+      return [...prev, { ...clickedItem, amount: 1 }];
+    });
+  };
+
+  const handleRemoveFromCard = () => null;
+
   return (
     <>
-
-          <BG className="content-wrapper">
-            <Card>
-              <img src="https://picsum.photos/414/149/?blur=2" />
-              <ColStyled>
-                <h2 style={{ marginBottom: '0px' }}>Kiosk Name</h2>
-                <Subtitle>Category</Subtitle>
-                <i className="fas fa-star"></i> 4.7
-              </ColStyled>
-            </Card>
-            <Card style={{ marginTop: '16px' }}>
-              <ColStyled>
-                <h4>Menu</h4>
-                <div>
-                  <Styledlink href="/">
-                    <div style ={{paddingTop:'5px'}}>
-                        <img
-                          src={`https://picsum.photos/70/70`}
-                          alt={'canteen img'}
-                          style={{ width: '70px', height: '70px' }}
-                        />
-                    </div>
-                    <StyledKiosk>
-                        <Row >
-                        <Col xs={9} >Food Name</Col>
-                        <Col xs={3} >269</Col>
-                        </Row>
-                        <Row>
-                            <Col>
-                                <Subtitle>
-                                    Food name in eng
-                                </Subtitle>
-                            </Col>
-                        </Row>
-                    </StyledKiosk>
-                  </Styledlink>
-                </div>
-              </ColStyled>
-              <ColorLine color="#C1C7CF" />
-              <ColStyled>
-                <div>
-                  <Styledlink href="/">
-                    <div style ={{paddingTop:'5px'}}>
-                        <img
-                          src={`https://picsum.photos/70/70`}
-                          alt={'canteen img'}
-                          style={{ width: '70px', height: '70px' }}
-                        />
-                    </div>
-                    <StyledKiosk>
-                        <Row >
-                        <Col xs={9} >Food Name</Col>
-                        <Col xs={3} >269</Col>
-                        </Row>
-                        <Row>
-                            <Col>
-                                <Subtitle>
-                                    Food name in eng
-                                </Subtitle>
-                            </Col>
-                        </Row>
-                    </StyledKiosk>
-                  </Styledlink>
-                </div>
-              </ColStyled>
-            </Card>
-          </BG>
+      <BG className="content-wrapper">
+        <StyledButton>
+          <Badge badgeContent={getTotalItems(cartItems)} color="error">
+            <AddShoppingCartIcon />
+          </Badge>
+        </StyledButton>
+        <Card>
+          <img src="https://picsum.photos/414/149/?blur=2" />
+          <ColStyled>
+            <h2 style={{ marginBottom: '0px' }}>Kiosk Name</h2>
+            <Subtitle>Category</Subtitle>
+            <i className="fas fa-star"></i> 4.7
+          </ColStyled>
+        </Card>
+        <Card style={{ marginTop: '16px' }}>
+          <Wrapper>
+            <Grid container spacing={0}>
+              {data?.map((item) => (
+                <Grid item key={item.id} xs={12} sm={4}>
+                  <Item item={item} handleAddToCart={handleAddToCard} />
+                  <ColorLine color="#C1C7CF" />
+                </Grid>
+              ))}
+            </Grid>
+          </Wrapper>
+        </Card>
+      </BG>
     </>
   );
 }

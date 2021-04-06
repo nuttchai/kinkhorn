@@ -4,12 +4,18 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import UserProvider from './Context/UserContext';
+//FIXE ME : Remove QueryClient
+import { QueryClient, QueryClientProvider } from 'react-query';
+
+const client = new QueryClient();
 
 ReactDOM.render(
   <UserProvider>
   <React.StrictMode>
     <BrowserRouter>
+    <QueryClientProvider client={client}>
     <App />
+    </QueryClientProvider>
     </BrowserRouter>
   </React.StrictMode>
   </UserProvider>,

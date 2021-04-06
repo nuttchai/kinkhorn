@@ -14,26 +14,6 @@ import AccountPage from './Pages/AccountPage';
 import CanteenPage from './Pages/CanteenPage';
 import KioskPage from './Pages/KioskPage';
 
-const PrivateRoute = (props: RouteProps) => {
-  const userContext = useContext(UserContext);
-  // console.log("In private : ",userContext.isSignedIn);
-  // if(userContext.isSignedIn){
-  //   console.log("if");
-  //   return <Route {...props}/>
-  // } 
-  // else{
-  //   console.log("else na ja");
-  //   return <Redirect to="/signin" />
-  // }
-  return <>
-    {
-      (userContext.isSignedIn)
-        ? <Route {...props} />
-        : <Redirect to="/signin" />
-    } 
-  </>;
-};
-
 function App() {
 
   const userContext = useContext(UserContext);
@@ -41,6 +21,7 @@ function App() {
   useLayoutEffect(() => {
     axios.get('/oauth/user/info')
       .then((res) => {
+        console.log(res);
         userContext.setCurrentUser(res.data.user);
       })
       .catch((err) => console.error(err));
