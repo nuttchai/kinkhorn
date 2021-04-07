@@ -6,7 +6,6 @@ import { BrowserRouter } from 'react-router-dom';
 import UserProvider from './Context/UserContext';
 //FIXE ME : Remove QueryClient
 import { QueryClient, QueryClientProvider } from 'react-query';
-
 const client = new QueryClient();
 
 ReactDOM.render(
@@ -14,7 +13,9 @@ ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
     <QueryClientProvider client={client}>
-    <App />
+
+      <App />
+
     </QueryClientProvider>
     </BrowserRouter>
   </React.StrictMode>

@@ -44,7 +44,6 @@ const getProducts = async (): Promise<CartItemType[]> =>
   await (await fetch('https://fakestoreapi.com/products')).json();
 
 export default function KioskPage() {
-  const [cartOpen, setCartOpen] = useState(false);
   const [cartItems, setCartItems] = useState([] as CartItemType[]);
   const { data, isLoading, error } = useQuery<CartItemType[]>(
     'products',
@@ -116,7 +115,7 @@ export default function KioskPage() {
         <Card style={{ marginTop: '16px' }}>
           <Wrapper>
             <Grid container spacing={0}>
-              {data?.map((item) => (
+              {data?.map((item : any) => (
                 <Grid item key={item.id} xs={12} sm={4}>
                   <Item item={item} handleAddToCart={handleAddToCard} />
                   <ColorLine color="#C1C7CF" />
