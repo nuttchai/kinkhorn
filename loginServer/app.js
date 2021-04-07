@@ -5,6 +5,32 @@ const jwt = require('jsonwebtoken');
 const bodyParser = require('body-parser');
 const cookieParser = require("cookie-parser");
 app.use(bodyParser.json());
+const mongoose = require('mongoose');
+const People = require('./models/people');
+
+// mongodb
+mongoose.connect('mongodb://kinkhorn:TcdVQ7XhxnS3Mp32uGSU@143.198.208.245:27017/kinkhorn', 
+                { useNewUrlParser: true, useUnifiedTopology: true });
+
+// connect to mongodb
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'CONNECTION ERROR'));
+db.once('open', function () { 
+  console.log('connected sucessfully!!');
+})
+
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, PATCH, PUT, DELETE, OPTIONS"
+  );
+  next();
+});
 
 app.set('view engine', 'ejs');
 app.use(cookieParser());
@@ -39,7 +65,6 @@ passport.deserializeUser(function(obj, cb) {
     var cookie = req.cookies;
 
     if (cookie['token']) {
-      console.log(cookie['token'])
       
       jwt.verify(cookie['token'], accessTokenSecret, (err, user) => {
         if (err) {
@@ -91,11 +116,29 @@ app.get('/success', (req, res) => {
     secure: false, // set to true if your using https
     httpOnly: true,
   });
-  // res.redirect('/');
-  res.writeHead(302, {
-    Location: 'http://localhost:3000/'
-    });
-    res.end();
+
+  const person = new People({
+    name: userProfile["_json"].name,
+    given_name: userProfile["_json"].given_name,
+    family_name: userProfile["_json"].family_name,
+    picture: userProfile["_json"].picture,
+    email: userProfile["_json"].email,
+    email_verified: userProfile["_json"].email_verified,
+    hd: userProfile["_json"].hd
+  })
+
+  db.collection("people").find({}, {name: person.name}).toArray(function(err, result){
+    if (err) throw err;
+    if (result.length === 0) {
+      person.save()
+      .then(saveUser => {
+        res.writeHead(302, {
+          Location: 'http://localhost:3000/'
+          });
+          res.end();
+      })
+    }
+  })
 });
 
 app.get('/oauth/user/info', authenticateJWT, (req, res) => {
@@ -110,3 +153,41 @@ app.get('/oauth/logout', (req, res) => {
 });
 
 app.get('/error', (req, res) => res.send("error logging in"));
+
+app.put('/oauth/topup/:money', authenticateJWT, (req, res) => {
+  try{
+    var cookie = req.cookies;
+    var decoded = jwt.decode(cookie['token']);
+    var money_change = parseInt(req.params.money)
+    db.collection("people").find({}, {name: decoded.name}).toArray(function(err, result){
+      if (err) throw err;
+      var currMoney = result[0].money + money_change
+      db.collection("people").updateOne({name: decoded.user.name}, {$set: {money: currMoney} }, function(err, res){
+        if (err) throw err;
+        console.log("1 record updated")
+      })
+    })
+  } catch(e){
+      res.status(404).send("Error!")
+  }
+  res.sendStatus(200)
+})
+
+app.put('/oauth/pay/:price', authenticateJWT, (req, res) => {
+  try{
+    var cookie = req.cookies;
+    var decoded = jwt.decode(cookie['token']);
+    var money_change = parseInt(req.params.price)
+    db.collection("people").find({}, {name: decoded.name}).toArray(function(err, result){
+      if (err) throw err;
+      var currMoney = result[0].money - money_change
+      db.collection("people").updateOne({name: decoded.user.name}, {$set: {money: currMoney} }, function(err, res){
+        if (err) throw err;
+        console.log("1 record updated")
+      })
+    })
+  } catch(e){
+      res.status(404).send("Error!")
+  }
+  res.sendStatus(200)
+})

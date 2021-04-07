@@ -6,7 +6,7 @@ This folder contains the authentication part of the system. The authentication u
 ## Installtion
 
 ```bash
-npm i --save express express-session body-parser jsonwebtoken cookie-parser
+npm i --save express express-session body-parser jsonwebtoken cookie-parser mongoose
 ```
 or
 ```bash
