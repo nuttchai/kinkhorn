@@ -18,6 +18,7 @@ import 'swiper/swiper-bundle.css';
 import { Card, Container } from '@material-ui/core';
 import '../style.css';
 import ImgWithtextButton from '../Components/ImgWithtextButton';
+import Subtitle from '../Components/Subtitle';
 // const CanteenStyled = styled.div`
 //   cursor: pointer;
 // `;
@@ -37,11 +38,6 @@ import ImgWithtextButton from '../Components/ImgWithtextButton';
 //   margin: 15px;
 //   border-radius: 4%;
 // `;
-
-const ButtonStyled = styled.div`
-  display: flex;
-  flex-flow: column;
-`;
 
 interface ShopInfo {
   id: string;
@@ -73,8 +69,8 @@ function Home() {
     slides.push(
       <SwiperSlide key={`slide-${i}`} tag="li">
         <img
-          src={`https://picsum.photos/id/${i + 1}/414/200`}
-          style={{ listStyle: 'none' }}
+          src={`https://picsum.photos/id/${i + 1}/450/200`}
+          style={{ listStyle: 'none'}}
           alt={`Slide ${i}`}
         />
       </SwiperSlide>
@@ -115,19 +111,17 @@ function Home() {
     <>
       <div className="content-wrapper">
         <Container maxWidth="lg">
-          <Card style={{ margin: '16px' }}>
-            <Swiper
-              id="main"
-              tag="section"
-              wrapperTag="ul"
-              // navigation
-              pagination
-              spaceBetween={0}
-              slidesPerView={1}
-              style={{ maxWidth: '414px' }}
-            >
-              {slides}
-            </Swiper>
+          <Card style={{ margin: '12px 0px'}}>
+              <Swiper
+                id="main"
+                tag="section"
+                wrapperTag="ul"
+                pagination
+                spaceBetween={0}
+                slidesPerView={1}
+              >
+                {slides}
+              </Swiper>
           </Card>
           <Card>
             <Row style={{ textAlign: 'center' }}>
@@ -151,13 +145,16 @@ function Home() {
               </Col>
             </Row>
           </Card>
-          <Card>
-            <Row>Recommend Menu</Row>
-            <Row style={{ display: 'flex', flexFlow: 'column' }}>
-              <img alt="food img"></img>
-              <div>Kiosk Name</div>
-              <div>Canteen A</div>
-            </Row>
+          <Card style={{ margin: '8px 0px'}}>
+            <h3 style ={{ margin : '8px 16px'}}>Recommend Menu</h3>
+            <Col style={{ display: 'flex', flexFlow: 'column' }}>
+              <div style = {{margin : '8px 16px'}}>
+                <img src={'https://picsum.photos/90/90'} alt="food img" width='100' height='100'/>
+                <h5 style={{margin:'0px'}}>Kiosk Name</h5>
+                <Subtitle>Canteen A</Subtitle>
+              </div>
+            </Col>
+
           </Card>
         </Container>
       </div>
