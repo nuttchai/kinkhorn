@@ -10,6 +10,7 @@ import { Wrapper } from '../item/item.styles';
 import Item from '../item/item';
 import IconButton from '@material-ui/core/IconButton';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
+import Cart from '../Cart/Cart';
 
 const BG = styled.div`
   background-color: #ebecf0;
@@ -43,6 +44,7 @@ const getProducts = async (): Promise<CartItemType[]> =>
   await (await fetch('https://fakestoreapi.com/products')).json();
 
 export default function KioskPage() {
+  const [cartOpen, setCartOpen] = useState(false);
   const [cartItems, setCartItems] = useState([] as CartItemType[]);
   const { data, isLoading, error } = useQuery<CartItemType[]>(
     'products',
@@ -51,7 +53,6 @@ export default function KioskPage() {
   if (isLoading)
     return (
       <LogoContainer>
-        {' '}
         <CircularProgress />
       </LogoContainer>
     );
@@ -78,11 +79,27 @@ export default function KioskPage() {
     });
   };
 
-  const handleRemoveFromCard = () => null;
+  const handleRemoveFromCart = (id : number ) => {
+    setCartItems(prev => (
+      prev.reduce((ack,item) => {
+        if (item.id === id){
+          if (item.amount === 1) return ack;
+          return [...ack, {...item, amount : item.amount - 1}]
+        } else {
+          return [...ack, item]
+        }
+      }, [] as CartItemType[])
+    ))
+  };
 
   return (
     <>
       <BG className="content-wrapper">
+      <Cart
+          cartItems={cartItems}
+          addToCart={handleAddToCard}
+          removeFromCart={handleRemoveFromCart}
+        />
         <StyledButton>
           <Badge badgeContent={getTotalItems(cartItems)} color="error">
             <AddShoppingCartIcon />
