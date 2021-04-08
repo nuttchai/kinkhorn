@@ -142,9 +142,15 @@ app.get('/success', (req, res) => {
 });
 
 app.get('/oauth/user/info', authenticateJWT, (req, res) => {
-  var cookie = req.cookies;
-  var decoded = jwt.decode(cookie['token']);
-  return res.json(decoded)
+  var cookie = req.cookies
+  var decoded = jwt.decode(cookie['token'])
+  var money = 0
+  db.collection("people").find({}, {name: decoded.name}).toArray(function(err, result){
+    if (err) throw err;
+    money = result[0].money
+    decoded["money"] = money
+    return res.json(decoded)
+  })
 });
 
 app.get('/oauth/logout', (req, res) => {
@@ -180,14 +186,18 @@ app.put('/oauth/pay/:price', authenticateJWT, (req, res) => {
     var money_change = parseInt(req.params.price)
     db.collection("people").find({}, {name: decoded.name}).toArray(function(err, result){
       if (err) throw err;
+      if (result[0].money < money_change) {
+        res.status(404).send("Not enough money")
+        return
+      }
       var currMoney = result[0].money - money_change
       db.collection("people").updateOne({name: decoded.user.name}, {$set: {money: currMoney} }, function(err, res){
         if (err) throw err;
         console.log("1 record updated")
       })
     })
+    res.status(200).send("Paid!")
   } catch(e){
       res.status(404).send("Error!")
   }
-  res.sendStatus(200)
 })
