@@ -195,8 +195,8 @@ app.put('/oauth/pay/:price', authenticateJWT, (req, res) => {
         if (err) throw err;
         console.log("1 record updated")
       })
+      res.status(200).send("Paid!")
     })
-    res.status(200).send("Paid!")
   } catch(e){
       res.status(404).send("Error!")
   }
