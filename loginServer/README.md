@@ -6,7 +6,7 @@ This folder contains the authentication part of the system. The authentication u
 ## Installtion
 
 ```bash
-npm i --save express express-session body-parser jsonwebtoken cookie-parser
+npm i --save express express-session body-parser jsonwebtoken cookie-parser mongoose
 ```
 or
 ```bash
@@ -21,5 +21,7 @@ node app.js
 
 ### PATHs  
 
-+ `/oauth/google`    Google login
-+ `/oauth/user/info`  Get user's information after logged in
++ GET `/oauth/google`    Google login
++ GET `/oauth/user/info`  Get user's information after logged in
++ PUT `/oauth/pay/:price`  Deduct money from the account
++ PUT `/oauth/topup/:price`  Add money to the account
