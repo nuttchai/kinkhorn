@@ -39,6 +39,15 @@ import Subtitle from '../Components/Subtitle';
 //   border-radius: 4%;
 // `;
 
+const RecMenu = styled.div`
+  display : flex;
+  flex-flow : row;
+`;
+
+const KioskName = styled.div`
+  font-weight : bold;
+`;
+
 interface ShopInfo {
   id: string;
   menu: any;
@@ -146,14 +155,23 @@ function Home() {
             </Row>
           </Card>
           <Card style={{ margin: '8px 0px'}}>
-            <h3 style ={{ margin : '8px 16px'}}>Recommend Menu</h3>
-            <Col style={{ display: 'flex', flexFlow: 'column' }}>
-              <div style = {{margin : '8px 16px'}}>
-                <img src={'https://picsum.photos/90/90'} alt="food img" width='100' height='100'/>
-                <h5 style={{margin:'0px'}}>Kiosk Name</h5>
-                <Subtitle>Canteen A</Subtitle>
-              </div>
-            </Col>
+            <h4 style ={{ margin : '8px 16px'}}>Recommend Menu</h4>
+            <RecMenu>
+              <Col style={{ display: 'flex', flexFlow: 'column', maxWidth: '140px' }}>
+                <div style = {{margin : '8px 16px'}}>
+                  <img src={'https://picsum.photos/90/90'} alt="food img" width='100' height='100' style = {{borderRadius : '5%'}}/>
+                  <KioskName style={{margin:'0px'}}>Kiosk Name</KioskName>
+                  <Subtitle>Canteen A</Subtitle>
+                </div>
+              </Col>
+              <Col style={{ display: 'flex', flexFlow: 'column', maxWidth: '140px' }}>
+                <div style = {{margin : '8px'}}>
+                  <img src={'https://picsum.photos/90/90'} alt="food img" width='100' height='100' style = {{borderRadius : '5%'}}/>
+                  <KioskName style={{margin:'0px'}}>Kiosk Name</KioskName>
+                  <Subtitle>Canteen A</Subtitle>
+                </div>
+              </Col>
+            </RecMenu>
 
           </Card>
         </Container>

@@ -16,6 +16,7 @@ import KioskPage from './Pages/KioskPage';
 import CartPage from './Pages/CartPage';
 import Cart from './Cart/Cart';
 import { createStore } from 'redux';
+import Products from './Product/Products';
 
 function App() {
 
@@ -43,6 +44,7 @@ function App() {
     <Route path='/canteen/kiosk' component={KioskPage}/>
     <Route exact path='/oauth/logout'/>
     <Route path = '/cart' component={CartPage}/>
+    <Route exact path="/product" component={Products} />
     </>)
   }
   else{

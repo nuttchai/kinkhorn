@@ -36,8 +36,10 @@ const StyledKiosk = styled.div`
 export default function CanteenPage() {
   return (
     <>
-      <div>breadcrumbs</div>
-      <h2>Canteen A</h2>
+      <div style={{paddingLeft : '16px'}}>
+        <div>Home / CanteenA</div>
+        <h2>Canteen A</h2>
+      </div>
       <StyledCard>
         <StyledRow>
           <Col>
