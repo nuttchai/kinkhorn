@@ -1,16 +1,19 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styles from "./Product.module.css";
-
+import { CartItemType } from '../../Redux/Shopping/shopping-action';
 // Redux
 import { connect } from "react-redux";
 import {
   loadCurrentItem,
   addToCart,
 } from '../../Redux/Shopping/shopping-action';
+import styled from "styled-components";
 
-const Product = ({ product, addToCart, loadCurrentItem } : any) => {
-  return (
+
+const Product = ({product, addToCart, loadCurrentItem } : any) => {
+
+  return (<>
     <div className={styles.product}>
       <img
         className={styles.product__image}
@@ -41,12 +44,13 @@ const Product = ({ product, addToCart, loadCurrentItem } : any) => {
         </button>
       </div>
     </div>
+    </>
   );
 };
 
 const mapDispatchToProps = (dispatch : any) => {
   return {
-    addToCart: (id : any) => dispatch(addToCart(id)),
+    addToCart: (id : CartItemType) => dispatch(addToCart(id)),
     loadCurrentItem: (item : any) => dispatch(loadCurrentItem(item)),
   };
 };

@@ -2,19 +2,20 @@ import * as actionTypes from './shopping-types';
 
 export type CartItemType = {
     id: number;
-    category: string;
-    description: string;
-    image: string;
-    price: number;
+    // category: string;
     title: string;
-    amount: number;
+    description: string;
+    price: number;
+    image: string;
+    qty: number;
   };
 
 export const addToCart = (clickedItem: CartItemType) => {
+    console.log('click : ',clickedItem);
     return {
         type : actionTypes.ADD_TO_CART,
         payload : {
-            id : clickedItem.id,
+            id : clickedItem,
         },
     };
 };
@@ -23,7 +24,7 @@ export const removeFromCart = (clickedItem: CartItemType) => {
     return {
         type : actionTypes.REMOVE_FROM_CART,
         payload : {
-            id : clickedItem.id,
+            id : clickedItem,
         },
     };
 };
@@ -33,17 +34,17 @@ export const loadCurrentItem = (clickedItem: CartItemType) => {
     return {
         type : actionTypes.LOAD_CURRENT_ITEM,
         payload : {
-            id : clickedItem.id,
+            id : clickedItem,
         },
     };
 };
 
-export const adjustQty = (clickedItem  : CartItemType) => {
+export const adjustItemQty = (clickedItem  : CartItemType, qty : any) => {
     return {
         type : actionTypes.ADJUST_QTY,
         payload : {
-            id : clickedItem.id,
-            qty : clickedItem.amount,
+            id : clickedItem,
+            qty : clickedItem.qty,
         },
     };
 };

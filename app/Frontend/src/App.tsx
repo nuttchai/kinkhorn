@@ -17,6 +17,7 @@ import CartPage from './Pages/CartPage';
 import Cart from './Cart/Cart';
 import { createStore } from 'redux';
 import Products from './Product/Products';
+import ReduxCart from './ReduxCart/ReduxCart';
 
 function App() {
 
@@ -43,7 +44,7 @@ function App() {
     <Route exact path='/signout' component={SignOutPage}/>
     <Route path='/canteen/kiosk' component={KioskPage}/>
     <Route exact path='/oauth/logout'/>
-    <Route path = '/cart' component={CartPage}/>
+    {/* <Route path = '/cart' component={CartPage}/> */}
     <Route exact path="/product" component={Products} />
     </>)
   }
@@ -52,6 +53,17 @@ function App() {
     route = (<>
     {/* <Redirect to='/signin'/> */}
     <Route exact path='/signin' component={SignInPage}/>
+    {/* FIXME : THIS PATH IS TO TEST PLZ REMOVE ME */}
+    <Route exact path='/' component={HomePage}/>
+    <Route exact path='/canteen' component={CanteenPage}/>
+    <Route exact path='/myactivity' component={MyActivitiesPage}/>
+    <Route exact path='/myaccount' component={AccountPage}/>
+    <Route exact path='/payment' component={PaymentPage}/>
+    <Route exact path='/signout' component={SignOutPage}/>
+    <Route path='/canteen/kiosk' component={KioskPage}/>
+    <Route exact path='/oauth/logout'/>
+    <Route path = '/cart' component={ReduxCart}/>
+    <Route exact path="/product" component={Products} />
     </>)
   }
   return (

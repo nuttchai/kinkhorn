@@ -5,11 +5,13 @@ import styles from "./Products.module.css";
 import { connect } from "react-redux";
 
 import Product from "./Product/Product";
+import { CartItemType } from '../Redux/Shopping/shopping-action';
 
-const Products = ({ products } : any) => {
+const Products = ( products  : any) => {
+  // console.log(products.products);
   return (
     <div className={styles.products}>
-      {products.map((product : any) => (
+      {products.products.map((product : any) => (
         <Product key={product.id} product={product} />
       ))}
     </div>

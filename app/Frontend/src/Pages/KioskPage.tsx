@@ -24,10 +24,10 @@ const LogoContainer = styled.div`
 `;
 
 const StyledButton = styled(IconButton)`
-  position: fixed;
-  z-index: 100;
-  right: -85%;
-  top: 0%;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  padding: 50px;
 `;
 
 export type CartItemType = {

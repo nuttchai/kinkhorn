@@ -1,8 +1,9 @@
 import * as actionTypes from './shopping-types';
+import { CartItemType } from './shopping-action';
 
 interface TYPE_INITIAL_STATE {
   products: any; // {id, title, descr, price, img}
-  cart: any; // {id, title ,descr, price, img, qty}
+  cart: CartItemType[]; // {id, title ,descr, price, img, qty}
   currentItem: any;
 }
 
@@ -42,6 +43,10 @@ const shopReducer = (state = INITIAL_STATE, action: any) => {
       const inCart = state.cart.find((item: any) =>
         item.id === action.payload.id ? true : false
       );
+      console.log('item : ',item);
+      console.log('inCart : ',inCart);
+      console.log(state.products);
+      console.log(action);
       return {
         ...state,
         cart: inCart
@@ -62,7 +67,7 @@ const shopReducer = (state = INITIAL_STATE, action: any) => {
         ...state,
         cart: state.cart.map((item: any) =>
           item.id === action.payload.id
-            ? { ...item, qty: action.payload.qty }
+            ? { ...item, qty: +action.payload.qty }
             : item
         ),
       };

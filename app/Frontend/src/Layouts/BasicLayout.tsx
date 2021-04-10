@@ -9,6 +9,7 @@ import Header from '../Components/Header';
 import Menu from '../Components/Menu';
 import Content from '../Components/Content';
 import Footer from '../Components/Footer';
+import Navbar from '../Components/Navbar/Navbar';
 
 export type Props = {
     children?: React.ReactNode;
@@ -18,6 +19,7 @@ function BasicLayout({children} : Props): JSX.Element {
         <>
         <Header/>
         <Menu/>
+        <Navbar/>
         {children}
         {/* <Content/> */}
         {/* <Footer/> */}
