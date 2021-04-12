@@ -31,10 +31,11 @@ export const removeFromCart = (clickedItem: CartItemType) => {
 
 
 export const loadCurrentItem = (clickedItem: CartItemType) => {
+    console.log('load : ',clickedItem);
     return {
         type : actionTypes.LOAD_CURRENT_ITEM,
         payload : {
-            id : clickedItem.id,
+            id : clickedItem,
         },
     };
 };

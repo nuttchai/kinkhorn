@@ -14,11 +14,12 @@ import AccountPage from './Pages/AccountPage';
 import CanteenPage from './Pages/CanteenPage';
 import KioskPage from './Pages/KioskPage';
 import CartPage from './Pages/CartPage';
-import { createStore } from 'redux';
 import Products from './Product/Products';
 import ReduxCart from './ReduxCart/ReduxCart';
+import SingleItem from './SingleItem/SingleItem';
+import { connect } from 'react-redux';
 
-function App() {
+function App({current} : any) {
 
   const userContext = useContext(UserContext);
 
@@ -63,6 +64,11 @@ function App() {
     <Route exact path='/oauth/logout'/>
     <Route path = '/cart' component={ReduxCart}/>
     <Route exact path="/product" component={Products} />
+    {!current ? (
+            <Redirect to="/product" />
+          ) : (
+            <Route exact path="/product/:id" component={SingleItem} />
+          )}
     </>)
   }
   return (
@@ -76,7 +82,12 @@ function App() {
   );
 }
 
-export default App;
+const mapStateToProps = (state : any) => {
+  return {
+    current: state.shop.currentItem,
+  };
+};
+export default connect(mapStateToProps)(App);
 
 // export default function App() {
 //   return (

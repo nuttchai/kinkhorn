@@ -2,23 +2,26 @@ import React from "react";
 import styles from "./SingleItem.module.css";
 
 import { connect } from "react-redux";
-import { addToCart } from "../Redux/Shopping/shopping-action";
+import { addToCart,CartItemType } from "../Redux/Shopping/shopping-action";
 
-const SingleItem = ({ current, addToCart } : any) => {
+
+const SingleItem = ({current ,addToCart} : any) => {
+  const curItem = current.id;
+  // console.log('current : ', current);
   return (
     <div className={styles.singleItem}>
       <img
         className={styles.singleItem__image}
-        src={current.image}
-        alt={current.title}
+        src={curItem.image}
+        alt={curItem.title}
       />
       <div className={styles.singleItem__details}>
-        <p className={styles.details__title}>{current.title}</p>
-        <p className={styles.details__description}>{current.description}</p>
-        <p className={styles.details__price}>$ {current.price}</p>
+        <p className={styles.details__title}>{curItem.title}</p>
+        <p className={styles.details__description}>{curItem.description}</p>
+        <p className={styles.details__price}>$ {curItem.price}</p>
 
         <button
-          onClick={() => addToCart(current.id)}
+          onClick={() => addToCart(curItem.id)}
           className={styles.details__addBtn}
         >
           Add To Cart
@@ -29,6 +32,7 @@ const SingleItem = ({ current, addToCart } : any) => {
 };
 
 const mapStateToProps = (state : any) => {
+  console.log('state : ',state.shop);
   return {
     current: state.shop.currentItem,
   };

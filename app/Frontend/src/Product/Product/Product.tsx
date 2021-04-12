@@ -27,7 +27,7 @@ const Product = ({ product, addToCart, loadCurrentItem }: any) => {
         </div>
 
         <div className={styles.product__buttons}>
-          <Link to={`/product/${product}`}>
+          <Link to={`/product/${product.id}`}>
             <button
               onClick={() => loadCurrentItem(product)}
               className={`${styles.buttons__btn} ${styles.buttons__view}`}
