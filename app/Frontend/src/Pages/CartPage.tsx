@@ -1,6 +1,4 @@
-import React from 'react'
-import Cart from '../Cart/Cart'
-import CartItem from '../CartItem/CartItem'
+import React from 'react';
 
 export default function CartPage() {
     return (

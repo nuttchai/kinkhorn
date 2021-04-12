@@ -10,7 +10,6 @@ import { Wrapper } from '../item/item.styles';
 import Item from '../item/item';
 import IconButton from '@material-ui/core/IconButton';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
-import Cart from '../Cart/Cart';
 
 const BG = styled.div`
   background-color: #ebecf0;
@@ -94,16 +93,11 @@ export default function KioskPage() {
   return (
     <>
       <BG className="content-wrapper">
-      <Cart
-          cartItems={cartItems}
-          addToCart={handleAddToCard}
-          removeFromCart={handleRemoveFromCart}
-        />
-        <StyledButton>
+        {/* <StyledButton>
           <Badge badgeContent={getTotalItems(cartItems)} color="error">
             <AddShoppingCartIcon />
           </Badge>
-        </StyledButton>
+        </StyledButton> */}
         <Card>
           <img src="https://picsum.photos/414/149/?blur=2" />
           <ColStyled>

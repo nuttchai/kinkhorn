@@ -14,7 +14,6 @@ import AccountPage from './Pages/AccountPage';
 import CanteenPage from './Pages/CanteenPage';
 import KioskPage from './Pages/KioskPage';
 import CartPage from './Pages/CartPage';
-import Cart from './Cart/Cart';
 import { createStore } from 'redux';
 import Products from './Product/Products';
 import ReduxCart from './ReduxCart/ReduxCart';

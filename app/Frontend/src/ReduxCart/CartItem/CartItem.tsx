@@ -9,11 +9,14 @@ import {
 
 const CartItem = ({ item, adjustQty, removeFromCart } : any) => {
   const [input, setInput] = useState(item.qty);
-
   const onChangeHandler = (e : any) => {
+    console.log('item : ',item);
+    console.log('e : ',e.target.value);
     setInput(e.target.value);
-    adjustQty(item.id, e.target.value);
+    adjustQty(item, e.target.value);
   };
+  
+  // console.log('before return : ',item);
 
   return (
     <div className={styles.cartItem}>
@@ -40,7 +43,7 @@ const CartItem = ({ item, adjustQty, removeFromCart } : any) => {
           />
         </div>
         <button
-          onClick={() => removeFromCart(item.id)}
+          onClick={() => removeFromCart(item)}
           className={styles.actions__deleteItemBtn}
         >
           <img
@@ -55,7 +58,7 @@ const CartItem = ({ item, adjustQty, removeFromCart } : any) => {
 
 const mapDispatchToProps = (dispatch : any) => {
   return {
-    adjustQty: ({id, value} : any) => dispatch(adjustItemQty(id, value)),
+    adjustQty: (id : any, value : any) => dispatch(adjustItemQty(id, value)),
     removeFromCart: (id : any) => dispatch(removeFromCart(id)),
   };
 };

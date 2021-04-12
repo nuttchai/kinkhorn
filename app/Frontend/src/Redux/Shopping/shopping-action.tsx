@@ -11,11 +11,11 @@ export type CartItemType = {
   };
 
 export const addToCart = (clickedItem: CartItemType) => {
-    console.log('click : ',clickedItem);
+    // console.log('click : ',clickedItem);
     return {
         type : actionTypes.ADD_TO_CART,
         payload : {
-            id : clickedItem,
+            id : clickedItem.id,
         },
     };
 };
@@ -24,7 +24,7 @@ export const removeFromCart = (clickedItem: CartItemType) => {
     return {
         type : actionTypes.REMOVE_FROM_CART,
         payload : {
-            id : clickedItem,
+            id : clickedItem.id,
         },
     };
 };
@@ -34,7 +34,7 @@ export const loadCurrentItem = (clickedItem: CartItemType) => {
     return {
         type : actionTypes.LOAD_CURRENT_ITEM,
         payload : {
-            id : clickedItem,
+            id : clickedItem.id,
         },
     };
 };
@@ -43,8 +43,8 @@ export const adjustItemQty = (clickedItem  : CartItemType, qty : any) => {
     return {
         type : actionTypes.ADJUST_QTY,
         payload : {
-            id : clickedItem,
-            qty : clickedItem.qty,
+            id : clickedItem.id,
+            qty,
         },
     };
 };

@@ -43,10 +43,10 @@ const shopReducer = (state = INITIAL_STATE, action: any) => {
       const inCart = state.cart.find((item: any) =>
         item.id === action.payload.id ? true : false
       );
-      console.log('item : ',item);
-      console.log('inCart : ',inCart);
-      console.log(state.products);
-      console.log(action);
+      // console.log('item : ', item);
+      // console.log('inCart : ', inCart);
+      // console.log(state.products);
+      // console.log(action);
       return {
         ...state,
         cart: inCart
@@ -73,8 +73,8 @@ const shopReducer = (state = INITIAL_STATE, action: any) => {
       };
     case actionTypes.LOAD_CURRENT_ITEM:
       return {
-          ...state,
-          currentItem : action.payload,
+        ...state,
+        currentItem: action.payload,
       };
     default:
       return state;
