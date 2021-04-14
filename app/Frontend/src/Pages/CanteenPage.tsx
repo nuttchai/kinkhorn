@@ -1,5 +1,6 @@
 import { Button, Card } from '@material-ui/core';
-import React from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import { Col, Row } from 'react-grid-system';
 import styled from 'styled-components';
 import ColorLine from '../Components/ColorLine';
@@ -34,6 +35,14 @@ const StyledKiosk = styled.div`
 
 
 export default function CanteenPage() {
+  // const kioskData = useState<>([]);
+
+  useEffect(() => {
+    axios.get('http://143.198.208.245:9000/api/shops/customer')
+      .then((res)=>{
+        console.log(res.data.data);
+      })
+  })
   return (
     <>
       <div style={{paddingLeft : '16px'}}>

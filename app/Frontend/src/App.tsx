@@ -64,11 +64,11 @@ function App({current} : any) {
     <Route exact path='/oauth/logout'/>
     <Route path = '/cart' component={ReduxCart}/>
     <Route exact path="/product" component={Products} />
-    {!current ? (
+    {/* {!current ? (
             <Redirect to="/product" />
           ) : (
             <Route exact path="/product/:id" component={SingleItem} />
-          )}
+          )} */}
     </>)
   }
   return (
