@@ -37,20 +37,54 @@ export type ShopType = {
   id : number;
   area : string;
   menu : string[];
-  shopname : string;
+  shop : string;
   // more
 };
 
 
 export default function CanteenPage() {
-  // const kioskData = useState<>([]);
+  const [kioskData,setKioskData] = useState<ShopType[]>([]);
 
   useEffect(() => {
     axios.get('http://143.198.208.245:9000/api/shops/customer')
       .then((res)=>{
-        console.log(res.data.data);
+        // console.log(res.data.data);
+        setKioskData(res.data.data);
+        // console.log('kioskData : ',kioskData);
       })
   })
+  // console.log('kioskData : ',kioskData);
+
+  const KioskContent = (<>
+  {kioskData.map((data : ShopType,id : any) => {
+    // console.log('data ', data.shop);
+    return(
+      <>
+    <StyledRow key={id}>
+        <Col>
+              <Styledlink href="/canteen/kiosk">
+                  <img
+                    src={`https://picsum.photos/70/70`}
+                    alt={'canteen img'}
+                    style={{ width: '70px', height: '70px' }}
+                  />
+                  <StyledKiosk>
+                    <div>{data.shop}</div>
+                    <Subtitle>Category</Subtitle>
+                    <div>
+                      <i className="fas fa-star"></i> 4.7 | open
+                    </div>
+                  </StyledKiosk>
+              </Styledlink>
+        </Col>
+      </StyledRow>
+      <ColorLine color="#C1C7CF" />
+      </>
+
+    
+  )})
+}
+  </>);
   return (
     <>
       <div style={{paddingLeft : '16px'}}>
@@ -58,8 +92,8 @@ export default function CanteenPage() {
         <h2>Canteen A</h2>
       </div>
       <StyledCard>
-        <StyledRow>
-          <Col>
+        {/* <StyledRow> */}
+          {/* <Col>
                 <Styledlink href="/canteen/kiosk">
                     <img
                       src={`https://picsum.photos/70/70`}
@@ -93,8 +127,9 @@ export default function CanteenPage() {
                   </div>
                 </StyledKiosk>
             </Styledlink>
-          </Col>
-        </StyledRow>
+          </Col> */}
+          {KioskContent}
+        {/* </StyledRow> */}
       </StyledCard>
     </>
   );
