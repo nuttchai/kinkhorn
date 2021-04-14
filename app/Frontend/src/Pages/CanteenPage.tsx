@@ -33,6 +33,14 @@ const StyledKiosk = styled.div`
   width: 100%;
 `;
 
+export type ShopType = {
+  id : number;
+  area : string;
+  menu : string[];
+  shopname : string;
+  // more
+};
+
 
 export default function CanteenPage() {
   // const kioskData = useState<>([]);
