@@ -40,6 +40,17 @@ export const loadCurrentItem = (clickedItem: CartItemType) => {
     };
 };
 
+export const loadCurrentKiosk = (clickKiosk: any) => {
+    console.log('load kiosk : ',clickKiosk);
+    return {
+        type : actionTypes.LOAD_CURRENT_KIOSK,
+        payload : {
+            id : clickKiosk,
+        },
+    };
+};
+
+
 export const adjustItemQty = (clickedItem  : CartItemType, qty : any) => {
     return {
         type : actionTypes.ADJUST_QTY,

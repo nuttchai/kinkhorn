@@ -7,7 +7,7 @@ import { addToCart,CartItemType } from "../Redux/Shopping/shopping-action";
 
 const SingleItem = ({current ,addToCart} : any) => {
   const curItem = current.id;
-  // console.log('current : ', current);
+  console.log('current : ', current);
   return (
     <div className={styles.singleItem}>
       <img

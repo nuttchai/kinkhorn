@@ -2,12 +2,15 @@ import * as actionTypes from './shopping-types';
 import { CartItemType } from './shopping-action';
 
 interface TYPE_INITIAL_STATE {
+  kiosks: any;
   products: any; // {id, title, descr, price, img}
   cart: CartItemType[]; // {id, title ,descr, price, img, qty}
   currentItem: any;
+  currentKiosk: any;
 }
 
 const INITIAL_STATE: TYPE_INITIAL_STATE = {
+  kiosks: [],
   products: [
     {
       id: 1,
@@ -30,6 +33,7 @@ const INITIAL_STATE: TYPE_INITIAL_STATE = {
   ], // {id, title, descr, price, img}
   cart: [], // {id, title ,descr, price, img, qty}
   currentItem: null,
+  currentKiosk: null,
 };
 
 const shopReducer = (state = INITIAL_STATE, action: any) => {
@@ -76,11 +80,14 @@ const shopReducer = (state = INITIAL_STATE, action: any) => {
         ...state,
         currentItem: action.payload,
       };
+    case actionTypes.LOAD_CURRENT_KIOSK:
+      return {
+        ...state,
+        currentKiosk: action.payload,
+      };
     default:
       return state;
   }
 };
 
 export default shopReducer;
-
-// 39.49 youtube : https://www.youtube.com/watch?v=MNs_7avLIJ4&t=1473s

@@ -43,52 +43,6 @@ const getProducts = async (): Promise<CartItemType[]> =>
   await (await fetch('https://fakestoreapi.com/products')).json();
 
 export default function KioskPage() {
-  const [cartItems, setCartItems] = useState([] as CartItemType[]);
-  const { data, isLoading, error } = useQuery<CartItemType[]>(
-    'products',
-    getProducts
-  );
-  if (isLoading)
-    return (
-      <LogoContainer>
-        <CircularProgress />
-      </LogoContainer>
-    );
-  if (error) return <LogoContainer>Something went wrong ...</LogoContainer>;
-
-  const getTotalItems = (items: CartItemType[]) =>
-    items.reduce((ack: number, item) => ack + item.amount, 0);
-
-  const handleAddToCard = (clickedItem: CartItemType) => {
-    setCartItems((prev) => {
-      // 1. is the item already added in the card?
-      const isItemInCart = prev.find((item) => item.id === clickedItem.id);
-
-      if (isItemInCart) {
-        return prev.map((item) =>
-          item.id === clickedItem.id
-            ? { ...item, amount: item.amount + 1 }
-            : item
-        );
-      }
-
-      // First time the item is added
-      return [...prev, { ...clickedItem, amount: 1 }];
-    });
-  };
-
-  const handleRemoveFromCart = (id : number ) => {
-    setCartItems(prev => (
-      prev.reduce((ack,item) => {
-        if (item.id === id){
-          if (item.amount === 1) return ack;
-          return [...ack, {...item, amount : item.amount - 1}]
-        } else {
-          return [...ack, item]
-        }
-      }, [] as CartItemType[])
-    ))
-  };
 
   return (
     <>
@@ -109,12 +63,13 @@ export default function KioskPage() {
         <Card style={{ marginTop: '16px' }}>
           <Wrapper>
             <Grid container spacing={0}>
-              {data?.map((item : any) => (
+              {/* {data?.map((item : any) => (
                 <Grid item key={item.id} xs={12} sm={4}>
                   <Item item={item} handleAddToCart={handleAddToCard} />
                   <ColorLine color="#C1C7CF" />
                 </Grid>
-              ))}
+              ))} */}
+              ...
             </Grid>
           </Wrapper>
         </Card>

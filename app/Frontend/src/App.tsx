@@ -18,6 +18,7 @@ import Products from './Product/Products';
 import ReduxCart from './ReduxCart/ReduxCart';
 import SingleItem from './SingleItem/SingleItem';
 import { connect } from 'react-redux';
+import SingleKiosk from './Components/SingleKiosk/SingleKiosk';
 
 function App({current} : any) {
 
@@ -60,10 +61,12 @@ function App({current} : any) {
     <Route exact path='/myaccount' component={AccountPage}/>
     <Route exact path='/payment' component={PaymentPage}/>
     <Route exact path='/signout' component={SignOutPage}/>
-    <Route path='/canteen/kiosk' component={KioskPage}/>
+    <Route exact path='/canteen/kiosk' component={KioskPage}/>
     <Route exact path='/oauth/logout'/>
     <Route path = '/cart' component={ReduxCart}/>
     <Route exact path="/product" component={Products} />
+    <Route exact path="/product/:id" component={SingleItem} />
+    <Route exact path='/canteen/kiosk/:id' component={SingleKiosk}/>
     {/* {!current ? (
             <Redirect to="/product" />
           ) : (
