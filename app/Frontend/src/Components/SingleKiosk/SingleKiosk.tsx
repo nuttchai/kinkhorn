@@ -52,7 +52,8 @@ const SingleKiosk = ({ currentKiosk, loadCurrentItem }: any) => {
             onClick={() => loadCurrentItem(ele)}
             >
               <Link to ={`menu/${ele._id}`}>
-                <SingleItem current={ele}/>
+                {/* <SingleItem current={ele}/> */}
+                <Item item={ele}/>
                 {/* ... */}
                 <ColorLine color="#C1C7CF" />
               </Link>

@@ -8,13 +8,9 @@ import { Col, Row } from 'react-grid-system';
 import Subtitle from "../Components/Subtitle";
 import { Card } from "@material-ui/core";
 
-const Wrapper = styled.div`
-    padding : 8px 4px;
-`;
-
 const Styledlink = styled.div`
   display: flex;
-  flex-flow: row;
+  flex-flow: column;
   color: #000000;
 `;
 
@@ -24,18 +20,21 @@ const StyledKiosk = styled.div`
   flex-flow: column;
   width: 100%;
 `;
-
+// interface ItemsProps {
+//   current : any,
+//   addToCart : () => void,
+// }
 const SingleItem = ({current ,addToCart} : any) => {
   const curItem = current.id;
-  console.log('current : ', curItem);
+  console.log('current : ', current.id);
   return (
     <>
-      {/* <Styledlink>
+      <Styledlink>
         <div>
-          FIXME : src={item.image}
+          {/* FIXME : src={item.image} */}
           <img
-            src={'https://picsum.photos/70/70 '} alt={curItem.name}
-            style={{ width: '70px%', height: '70px' }}
+            src={'https://picsum.photos/414/150 '} alt={curItem.name}
+            style={{ width: '100%', height: '150px' }}
           />
         </div>
         <StyledKiosk>
@@ -49,8 +48,7 @@ const SingleItem = ({current ,addToCart} : any) => {
             </Col>
           </Row>
         </StyledKiosk>
-        </Styledlink> */}
-        ...
+        </Styledlink>
     </>
   );
 };
