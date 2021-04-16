@@ -43,16 +43,17 @@ function App({current} : any) {
     <Route exact path='/myaccount' component={AccountPage}/>
     <Route exact path='/payment' component={PaymentPage}/>
     <Route exact path='/signout' component={SignOutPage}/>
-    <Route path='/canteen/kiosk' component={KioskPage}/>
+    <Route exact path='/canteen/kiosk' component={KioskPage}/>
     <Route exact path='/oauth/logout'/>
-    {/* <Route path = '/cart' component={CartPage}/> */}
+    <Route path = '/cart' component={ReduxCart}/>
     <Route exact path="/product" component={Products} />
+    <Route exact path="/product/:id" component={SingleItem} />
+    <Route exact path='/canteen/kiosk/:id' component={SingleKiosk}/>
     </>)
   }
   else{
     console.log('in else');
     route = (<>
-    {/* <Redirect to='/signin'/> */}
     <Route exact path='/signin' component={SignInPage}/>
     {/* FIXME : THIS PATH IS TO TEST PLZ REMOVE ME */}
     <Route exact path='/' component={HomePage}/>
@@ -65,13 +66,15 @@ function App({current} : any) {
     <Route exact path='/oauth/logout'/>
     <Route path = '/cart' component={ReduxCart}/>
     <Route exact path="/product" component={Products} />
-    <Route exact path="/product/:id" component={SingleItem} />
+    {/* <Route exact path="/product/:id" component={SingleItem} /> */}
     <Route exact path='/canteen/kiosk/:id' component={SingleKiosk}/>
+    <Route exact path='/canteen/kiosk/menu/:id' component={SingleItem}/>
     {/* {!current ? (
-            <Redirect to="/product" />
-          ) : (
-            <Route exact path="/product/:id" component={SingleItem} />
-          )} */}
+      <Redirect to="/product" />
+      ) : (
+        <Route exact path="/product/:id" component={SingleItem} />
+      )} */}
+      {/* <Redirect to='/signin'/> */}
     </>)
   }
   return (

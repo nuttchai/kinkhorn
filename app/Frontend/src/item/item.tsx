@@ -3,13 +3,18 @@ import { Col, Row } from 'react-grid-system';
 import styled from 'styled-components';
 import Subtitle from '../Components/Subtitle';
 // Types
-import { CartItemType } from '../Pages/KioskPage';
+
 // Styles
 import { Wrapper } from './item.styles';
 
+interface menuType {
+ name : string;
+ price : number;
+ _id : string;
+ description : string;
+}
 type Props = {
-  item: CartItemType;
-  handleAddToCart: (clickedItem: CartItemType) => void;
+  item: menuType;
 };
 
 const Styledlink = styled.div`
@@ -25,7 +30,7 @@ const StyledKiosk = styled.div`
   width: 100%;
 `;
 
-const Item: React.FC<Props> = ({ item, handleAddToCart }) => (
+const Item: React.FC<Props> = ({ item }) => (
   <Wrapper>
     {/* <img src={item.image} alt={item.title} />
     <div>
@@ -33,17 +38,18 @@ const Item: React.FC<Props> = ({ item, handleAddToCart }) => (
       <h3>{item.price}Baht</h3>
     </div>
     <Button onClick={() => handleAddToCart(item)}>Add to cart</Button> */}
-      <Styledlink onClick={() => handleAddToCart(item)}>
+      <Styledlink>
         <div style={{ paddingTop: '5px' }}>
+          {/* FIXME : src={item.image} */}
           <img
-            src={item.image} alt={item.title}
+            src={'https://picsum.photos/70/70'} alt={item.name}
             style={{ width: '70px', height: '70px' }}
           />
         </div>
         <StyledKiosk>
           <Row>
-            <Col xs={9}>{item.title}</Col>
-            <Col xs={3}>{item.price}</Col>
+            <Col xs={9}>{item.name}</Col>
+            <Col xs={3} style = {{fontWeight : 'bold'}}>{item.price}</Col>
           </Row>
           <Row>
             <Col>

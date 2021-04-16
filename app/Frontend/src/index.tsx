@@ -8,19 +8,20 @@ import UserProvider from './Context/UserContext';
 import { Provider } from 'react-redux';
 import store from './Redux/store';
 //FIXE ME : Remove QueryClient
-import { QueryClient, QueryClientProvider } from 'react-query';
-const client = new QueryClient();
-
+// import { QueryClient, QueryClientProvider } from 'react-query';
+import axios from 'axios';
+// const client = new QueryClient();
+axios.defaults.headers.common['Content-Type'] = 'application/json';
 
 ReactDOM.render(
   <UserProvider>
   <React.StrictMode>
     <BrowserRouter>
-    <QueryClientProvider client={client}>
+    {/* <QueryClientProvider client={client}> */}
       <Provider store={store}>
         <App />
       </Provider>
-    </QueryClientProvider>
+    {/* </QueryClientProvider>/ */}
     </BrowserRouter>
   </React.StrictMode>
   </UserProvider>,

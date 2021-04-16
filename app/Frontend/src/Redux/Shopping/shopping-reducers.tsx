@@ -7,6 +7,8 @@ interface TYPE_INITIAL_STATE {
   cart: CartItemType[]; // {id, title ,descr, price, img, qty}
   currentItem: any;
   currentKiosk: any;
+  error: string;
+  loading: boolean;
 }
 
 const INITIAL_STATE: TYPE_INITIAL_STATE = {
@@ -32,8 +34,10 @@ const INITIAL_STATE: TYPE_INITIAL_STATE = {
     },
   ], // {id, title, descr, price, img}
   cart: [], // {id, title ,descr, price, img, qty}
-  currentItem: null,
-  currentKiosk: null,
+  currentItem: [],
+  currentKiosk: [],
+  error: '',
+  loading: false,
 };
 
 const shopReducer = (state = INITIAL_STATE, action: any) => {
@@ -84,6 +88,23 @@ const shopReducer = (state = INITIAL_STATE, action: any) => {
       return {
         ...state,
         currentKiosk: action.payload,
+      };
+    case actionTypes.FETCH_KIOSKS_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case actionTypes.FETCH_KIOSKS_SUCCESS:
+      return {
+        loading: false,
+        kiosks: action.payload,
+        error: '',
+      };
+    case actionTypes.FETCH_KIOSKS_FAIL:
+      return {
+        loading: false,
+        kiosks: [],
+        error: action.payload,
       };
     default:
       return state;

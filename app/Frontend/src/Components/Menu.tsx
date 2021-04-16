@@ -9,7 +9,7 @@ export default function Menu() {
   //     setIsActivityOpen((prevState) => !prevState);
   //   };
   const { isSignedIn } = useContext(UserContext);
-  let curUser: JSX.Element = (<aside className="main-sidebar sidebar-dark-primary elevation-4">
+  let curUser: JSX.Element = (<aside className="main-sidebar sidebar-dark-primary elevation-4" style={{zIndex:2}}>
   {/* Brand Logo */}
   <a href="/" className="brand-link">
     <img
