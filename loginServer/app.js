@@ -82,7 +82,7 @@ passport.deserializeUser(function(obj, cb) {
 /*  Google AUTH  */
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 const GOOGLE_CLIENT_ID = '867773542903-0hlkemtvhg4s5fuceopsh111kd729ulj.apps.googleusercontent.com';
-const GOOGLE_CLIENT_SECRET = 'wBZPbezw1jYGvciT4hLnjqvg';
+const GOOGLE_CLIENT_SECRET = 'bbFoC3kM7XkJzf94EvYTNYcv';
 
 passport.use(new GoogleStrategy({
     clientID: GOOGLE_CLIENT_ID,
@@ -111,6 +111,7 @@ app.get('/success', (req, res) => {
   const accessToken = jwt.sign({ user: userProfile["_json"] }, accessTokenSecret);
   var date = new Date();
   date.setDate(date.getDate() + 2);
+
   res.cookie('token', accessToken, {
     expires: date,
     secure: false, // set to true if your using https
@@ -126,7 +127,7 @@ app.get('/success', (req, res) => {
     email_verified: userProfile["_json"].email_verified,
     hd: userProfile["_json"].hd
   })
-
+  
   db.collection("people").find({}, {name: person.name}).toArray(function(err, result){
     if (err) throw err;
     if (result.length === 0) {
@@ -137,6 +138,11 @@ app.get('/success', (req, res) => {
           });
           res.end();
       })
+    } else {
+      res.writeHead(302, {
+        Location: 'http://localhost:3000/'
+        });
+        res.end();
     }
   })
 });
