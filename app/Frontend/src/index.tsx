@@ -4,19 +4,24 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import UserProvider from './Context/UserContext';
+//REDUX
+import { Provider } from 'react-redux';
+import store from './Redux/store';
 //FIXE ME : Remove QueryClient
-import { QueryClient, QueryClientProvider } from 'react-query';
-const client = new QueryClient();
+// import { QueryClient, QueryClientProvider } from 'react-query';
+import axios from 'axios';
+// const client = new QueryClient();
+axios.defaults.headers.common['Content-Type'] = 'application/json';
 
 ReactDOM.render(
   <UserProvider>
   <React.StrictMode>
     <BrowserRouter>
-    <QueryClientProvider client={client}>
-
-      <App />
-
-    </QueryClientProvider>
+    {/* <QueryClientProvider client={client}> */}
+      <Provider store={store}>
+        <App />
+      </Provider>
+    {/* </QueryClientProvider>/ */}
     </BrowserRouter>
   </React.StrictMode>
   </UserProvider>,
