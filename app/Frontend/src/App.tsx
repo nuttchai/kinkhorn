@@ -19,6 +19,7 @@ import ReduxCart from './ReduxCart/ReduxCart';
 import SingleItem from './SingleItem/SingleItem';
 import { connect } from 'react-redux';
 import SingleKiosk from './Components/SingleKiosk/SingleKiosk';
+import QueuePage from './Pages/QueuePage';
 
 function App({current} : any) {
 
@@ -49,6 +50,7 @@ function App({current} : any) {
     <Route exact path="/product" component={Products} />
     <Route exact path="/product/:id" component={SingleItem} />
     <Route exact path='/canteen/kiosk/:id' component={SingleKiosk}/>
+    <Route path = '/queue' component = {QueuePage}/>
     </>)
   }
   else{
@@ -56,6 +58,7 @@ function App({current} : any) {
     route = (<>
     <Switch>
       <Route exact path='/signin' component={SignInPage}/>
+      <Route path = '/queue' component = {QueuePage}/>
       {/* FIXME : THIS PATH IS TO TEST PLZ REMOVE ME */}
       <Route exact path='/' component={HomePage}/>
       <Route exact path='/canteen' component={CanteenPage}/>
@@ -80,7 +83,7 @@ function App({current} : any) {
         ) : (
           <Route exact path='/canteen/kiosk/menu/:id' component={SingleItem} />
         )}
-        {/* <Redirect to='/signin'/> */}
+        <Redirect to='/signin'/>
     </Switch>
     </>)
   }
