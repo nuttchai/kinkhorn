@@ -1,14 +1,20 @@
-import React, { useContext, useState } from 'react';
-import styled from 'styled-components';
+import React, { useContext} from 'react';
+// import styled from 'styled-components';
 import { UserContext } from '../Context/UserContext';
+// import { connect } from "react-redux";
 
 export default function Menu() {
   const userContext = useContext(UserContext);
-  //   const [isActivityOpen, setIsActivityOpen] = useState(false);
-  //   const toggleAcivityDropdown = () => {
-  //     setIsActivityOpen((prevState) => !prevState);
-  //   };
   const { isSignedIn } = useContext(UserContext);
+  const userName = userContext.user.name.split(' ');
+  // console.log('split : ',userName);
+  const usersplit = ( <>
+  {userName.map((name) : any => {
+    return (
+      <div style ={{margin : '0px 12px'}}>{name}</div>
+    )
+  })}
+   </>)
   let curUser: JSX.Element = (<aside className="main-sidebar sidebar-dark-primary elevation-4" style={{zIndex:2}}>
   {/* Brand Logo */}
   <a href="/" className="brand-link">
@@ -71,9 +77,12 @@ export default function Menu() {
             alt="pic"
           />
         </div>
-        <div className="info">
-          <a href="/" className="d-block">
-            {userContext.user.name}
+        <div>
+          <a href="/" style={{marginLeft : '0px'}}>
+            {usersplit} 
+          </a>
+          <a href="/" className="d-block" style = {{margin : '4px 12px'}}>
+          <i className="fas fa-wallet" style ={{marginRight : '4px'}}></i>   {userContext.user.money} Baht
           </a>
         </div>
       </div>

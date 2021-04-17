@@ -1,4 +1,4 @@
-import { Button, Card } from '@material-ui/core';
+import { Button, Card, Container } from '@material-ui/core';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Col, Row } from 'react-grid-system';
@@ -14,7 +14,7 @@ import {
 } from '../Redux/Shopping/shopping-action';
 
 const StyledCard = styled(Card)`
-  margin: 16px;
+  margin: 16px 8px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -100,14 +100,16 @@ const CanteenPage = ( {fetchkiosks , kioskData, loadCurrentKiosk} : CanteenProps
   // console.log('kiosks : ', kiosks);
   return (
     <>
-      <div style={{ paddingLeft: '16px' }}>
-        <div>Home / CanteenA</div>
-        <h2>Canteen A</h2>
-      </div>
-      <StyledCard>{KioskContent}</StyledCard>
-      <StyledCard>
-        {/* {kioskData && kioskData.kiosks.map((obj : any) => console.log('obj',obj))} */}
-      </StyledCard>
+      <Container maxWidth="sm">
+        <div style={{ paddingLeft: '8px' }}>
+          <div>Home / CanteenA</div>
+          <h2>Canteen A</h2>
+        </div>
+        <StyledCard>{KioskContent}</StyledCard>
+        <StyledCard>
+          {/* {kioskData && kioskData.kiosks.map((obj : any) => console.log('obj',obj))} */}
+        </StyledCard>
+      </Container>
     </>
   );
 };

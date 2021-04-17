@@ -15,11 +15,15 @@ const CartItem = ({ item, adjustQty, removeFromCart } : any) => {
     setInput(e.target.value);
     adjustQty(item, e.target.value);
   };
+
   
-  // console.log('before return : ',item);
+  console.log('before return : ',item);
 
   return (
-    <div className={styles.cartItem}>
+    <>
+    {item.qty} {item.name} {item.price}
+    {/* ... */}
+    {/* <div className={styles.cartItem}>
       <img
         className={styles.cartItem__image}
         src={item.image}
@@ -52,7 +56,8 @@ const CartItem = ({ item, adjustQty, removeFromCart } : any) => {
           />
         </button>
       </div>
-    </div>
+    </div> */}
+    </>
   );
 };
 

@@ -89,8 +89,8 @@ function Home() {
   const fetchShop = useRef(() => {});
   fetchShop.current = () => {
     axios.get('http://143.198.208.245:9000/api/shops/customer').then((res) => {
-      // console.log('shop ', res);
-      // console.log('set ', res.data.data);
+      // console.log('res ', res);
+      // console.log('res.data.data ', res.data.data);
       setHomePageInfo(res.data.data);
       // console.log('home ',homePageInfo);
       // console.log('map : ', homePageInfo[0].shop);
@@ -119,7 +119,7 @@ function Home() {
   return (
     <>
       <div className="content-wrapper">
-        <Container maxWidth="lg">
+        <Container maxWidth="sm">
           <Card style={{ margin: '12px 0px'}}>
               <Swiper
                 id="main"

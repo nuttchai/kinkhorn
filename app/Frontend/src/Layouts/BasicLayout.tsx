@@ -17,9 +17,9 @@ export type Props = {
 function BasicLayout({children} : Props): JSX.Element {
     return (
         <>
-        {/* <Header/> */}
-        {/* <Menu/> */}
-        {/* <Navbar/> */}
+        <Header/>
+        <Menu/>
+        <Navbar/>
         {children}
         {/* <Content/> */}
         {/* <Footer/> */}

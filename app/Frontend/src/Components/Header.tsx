@@ -1,8 +1,26 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { UserContext } from '../Context/UserContext';
+import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
-export default function Header() {
+const Header = ({cart} : any) => {
   const { isSignedIn } = useContext(UserContext);
+  const [cartCount, setCartCount] = useState(0);
+
+  useEffect(() => {
+    let count = 0;
+    cart.forEach((item : any) => {
+      count += item.qty;
+    });
+
+    setCartCount(count);
+  }, [cart, cartCount]);
+
+  let cartNum : JSX.Element = (<div></div>);
+  if(cartCount > 0){
+    cartNum = (<span className="badge badge-danger navbar-badge">{cartCount}</span>)
+  }
   let curUser: JSX.Element = (
     <>
       <nav className="main-header navbar navbar-expand navbar-white navbar-light">
@@ -52,7 +70,7 @@ export default function Header() {
               <i className="fas fa-bars" />
             </a>
           </li>
-          <li className="nav-item d-none d-sm-inline-block">
+          <li className="nav-item d-sm-inline-block">
             <a href="/" className="nav-link">
               Home
             </a>
@@ -210,9 +228,30 @@ export default function Header() {
               </a>
             </div>
           </li>
+          <li className="nav-item">
+            {/* <AddShoppingCartIcon /> */}
+            {/* <i className="fas fa-shopping-basket"></i> */}
+            <Link
+              className="nav-link"
+              to="/cart"
+              role="button"
+            >
+              <i className="fas fa-shopping-basket"/>
+              {cartNum}
+            {/* <span className="badge badge-danger navbar-badge">{cartCount}</span> */}
+            </Link>
+          </li>
         </ul>
       </nav>
     );
   }
   return <>{curUser}</>;
 }
+
+const mapStateToProps = (state : any) => {
+  return {
+    cart: state.shop.cart,
+  };
+};
+
+export default connect(mapStateToProps)(Header);
