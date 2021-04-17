@@ -19,7 +19,7 @@ function BasicLayout({children} : Props): JSX.Element {
         <>
         <Header/>
         <Menu/>
-        {/* <Navbar/> */}
+        <Navbar/>
         {children}
         {/* <Content/> */}
         {/* <Footer/> */}

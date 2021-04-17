@@ -17,19 +17,22 @@ const Navbar = ({ cart } : any) => {
   }, [cart, cartCount]);
 
   return (
-    <div className={styles.navbar}>
-      <Link to="/cart">
-        <div className={styles.navbar__cart}>
-          <h3 className={styles.cart__title}>Cart</h3>
-          <img
-            className={styles.cart__image}
-            src="https://image.flaticon.com/icons/svg/102/102276.svg"
-            alt="shopping cart"
-          />
-          <div className={styles.cart__counter}>{cartCount}</div>
-        </div>
-      </Link>
-    </div>
+    // <div className={styles.navbar}>
+    //   <Link to="/cart">
+    //     <div className={styles.navbar__cart}>
+    //       <h3 className={styles.cart__title}>Cart</h3>
+    //       <img
+    //         className={styles.cart__image}
+    //         src="https://image.flaticon.com/icons/svg/102/102276.svg"
+    //         alt="shopping cart"
+    //       />
+    //       <div className={styles.cart__counter}>{cartCount}</div>
+    //     </div>
+    //   </Link>
+    // </div>
+    <>
+    
+    </>
   );
 };
 

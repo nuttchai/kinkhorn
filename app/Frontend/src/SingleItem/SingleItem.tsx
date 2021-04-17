@@ -24,12 +24,6 @@ const StyledKiosk = styled.div`
 //   current : any,
 //   addToCart : () => void,
 // }
-export interface menuType {
-  _id : string;
-  description : string;
-  name : string;
-  price : number;
-}
 const SingleItem = ({current ,addToCart} : any) => {
   const curItem = current.id;
   console.log('current : ', current.id);

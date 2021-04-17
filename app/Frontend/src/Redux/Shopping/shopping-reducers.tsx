@@ -102,12 +102,14 @@ const shopReducer = (state = INITIAL_STATE, action: any) => {
       };
     case actionTypes.FETCH_KIOSKS_SUCCESS:
       return {
+        ...state,
         loading: false,
         kiosks: action.payload,
         error: '',
       };
     case actionTypes.FETCH_KIOSKS_FAIL:
       return {
+        ...state,
         loading: false,
         kiosks: [],
         error: action.payload,
