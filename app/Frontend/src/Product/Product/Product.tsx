@@ -49,8 +49,8 @@ const Product = ({ product, addToCart, loadCurrentItem }: any) => {
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    addToCart: (id: CartItemType) => dispatch(addToCart(id)),
-    loadCurrentItem: (item: any) => dispatch(loadCurrentItem(item)),
+    // addToCart: (id: CartItemType) => dispatch(addToCart(id)),
+    // loadCurrentItem: (item: any) => dispatch(loadCurrentItem(item)),
   };
 };
 

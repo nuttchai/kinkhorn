@@ -43,38 +43,43 @@ const INITIAL_STATE: TYPE_INITIAL_STATE = {
 const shopReducer = (state = INITIAL_STATE, action: any) => {
   switch (action.type) {
     case actionTypes.ADD_TO_CART:
+      console.log('action.payload.id : ', action.payload.id);
       // Set the items data from the products array
-      const item = state.products.find(
-        (prod: any) => prod.id === action.payload.id
+      // console.log(state.currentKiosk);
+      const item = state.currentKiosk.id.menu.find(
+        (prod: any) => prod._id === action.payload.id
       );
+      // console.log('state.cart : ', state.cart);
+      
       // Check if Item is in cart already
       const inCart = state.cart.find((item: any) =>
-        item.id === action.payload.id ? true : false
+        item._id === action.payload.id ? true : false
+        // console.log(item)
       );
-      // console.log('item : ', item);
-      // console.log('inCart : ', inCart);
+      console.log('inCart : ', inCart);
       // console.log(state.products);
       // console.log(action);
       return {
         ...state,
         cart: inCart
           ? state.cart.map((item: any) =>
-              item.id === action.payload.id
+              item._id === action.payload.id
                 ? { ...item, qty: item.qty + 1 }
                 : item
             )
           : [...state.cart, { ...item, qty: 1 }],
+        
       };
     case actionTypes.REMOVE_FROM_CART:
       return {
         ...state,
-        cart: state.cart.filter((item: any) => item.id !== action.payload.id),
+        cart: state.cart.filter((item: any) => item._id !== action.payload.id),
       };
     case actionTypes.ADJUST_QTY:
       return {
         ...state,
         cart: state.cart.map((item: any) =>
-          item.id === action.payload.id
+          item._id === action.payload.id
             ? { ...item, qty: +action.payload.qty }
             : item
         ),
@@ -88,6 +93,7 @@ const shopReducer = (state = INITIAL_STATE, action: any) => {
       return {
         ...state,
         currentKiosk: action.payload,
+        // cart : [],
       };
     case actionTypes.FETCH_KIOSKS_REQUEST:
       return {

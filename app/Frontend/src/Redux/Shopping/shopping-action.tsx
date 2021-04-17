@@ -2,9 +2,9 @@ import * as actionTypes from './shopping-types';
 import axios from 'axios';
 
 export type CartItemType = {
-  id: number;
+  _id: number;
   // category: string;
-  title: string;
+  name: string;
   description: string;
   price: number;
   image: string;
@@ -16,7 +16,7 @@ export const addToCart = (clickedItem: CartItemType) => {
   return {
     type: actionTypes.ADD_TO_CART,
     payload: {
-      id: clickedItem.id,
+      id: clickedItem._id,
     },
   };
 };
@@ -25,7 +25,7 @@ export const removeFromCart = (clickedItem: CartItemType) => {
   return {
     type: actionTypes.REMOVE_FROM_CART,
     payload: {
-      id: clickedItem.id,
+      id: clickedItem._id,
     },
   };
 };
@@ -54,7 +54,7 @@ export const adjustItemQty = (clickedItem: CartItemType, qty: any) => {
   return {
     type: actionTypes.ADJUST_QTY,
     payload: {
-      id: clickedItem.id,
+      id: clickedItem._id,
       qty,
     },
   };

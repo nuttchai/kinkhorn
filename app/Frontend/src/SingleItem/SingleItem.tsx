@@ -6,7 +6,7 @@ import { addToCart,CartItemType } from "../Redux/Shopping/shopping-action";
 import styled from 'styled-components';
 import { Col, Row } from 'react-grid-system';
 import Subtitle from "../Components/Subtitle";
-import { Card } from "@material-ui/core";
+import { Button, Card } from "@material-ui/core";
 
 const Styledlink = styled.div`
   display: flex;
@@ -24,6 +24,12 @@ const StyledKiosk = styled.div`
 //   current : any,
 //   addToCart : () => void,
 // }
+export interface menuType {
+  _id : string;
+  description : string;
+  name : string;
+  price : number;
+}
 const SingleItem = ({current ,addToCart} : any) => {
   const curItem = current.id;
   console.log('current : ', current.id);
@@ -49,6 +55,7 @@ const SingleItem = ({current ,addToCart} : any) => {
           </Row>
         </StyledKiosk>
         </Styledlink>
+        <Button variant="contained" color="primary" onClick = {() => addToCart(curItem)} > Add to Basket </Button>
     </>
   );
 };
