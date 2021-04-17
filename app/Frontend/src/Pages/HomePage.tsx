@@ -19,25 +19,7 @@ import { Card, Container } from '@material-ui/core';
 import '../style.css';
 import ImgWithtextButton from '../Components/ImgWithtextButton';
 import Subtitle from '../Components/Subtitle';
-// const CanteenStyled = styled.div`
-//   cursor: pointer;
-// `;
-
-// const Droplist = styled.div`
-//   display: flex;
-//   width: 100%;
-//   flex-flow: column nowrap;
-//   margin-bottom: 0px;
-//   text-overflow: clip;
-//   white-space: nowrap;
-// `;
-
-// const Promo = styled.img`
-//   width: 345px;
-//   height: 150px;
-//   margin: 15px;
-//   border-radius: 4%;
-// `;
+import Button from '../Components/Button';
 
 const RecMenu = styled.div`
   display : flex;
@@ -175,34 +157,18 @@ function Home() {
 
           </Card>
         </Container>
+        <Button 
+        border="none"
+        color="pink"
+        height = "200px"
+        onClick={() => console.log("You clicked on the pink circle!")}
+        radius = "50%"
+        width = "200px"
+        children = "I'm a pink circle!"
+      />
       </div>
     </>
   );
 }
 
 export default Home;
-
-// <h1 className='content-header'>Kin Khorn HomePage</h1>
-{
-  /* <div>{userContext.user.name}</div>
-        <img src={userContext.user.picture} alt='pic' /> */
-}
-{
-  /* <p>
-                        {homePageInfo}
-                    </p> */
-}
-//   <CanteenStyled onClick={toggleCanteenDropdown} className='.btn'>
-//   Canteen
-// </CanteenStyled>
-// {isCanteenOpen && (
-//   <Droplist>
-//     <a href='/cafeteriaA'>Cafeteria A</a>
-//     <a href='/cafeteriaC'>Cafeteria C</a>
-//     <a href='/cafeteriaJ'>Cafeteria J</a>
-//     <a href='/cafeteriaIT'>Cafeteria IT</a>
-//     <a href='/cafeteriaL'>Cafeteria L</a>
-//   </Droplist>
-// )}
-
-// {ShopData}
