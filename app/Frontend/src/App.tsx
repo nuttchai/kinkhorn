@@ -1,8 +1,6 @@
-import React, { useContext, useEffect, useLayoutEffect } from 'react';
-import logo from './logo.svg';
+import React, { useContext, useLayoutEffect } from 'react';
 import HomePage from './Pages/HomePage';
-import { BrowserRouter, Route, Switch, RouteComponentProps, RouteProps, Redirect} from 'react-router-dom';
-import './App.css';
+import { Route, Switch, RouteProps, Redirect} from 'react-router-dom';
 import SignInPage from './Pages/SignInPage';
 import SignOutPage from './Pages/SignOutPage';
 import { UserContext } from './Context/UserContext';
@@ -13,13 +11,24 @@ import PaymentPage from './Pages/PaymentPage';
 import AccountPage from './Pages/AccountPage';
 import CanteenPage from './Pages/CanteenPage';
 import KioskPage from './Pages/KioskPage';
-import CartPage from './Pages/CartPage';
 import Products from './Product/Products';
 import ReduxCart from './ReduxCart/ReduxCart';
 import SingleItem from './SingleItem/SingleItem';
 import { connect } from 'react-redux';
 import SingleKiosk from './Components/SingleKiosk/SingleKiosk';
 import QueuePage from './Pages/QueuePage';
+
+const PrivateRoute = (props: RouteProps) => {
+  const userContext = useContext(UserContext);
+  console.log(userContext.isSignedIn);
+  return <>
+    {
+      (userContext.isSignedIn)
+        ? <Route {...props} />
+        : <Redirect to="/signin" />
+    }
+  </>;
+};
 
 function App({current} : any) {
 
@@ -29,14 +38,14 @@ function App({current} : any) {
     axios.get('/oauth/user/info')
       .then((res) => {
         userContext.setCurrentUser(res.data.user,res.data.money);
-        console.log('res.data :',res.data);
+        // console.log('res.data :',res.data); 
       })
       .catch((err) => console.error(err));
   }, []);
 
   let route;
   if(userContext.isSignedIn){
-    console.log('in if');
+    // console.log('in if');
     route = (<>
     <Switch>
     <Route exact path='/' component={HomePage}/>
@@ -63,45 +72,46 @@ function App({current} : any) {
     </>)
   }
   else{
-    console.log('in else');
+    // console.log('in else');
     route = (<>
     <Switch>
       <Route exact path='/signin' component={SignInPage}/>
       <Route path = '/queue' component = {QueuePage}/>
-      <Redirect from = '/' to='/signin'/>
-      {/* FIXME : THIS PATH IS TO TEST PLZ REMOVE ME */}
-      {/* <Route exact path='/' component={HomePage}/>
-      <Route exact path='/canteen' component={CanteenPage}/>
-      <Route exact path='/myactivity' component={MyActivitiesPage}/>
-      <Route exact path='/myaccount' component={AccountPage}/>
-      <Route exact path='/payment' component={PaymentPage}/>
-      <Route exact path='/signout' component={SignOutPage}/>
-      <Route exact path='/canteen/kiosk' component={KioskPage}/>
-      <Route exact path='/oauth/logout'/>
-      <Route path = '/cart' component={ReduxCart}/>
-      <Route exact path="/product" component={Products} /> */}
-      {/* <Route exact path="/product/:id" component={SingleItem} /> */}
-      {/* <Route exact path='/canteen/kiosk/:id' component={SingleKiosk}/>
-      <Route exact path='/canteen/kiosk/menu/:id' component={SingleItem}/> */}
-      {/* {!current ? (
-        <Redirect to="/product" />
-        ) : (
-          <Route exact path="/product/:id" component={SingleItem} />
-        )} */}
-      {/* {!current ? (
-        <Redirect to="/" />
-        ) : (
-          <Rou te exact path='/canteen/kiosk/menu/:id' component={SingleItem} />
-        )} */}
+      <Redirect to='/signin'/>
+      {/* {!userContext.isSignedIn ? <Redirect to='/signin'/> : <div></div>} */}
     </Switch>
     </>)
   }
-  console.log(userContext.isSignedIn);
+  // console.log(userContext.isSignedIn);
   return (
     <div>
       <BasicLayout>
       <Switch>
-        {route}
+        {/* {route} */}
+        <PrivateRoute exact path='/' component={HomePage}/>
+        <PrivateRoute exact path='/canteen' component={CanteenPage}/>
+        <PrivateRoute exact path='/myactivity' component={MyActivitiesPage}/>
+        <PrivateRoute exact path='/myaccount' component={AccountPage}/>
+        <PrivateRoute exact path='/payment' component={PaymentPage}/>
+        <PrivateRoute exact path='/signout' component={SignOutPage}/>
+        <PrivateRoute exact path='/canteen/kiosk' component={KioskPage}/>
+        <PrivateRoute exact path='/oauth/logout'/>
+        <PrivateRoute path = '/cart' component={ReduxCart}/>
+        {/* <PrivateRoute exact path="/product" component={Products} />
+        <PrivateRoute exact path="/product/:id" component={SingleItem} /> */}
+        <PrivateRoute exact path='/canteen/kiosk/:id' component={SingleKiosk}/>
+        <PrivateRoute exact path='/signout' component={SignOutPage}/>
+        <Route path = '/queue' component = {QueuePage}/>
+        {!current ? (
+        <Redirect to="/" />
+        ) : (
+          <Route exact path='/canteen/kiosk/menu/:id' component={SingleItem} />
+        )}
+        {
+              (userContext.isSignedIn)
+                ? <Redirect from="/signin" to="/" />
+                : <Route path='/signin' component={SignInPage} />
+        }
       </Switch>
       </BasicLayout>
     </div>
