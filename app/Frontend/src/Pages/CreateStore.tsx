@@ -1,9 +1,9 @@
 import React from 'react'
 
-export default function MyActivitiesPage() {
+export default function CreateStore() {
     return (
         <div>
-            My act
+            Create Store
         </div>
     )
 }

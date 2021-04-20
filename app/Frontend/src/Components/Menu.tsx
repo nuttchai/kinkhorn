@@ -1,4 +1,5 @@
 import React, { useContext} from 'react';
+import { Link } from 'react-router-dom';
 // import styled from 'styled-components';
 import { UserContext } from '../Context/UserContext';
 // import { connect } from "react-redux";
@@ -17,7 +18,7 @@ export default function Menu() {
    </>)
   let curUser: JSX.Element = (<aside className="main-sidebar sidebar-dark-primary elevation-4" style={{zIndex:2}}>
   {/* Brand Logo */}
-  <a href="/" className="brand-link">
+  <Link to="/" className="brand-link">
     <img
       src="dist/img/AdminLTELogo.png"
       alt="AdminLTE Logo"
@@ -25,7 +26,7 @@ export default function Menu() {
       style={{ opacity: '.8' }}
     />
     <span className="brand-text font-weight-light">KIN KHORN</span>
-  </a>
+  </Link>
   {/* Sidebar */}
   <div className="sidebar">
     {/* Sidebar user panel (optional) */}
@@ -40,13 +41,13 @@ export default function Menu() {
         {/* Add icons to the links using the .nav-icon class
      with font-awesome or any other icon font library */}
         <li className="nav-item">
-          <a href="/signin" className="nav-link">
+          <Link to="/signin" className="nav-link">
             <i className="nav-icon fas fa-sign-in-alt" />
             <p>
               Sign In
               {/* <span className="right badge badge-danger">New</span> */}
             </p>
-          </a>
+          </Link>
         </li>
       </ul>
     </nav>
@@ -56,7 +57,7 @@ export default function Menu() {
   if(isSignedIn){
     curUser = <aside className="main-sidebar sidebar-dark-primary elevation-4" style={{zIndex:2}}>
     {/* Brand Logo */}
-    <a href="/" className="brand-link">
+    <Link to="/" className="brand-link">
       <img
         src="dist/img/AdminLTELogo.png"
         alt="AdminLTE Logo"
@@ -64,7 +65,7 @@ export default function Menu() {
         style={{ opacity: '.8' }}
       />
       <span className="brand-text font-weight-light">KIN KHORN</span>
-    </a>
+    </Link>
     {/* Sidebar */}
     <div className="sidebar">
       {/* Sidebar user panel (optional) */}
@@ -78,12 +79,12 @@ export default function Menu() {
           />
         </div>
         <div>
-          <a href="/" style={{marginLeft : '0px'}}>
+          <Link to="/" style={{marginLeft : '0px'}}>
             {usersplit} 
-          </a>
-          <a href="/" className="d-block" style = {{margin : '4px 12px'}}>
+          </Link>
+          <Link to="/" className="d-block" style = {{margin : '4px 12px'}}>
           <i className="fas fa-wallet" style ={{marginRight : '4px'}}></i>   {userContext.user.money} Baht
-          </a>
+          </Link>
         </div>
       </div>
       {/* Sidebar Menu */}
@@ -97,48 +98,48 @@ export default function Menu() {
           {/* Add icons to the links using the .nav-icon class
        with font-awesome or any other icon font library */}
           <li className="nav-item">
-            <a href="/" className="nav-link">
+            <Link to="/" className="nav-link">
               <i className="nav-icon fas fa-home" />
               <p>
                 Home
                 {/* <span className="right badge badge-danger">New</span> */}
               </p>
-            </a>
+            </Link>
           </li>
           <li className="nav-item">
-            <a href="/myactivity" className="nav-link">
+            <Link to="/myactivity" className="nav-link">
               <i className="nav-icon fas fa-clipboard-list" />
               <p>
                 My Activites  
               </p>
-            </a>
+            </Link>
           </li>
           <li className="nav-item">
-            <a href="/payment" className="nav-link">
+            <Link to="/payment" className="nav-link">
               <i className="nav-icon fas fa-wallet" />
               <p>
                 Payment
                 {/* <span className="right badge badge-danger">New</span> */}
               </p>
-            </a>
+            </Link>
           </li>
           <li className="nav-item">
-            <a href="/myaccount" className="nav-link">
+            <Link to="/myaccount" className="nav-link">
               <i className="nav-icon fas fa-user-circle" />
               <p>
                 Account
                 {/* <span className="right badge badge-danger">New</span> */}
               </p>
-            </a>
+            </Link>
           </li>
           <li className="nav-item">
-            <a href="/oauth/logout" className="nav-link">
+            <Link to="/oauth/logout" className="nav-link">
               <i className="nav-icon fas fa-sign-out-alt" />
               <p>
                 Sign out
                 {/* <span className="right badge badge-danger">New</span> */}
               </p>
-            </a>
+            </Link>
           </li>
         </ul>
       </nav>
