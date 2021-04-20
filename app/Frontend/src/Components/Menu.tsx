@@ -1,4 +1,4 @@
-import React, { useContext} from 'react';
+import React, {useContext} from 'react';
 import { Link } from 'react-router-dom';
 // import styled from 'styled-components';
 import { UserContext } from '../Context/UserContext';
@@ -41,13 +41,13 @@ export default function Menu() {
         {/* Add icons to the links using the .nav-icon class
      with font-awesome or any other icon font library */}
         <li className="nav-item">
-          <Link to="/signin" className="nav-link">
+          <a href="/signin" className="nav-link" data-widget="pushmenu">
             <i className="nav-icon fas fa-sign-in-alt" />
             <p>
               Sign In
               {/* <span className="right badge badge-danger">New</span> */}
             </p>
-          </Link>
+          </a>
         </li>
       </ul>
     </nav>
@@ -79,7 +79,7 @@ export default function Menu() {
           />
         </div>
         <div>
-          <Link to="/" style={{marginLeft : '0px'}}>
+          <Link to="/myaccount" style={{marginLeft : '0px'}} data-widget="pushmenu" >
             {usersplit} 
           </Link>
           <Link to="/" className="d-block" style = {{margin : '4px 12px'}}>
@@ -98,7 +98,7 @@ export default function Menu() {
           {/* Add icons to the links using the .nav-icon class
        with font-awesome or any other icon font library */}
           <li className="nav-item">
-            <Link to="/" className="nav-link">
+            <Link to="/" className="nav-link" data-widget="pushmenu">
               <i className="nav-icon fas fa-home" />
               <p>
                 Home
@@ -107,7 +107,7 @@ export default function Menu() {
             </Link>
           </li>
           <li className="nav-item">
-            <Link to="/myactivity" className="nav-link">
+            <Link to="/myactivity" className="nav-link" data-widget="pushmenu">
               <i className="nav-icon fas fa-clipboard-list" />
               <p>
                 My Activites  
@@ -115,7 +115,7 @@ export default function Menu() {
             </Link>
           </li>
           <li className="nav-item">
-            <Link to="/payment" className="nav-link">
+            <Link to="/payment" className="nav-link" data-widget="pushmenu">
               <i className="nav-icon fas fa-wallet" />
               <p>
                 Payment
@@ -124,7 +124,7 @@ export default function Menu() {
             </Link>
           </li>
           <li className="nav-item">
-            <Link to="/myaccount" className="nav-link">
+            <Link to="/myaccount" className="nav-link" data-widget="pushmenu">
               <i className="nav-icon fas fa-user-circle" />
               <p>
                 Account
@@ -133,13 +133,23 @@ export default function Menu() {
             </Link>
           </li>
           <li className="nav-item">
-            <Link to="/oauth/logout" className="nav-link">
-              <i className="nav-icon fas fa-sign-out-alt" />
+            <Link to="/createStore" className="nav-link" data-widget="pushmenu">
+              {/* <i className="nav-icon fas fa-user-circle" /> */}
+              <i className="nav-icon fas fa-plus-circle"/>
+              <p>
+                Create Store
+                {/* <span className="right badge badge-danger">New</span> */}
+              </p>
+            </Link>
+          </li>
+          <li className="nav-item">
+            <a href="/oauth/logout" className="nav-link" >
+              <i className="nav-icon fas fa-sign-out-alt" data-widget="pushmenu"/>
               <p>
                 Sign out
                 {/* <span className="right badge badge-danger">New</span> */}
               </p>
-            </Link>
+            </a>
           </li>
         </ul>
       </nav>
