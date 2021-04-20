@@ -1,5 +1,4 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import User, { EmptyUser } from '../Types/User.d';
 
 type Props = {
@@ -21,7 +20,6 @@ type UserContextType = {
 export const UserContext = React.createContext<UserContextType>({
   user: EmptyUser,
   isSignedIn: false,
-  // token: DummyToken,
   setCurrentUser: (user: User) => {},
   signOut: () => {},
 });
@@ -39,10 +37,10 @@ const UserContextProvider = (props: Props) => {
     if (user.name) {
       setSignedIn(true);
     } 
-    // else {
-      //   setSignedIn(false);
-      // }
-    console.log('user : ', user);
+    else {
+      setSignedIn(false);
+    }
+    // console.log('user : ', user);
   };
 
   const signOut = () => {

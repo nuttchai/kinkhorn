@@ -71,9 +71,9 @@ const Header = ({cart} : any) => {
             </a>
           </li>
           <li className="nav-item d-sm-inline-block">
-            <a href="/" className="nav-link">
+            <Link to="/" className="nav-link">
               Home
-            </a>
+            </Link>
           </li>
         </ul>
         {/* Right navbar links */}

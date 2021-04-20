@@ -34,8 +34,6 @@ function App({current} : any) {
       .catch((err) => console.error(err));
   }, []);
 
-  
-
   let route;
   if(userContext.isSignedIn){
     console.log('in if');
@@ -54,11 +52,13 @@ function App({current} : any) {
     <Route exact path="/product/:id" component={SingleItem} />
     <Route exact path='/canteen/kiosk/:id' component={SingleKiosk}/>
     <Route path = '/queue' component = {QueuePage}/>
-    {!current ? (
+    {/* {!current ? (
         <Redirect to="/" />
         ) : (
           <Route exact path='/canteen/kiosk/menu/:id' component={SingleItem} />
-        )}
+        )} */}
+    {/* <Redirect from='/signin' to='/'/> */}
+
     </Switch>
     </>)
   }
@@ -68,6 +68,7 @@ function App({current} : any) {
     <Switch>
       <Route exact path='/signin' component={SignInPage}/>
       <Route path = '/queue' component = {QueuePage}/>
+      <Redirect from = '/' to='/signin'/>
       {/* FIXME : THIS PATH IS TO TEST PLZ REMOVE ME */}
       {/* <Route exact path='/' component={HomePage}/>
       <Route exact path='/canteen' component={CanteenPage}/>
@@ -92,16 +93,16 @@ function App({current} : any) {
         ) : (
           <Rou te exact path='/canteen/kiosk/menu/:id' component={SingleItem} />
         )} */}
-        {/* <Redirect to='/signin'/> */}
     </Switch>
     </>)
   }
+  console.log(userContext.isSignedIn);
   return (
     <div>
       <BasicLayout>
-      {/* <Switch> */}
+      <Switch>
         {route}
-      {/* </Switch> */}
+      </Switch>
       </BasicLayout>
     </div>
   );
@@ -113,11 +114,3 @@ const mapStateToProps = (state : any) => {
   };
 };
 export default connect(mapStateToProps)(App);
-
-// export default function App() {
-//   return (
-//     <div>
-//       <BasicLayout/>
-//     </div>
-//   )
-// }

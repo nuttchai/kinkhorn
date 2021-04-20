@@ -30,6 +30,8 @@ const KioskName = styled.div`
   font-weight : bold;
 `;
 
+
+
 interface ShopInfo {
   id: string;
   menu: any;
@@ -157,15 +159,16 @@ function Home() {
 
           </Card>
         </Container>
-        <Button 
-        border="none"
-        color="pink"
-        height = "200px"
-        onClick={() => console.log("You clicked on the pink circle!")}
-        radius = "50%"
-        width = "200px"
-        children = "I'm a pink circle!"
-      />
+        {/* <Float>
+          <Button
+          border="none"
+          color="pink"
+          height = "60px"
+          onClick={() => console.log("You clicked on the pink circle!")}
+          radius = "50%"
+          width = "60px"
+                />
+        </Float> */}
       </div>
     </>
   );
