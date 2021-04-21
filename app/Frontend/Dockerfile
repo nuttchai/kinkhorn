@@ -12,6 +12,7 @@ COPY ./package.json /app
 RUN npm update & npm cache clean --force
 RUN npm install --only=prod --silent
 
+COPY ./build /app
 CMD  npm start
 
 EXPOSE 3000
