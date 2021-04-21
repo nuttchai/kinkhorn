@@ -9,6 +9,7 @@ type Input = {
   name: string,
   picture: string,
   amount: number,
+  email : string;
 }
 
 type UserContextType = {
@@ -40,7 +41,7 @@ const UserContextProvider = (props: Props) => {
     else {
       setSignedIn(false);
     }
-    // console.log('user : ', user);
+    // console.log('user email : ', user.email);
   };
 
   const signOut = () => {

@@ -1,5 +1,5 @@
 import { Card } from '@material-ui/core';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { Col, Container, Row } from 'react-grid-system';
 import { useForm } from 'react-hook-form';
 import TextField from '@material-ui/core/TextField';
@@ -8,11 +8,13 @@ import IconButton from '@material-ui/core/IconButton';
 import RemoveIcon from '@material-ui/icons/Remove';
 import AddIcon from '@material-ui/icons/Add';
 import { produce } from 'immer';
+import axios from 'axios';
+import {UserContext} from '../Context/UserContext';
 
 interface menuType {
   id: string;
   name: string;
-  price: string;
+  price: number;
   description: string;
   category: string;
 }
@@ -25,21 +27,26 @@ interface FormValues {
 }
 
 export default function CreateStorePage() {
+  const userContext = useContext(UserContext).user;
+  console.log(userContext.email);
   const { register, handleSubmit } = useForm<FormValues>();
   const [menuFields, setmenuField] = useState<menuType[]>([
     {
       id: '',
       name: '',
-      price: '',
+      price: 0,
       description: '',
       category: '',
     },
   ]);
   const onSubmit = (data: FormValues) => {
-    // console.log('data :', data);
+    console.log('data :', data);
     // console.log('menu : ', menu);
     const finalData = {...data, menu : menuFields};
     alert(JSON.stringify(finalData));
+    const json = {"shop" : data.shop, "ownerId" : userContext.email, "area" : data.area, "menu" : menuFields}
+    console.log('json : ',json);
+    axios.post('http://143.198.208.245:9000/api/shops/frontstore',json).then((res) => console.log('res :',res));
   };
 
   const handleAddFields = () => {
@@ -48,7 +55,7 @@ export default function CreateStorePage() {
       {
         id: '',
         name: '',
-        price: '',
+        price: 0,
         description: '',
         category: '',
       },
@@ -63,7 +70,7 @@ export default function CreateStorePage() {
     setmenuField(values);
   };
 
-  console.log('menu : ', menuFields);
+  // console.log('menu : ', menuFields);
   return (
     <Container>
       <h2>Create Store</h2>
@@ -71,7 +78,7 @@ export default function CreateStorePage() {
         {/* <Row> */}
         <form onSubmit={handleSubmit(onSubmit)}>
           <div>
-            Shop name :{' '}
+            Shop name : 
             <input
               {...register('shop', { required: 'error message' })}
               placeholder="Shop name"
@@ -110,7 +117,7 @@ export default function CreateStorePage() {
                       const price = e.target.value;
                       setmenuField((currentPeople) =>
                         produce(currentPeople, (v) => {
-                          v[index].price = price;
+                          v[index].price = +price;
                         })
                       );
                     }}
