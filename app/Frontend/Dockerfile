@@ -5,12 +5,12 @@ FROM node:14.15.5
 WORKDIR /app/Frontend
 
 # install app dependencies
-COPY . /app
+COPY ./package.json /app
 
 #RUN npm install -g npm@lastest
-RUN rm -rf node_modules
+# RUN rm -rf node_modules
 RUN npm update & npm cache clean --force
-RUN npm install --silent
+RUN npm install --only=prod --silent
 
 CMD  npm start
 
