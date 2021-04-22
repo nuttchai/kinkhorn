@@ -43,7 +43,7 @@ const INITIAL_STATE: TYPE_INITIAL_STATE = {
 const shopReducer = (state = INITIAL_STATE, action: any) => {
   switch (action.type) {
     case actionTypes.ADD_TO_CART:
-      console.log('action.payload.id : ', action.payload.id);
+      console.log('action.payload : ', action.payload);
       // Set the items data from the products array
       // console.log(state.currentKiosk);
       const item = state.currentKiosk.id.menu.find(
@@ -67,7 +67,7 @@ const shopReducer = (state = INITIAL_STATE, action: any) => {
                 ? { ...item, qty: item.qty + 1 }
                 : item
             )
-          : [...state.cart, { ...item, qty: 1 }],
+          : [...state.cart, { ...item, qty: action.payload.qty }],
         
       };
     case actionTypes.REMOVE_FROM_CART:

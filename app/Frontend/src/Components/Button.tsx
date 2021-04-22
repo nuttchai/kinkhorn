@@ -9,6 +9,7 @@ interface Props {
   onClick: () => void;
   radius: string
   width: string;
+  cartnum : any;
 }
 
 const Float = styled.div`
@@ -31,7 +32,8 @@ const Button: React.FC<Props> = ({
     height,
     onClick, 
     radius,
-    width
+    width,
+    cartnum
   }) => { 
   return (
     <Float>
@@ -46,6 +48,7 @@ const Button: React.FC<Props> = ({
         }}
       >
       <i className="fas fa-shopping-basket"/>
+      {cartnum}
       </button>
     </Float>
   );
