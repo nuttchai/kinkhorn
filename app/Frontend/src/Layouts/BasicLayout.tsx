@@ -48,7 +48,7 @@ function BasicLayout({children,cart} : Props): JSX.Element {
         <Menu/>
         <Navbar/>
         {children}
-        {isCart}
+        {/* {isCart} */}
         </> 
 
     );

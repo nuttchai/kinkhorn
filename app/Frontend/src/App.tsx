@@ -18,6 +18,7 @@ import { connect } from 'react-redux';
 import SingleKiosk from './Components/SingleKiosk/SingleKiosk';
 import QueuePage from './Pages/QueuePage';
 import CreateStorePage from './Pages/CreateStorePage';
+import OrderingPage from './Pages/OrderingPage';
 
 const PrivateRoute = (props: RouteProps) => {
   const userContext = useContext(UserContext);
@@ -103,6 +104,7 @@ function App({current} : any) {
         <PrivateRoute exact path='/canteen/kiosk/:id' component={SingleKiosk}/>
         <PrivateRoute exact path='/createStore' component={CreateStorePage}/>
         <PrivateRoute exact path='/signout' component={SignOutPage}/>
+        <PrivateRoute exact path='/ordering' component={OrderingPage}/>
         <Route path = '/queue' component = {QueuePage}/>
         {!current ? (
         <Redirect to="/" />

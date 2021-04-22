@@ -8,6 +8,7 @@ import { Card, Container,Button } from "@material-ui/core";
 import Subtitle from "../Components/Subtitle";
 import {UserContext} from "../Context/UserContext";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const Cart = ({ cart, currentKiosk } : any) => {
   const userContext = useContext(UserContext);
@@ -64,7 +65,7 @@ const Cart = ({ cart, currentKiosk } : any) => {
       {/* OnClick = topup */}
       <i className="fas fa-wallet" style ={{marginRight : '4px'}}></i>   {userContext.user.money} Baht
       </Card>
-      <Button variant="contained" color="primary" style ={{width: '100%'}} onClick = { () => placeOrder()} >Place Order</Button>
+      <Link to='/ordering'><Button variant="contained" color="primary" style ={{width: '100%'}} onClick = { () => placeOrder()} >Place Order</Button></Link>
       {/* <div className={styles.cart}>
         <div className={styles.cart__items}>
           {cart.map((item : any) => (

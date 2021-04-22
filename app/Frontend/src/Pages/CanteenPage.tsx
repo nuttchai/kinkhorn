@@ -101,8 +101,8 @@ const CanteenPage = ( {fetchkiosks , kioskData, loadCurrentKiosk} : CanteenProps
   return (
     <>
       <Container maxWidth="sm">
-        <div style={{ paddingLeft: '8px' }}>
-          <div>Home / CanteenA</div>
+        <div style={{ display : 'flex', flexFlow : 'column', paddingLeft: '8px',paddingTop: '8px' }}>
+          <Link to = '/'> <i className="fas fa-chevron-left"/> </Link>
           <h2>Canteen A</h2>
         </div>
         <StyledCard>{KioskContent}</StyledCard>
