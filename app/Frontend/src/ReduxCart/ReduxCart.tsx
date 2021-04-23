@@ -1,16 +1,16 @@
-import React, { useState, useEffect, useContext } from "react";
-import styles from "./ReduxCart.module.css";
+import React, { useState, useEffect, useContext } from 'react';
+import styles from './ReduxCart.module.css';
 
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 
-import CartItem from "./CartItem/CartItem";
-import { Card, Container,Button } from "@material-ui/core";
-import Subtitle from "../Components/Subtitle";
-import {UserContext} from "../Context/UserContext";
-import axios from "axios";
-import { Link } from "react-router-dom";
+import CartItem from './CartItem/CartItem';
+import { Card, Container, Button } from '@material-ui/core';
+import Subtitle from '../Components/Subtitle';
+import { UserContext } from '../Context/UserContext';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
 
-const Cart = ({ cart, currentKiosk } : any) => {
+const Cart = ({ cart, currentKiosk }: any) => {
   const userContext = useContext(UserContext);
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalItems, setTotalItems] = useState(0);
@@ -19,7 +19,7 @@ const Cart = ({ cart, currentKiosk } : any) => {
     let items = 0;
     let price = 0;
 
-    cart.forEach((item : any) => {
+    cart.forEach((item: any) => {
       items += item.qty;
       price += item.qty * item.price;
     });
@@ -27,29 +27,30 @@ const Cart = ({ cart, currentKiosk } : any) => {
     setTotalItems(items);
     setTotalPrice(price);
   }, [cart, totalPrice, totalItems, setTotalPrice, setTotalItems]);
+  // console.log('cart : ', cart);
+  let json = {};
+  if(cart.length != 0){
+    json = { shopId : currentKiosk.id._id, userId : '---userId---' , orderList : cart}
 
-  const json = { shopId : currentKiosk.id._id, userId : '---userId---' , orderList : cart}
+  }
 
-  console.log('json : ', json);
+  // console.log('json : ', json);
   const placeOrder = () => {
-    axios.post('http://143.198.208.245:9000/api/orders/customer',json)
-      .then( res => console.log('res placeorder : ', res))
+    axios
+      .post('http://143.198.208.245:9000/api/orders/customer', json)
+      .then((res) => console.log('res placeorder : ', res));
   };
 
   return (
     <Container maxWidth="lg">
       <Card>
-        <div>
-          back
-        </div>
-        <div>
-          Current Kiosks Name
-        </div>
+        {/* <div>back</div> */}
+        <div>Current Kiosks Name</div>
       </Card>
-        <Subtitle>Order Summary</Subtitle>
+      <Subtitle>Order Summary</Subtitle>
       <Card>
         <div>
-        {cart.map((item : any) => (
+          {cart.map((item: any) => (
             <CartItem key={item._id} item={item} />
             // console.log('item in cart : ',item)
           ))}
@@ -62,10 +63,20 @@ const Cart = ({ cart, currentKiosk } : any) => {
       </Card>
       <Subtitle>Payment Details</Subtitle>
       <Card>
-      {/* OnClick = topup */}
-      <i className="fas fa-wallet" style ={{marginRight : '4px'}}></i>   {userContext.user.money} Baht
+        {/* OnClick = topup */}
+        <i className="fas fa-wallet" style={{ marginRight: '4px' }}></i>{' '}
+        {userContext.user.money} Baht
       </Card>
-      <Link to='/ordering'><Button variant="contained" color="primary" style ={{width: '100%'}} onClick = { () => placeOrder()} >Place Order</Button></Link>
+      <Link to="/ordering">
+        <Button
+          variant="contained"
+          color="primary"
+          style={{ width: '100%' }}
+          onClick={() => placeOrder()}
+        >
+          Place Order
+        </Button>
+      </Link>
       {/* <div className={styles.cart}>
         <div className={styles.cart__items}>
           {cart.map((item : any) => (
@@ -87,7 +98,7 @@ const Cart = ({ cart, currentKiosk } : any) => {
   );
 };
 
-const mapStateToProps = (state : any) => {
+const mapStateToProps = (state: any) => {
   return {
     cart: state.shop.cart,
     currentKiosk: state.shop.currentKiosk,

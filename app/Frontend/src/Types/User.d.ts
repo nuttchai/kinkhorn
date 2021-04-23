@@ -4,6 +4,7 @@ type User = {
     picture: string;
     // amount: number;
     email : string;
+    user_id : string;
   };
 
 export const EmptyUser:User = {
@@ -11,6 +12,7 @@ export const EmptyUser:User = {
   picture: '',
   money: 0,
   email : '',
+  user_id : ''
 };
 
 export default User;

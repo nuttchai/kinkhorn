@@ -10,6 +10,7 @@ type Input = {
   picture: string,
   amount: number,
   email : string;
+  user_id : string,
 }
 
 type UserContextType = {
@@ -29,10 +30,11 @@ const UserContextProvider = (props: Props) => {
   const [user, setUser] = useState<User>(EmptyUser);
   const [isSignedIn, setSignedIn] = useState(false);
 
-  const setCurrentUser = (user: any,money : number) => {
+  const setCurrentUser = (user: any,money : number,user_id : string) => {
     // const amount = user.money;
     // const userData = data.user
-    const userWithMoney = {...user, money : money}
+    let userWithMoney = {...user, money : money}
+    userWithMoney = {...user, user_id : user_id};
     // console.log('userWithMoney : ',userWithMoney);
     setUser(userWithMoney);
     if (user.name) {
@@ -46,7 +48,7 @@ const UserContextProvider = (props: Props) => {
 
   const signOut = () => {
     setSignedIn(false);
-    setCurrentUser(EmptyUser,0);
+    setCurrentUser(EmptyUser,0,'');
   };
 
   return (

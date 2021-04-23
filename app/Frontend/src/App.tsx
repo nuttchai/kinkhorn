@@ -22,7 +22,7 @@ import OrderingPage from './Pages/OrderingPage';
 
 const PrivateRoute = (props: RouteProps) => {
   const userContext = useContext(UserContext);
-  console.log(userContext.isSignedIn);
+  // console.log(userContext.isSignedIn);
   return <>
     {
       (userContext.isSignedIn)
@@ -39,11 +39,14 @@ function App({current} : any) {
   useLayoutEffect(() => {
     axios.get('/oauth/user/info')
       .then((res) => {
-        userContext.setCurrentUser(res.data.user,res.data.money);
-        // console.log('res.data :',res.data); 
+
+        console.log('res.data :',res.data); 
+        userContext.setCurrentUser(res.data.user,res.data.money,res.data.user_id);
       })
       .catch((err) => console.error(err));
   }, []);
+
+  console.log('now user :', userContext.user.user_id ); 
 
   let route;
   if(userContext.isSignedIn){
