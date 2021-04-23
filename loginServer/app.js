@@ -153,8 +153,11 @@ app.get('/oauth/user/info', authenticateJWT, (req, res) => {
   var money = 0
   db.collection("people").find({}, {name: decoded.name}).toArray(function(err, result){
     if (err) throw err;
+    console.log(result[0])
     money = result[0].money
+    user = result[0]._id
     decoded["money"] = money
+    decoded["user_id"] = user
     return res.json(decoded)
   })
 });
