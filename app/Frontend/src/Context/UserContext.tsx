@@ -33,8 +33,7 @@ const UserContextProvider = (props: Props) => {
   const setCurrentUser = (user: any,money : number,user_id : string) => {
     // const amount = user.money;
     // const userData = data.user
-    let userWithMoney = {...user, money : money}
-    userWithMoney = {...user, user_id : user_id};
+    const userWithMoney = {...user, money : money, user_id : user_id}
     // console.log('userWithMoney : ',userWithMoney);
     setUser(userWithMoney);
     if (user.name) {

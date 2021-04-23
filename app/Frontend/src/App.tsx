@@ -40,13 +40,13 @@ function App({current} : any) {
     axios.get('/oauth/user/info')
       .then((res) => {
 
-        console.log('res.data :',res.data); 
+        // console.log('res.data :',res.data); 
         userContext.setCurrentUser(res.data.user,res.data.money,res.data.user_id);
       })
       .catch((err) => console.error(err));
   }, []);
 
-  console.log('now user :', userContext.user.user_id ); 
+  // console.log('now user :', userContext.user.money ); 
 
   let route;
   if(userContext.isSignedIn){

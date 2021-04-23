@@ -1,4 +1,4 @@
-import { Card, Grid, IconButton } from '@material-ui/core';
+import { Card, Grid, IconButton, Fab } from '@material-ui/core';
 import React from 'react';
 import styled from 'styled-components';
 
@@ -72,7 +72,8 @@ const SingleKiosk = ({ currentKiosk, loadCurrentItem }: any) => {
           </Badge>
         </StyledButton> */}
         <Card>
-          <img src="https://picsum.photos/414/149/?blur=2" />
+         <Link to = '/canteen'> <i className="fas fa-chevron-left"/> </Link>
+          <img src="https://picsum.photos/414/149/?blur=2" style={{zIndex: -1,position: 'absolute'}}/>
           <ColStyled>
             <h2 style={{ marginBottom: '0px' }}>{curKiosk.shop}</h2>
             <Subtitle>Category</Subtitle>

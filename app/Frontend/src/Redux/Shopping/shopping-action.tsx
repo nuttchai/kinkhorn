@@ -22,6 +22,16 @@ export const addToCart = (clickedItem: CartItemType, quantity : number) => {
   };
 };
 
+export const refreshCart = () => {
+  // console.log('click : ',clickedItem);
+  return {
+    type: actionTypes.REFRESH_CART,
+    payload: {
+    },
+  };
+};
+
+
 export const removeFromCart = (clickedItem: CartItemType) => {
   return {
     type: actionTypes.REMOVE_FROM_CART,

@@ -17,6 +17,7 @@ interface menuType {
   price: number;
   description: string;
   category: string;
+  img : string;
 }
 
 interface FormValues {
@@ -24,11 +25,12 @@ interface FormValues {
   ownerId: string;
   area: string;
   status: string;
+  fileupload : string;
 }
 
 export default function CreateStorePage() {
   const userContext = useContext(UserContext).user;
-  console.log(userContext.email);
+  const [file, setFile] = useState("");
   const { register, handleSubmit } = useForm<FormValues>();
   const [menuFields, setmenuField] = useState<menuType[]>([
     {
@@ -37,17 +39,31 @@ export default function CreateStorePage() {
       price: 0,
       description: '',
       category: '',
+      img : '',
     },
   ]);
   const onSubmit = (data: FormValues) => {
-    console.log('data :', data);
-    // console.log('menu : ', menu);
+    const formData = new FormData();
+    formData.append("image",file);
+    // formData.append("shop",'eiei');
+    formData.append("shop",data.shop);
+    formData.append("ownerId",data.ownerId);
+    formData.append("area",data.area);
+    formData.append("menu",JSON.stringify(menuFields));
+    // console.log('form data : ',formData);
     const finalData = {...data, menu : menuFields};
-    alert(JSON.stringify(finalData));
-    const json = {"shop" : data.shop, "ownerId" : userContext.email, "area" : data.area, "menu" : menuFields}
-    console.log('json : ',json);
-    axios.post('http://143.198.208.245:9000/api/shops/frontstore',json).then((res) => console.log('res :',res));
+    // const json = {"shop" : data.shop, "ownerId" : userContext.email, "area" : data.area, "menu" : menuFields}
+    // console.log('json : ',json);
+    // axios.post('http://143.198.208.245:9000/api/shops/frontstore',json).then((res) => console.log('res :',res));
+    axios.post('http://13.250.64.65:9000/api/shops/upload',formData).then((res) => console.log('res :',res)).catch((err) => console.log('err : ',err));
+    alert(JSON.stringify(formData));
   };
+
+  const handleUpload = (event : any) => {
+    setFile(event.target.files[0]);
+    // console.log('file : ',file);
+  }
+  // console.log('file2 : ',file);
 
   const handleAddFields = () => {
     setmenuField([
@@ -58,6 +74,7 @@ export default function CreateStorePage() {
         price: 0,
         description: '',
         category: '',
+        img : '',
       },
     ]);
   };
@@ -94,6 +111,11 @@ export default function CreateStorePage() {
               <option value="B">Canteen B</option>
             </select>
           </div>
+
+          <div>
+            Upload Shop Image :
+            <input onChange={handleUpload} type='file'/>
+          </div>
           <form>
             {menuFields.map((menu, index) => (
               <>
@@ -102,8 +124,8 @@ export default function CreateStorePage() {
                   <input
                     onChange={(e) => {
                       const name = e.target.value;
-                      setmenuField((currentPeople) =>
-                        produce(currentPeople, (v) => {
+                      setmenuField((currentMenu) =>
+                        produce(currentMenu, (v) => {
                           v[index].name = name;
                         })
                       );
@@ -115,8 +137,8 @@ export default function CreateStorePage() {
                   <input
                     onChange={(e) => {
                       const price = e.target.value;
-                      setmenuField((currentPeople) =>
-                        produce(currentPeople, (v) => {
+                      setmenuField((currentMenu) =>
+                        produce(currentMenu, (v) => {
                           v[index].price = +price;
                         })
                       );
@@ -127,8 +149,8 @@ export default function CreateStorePage() {
                   <input
                     onChange={(e) => {
                       const description = e.target.value;
-                      setmenuField((currentPeople) =>
-                        produce(currentPeople, (v) => {
+                      setmenuField((currentMenu) =>
+                        produce(currentMenu, (v) => {
                           v[index].description = description;
                         })
                       );
@@ -139,8 +161,8 @@ export default function CreateStorePage() {
                   <input
                     onChange={(e) => {
                       const category = e.target.value;
-                      setmenuField((currentPeople) =>
-                        produce(currentPeople, (v) => {
+                      setmenuField((currentMenu) =>
+                        produce(currentMenu, (v) => {
                           v[index].category = category;
                         })
                       );
@@ -148,6 +170,15 @@ export default function CreateStorePage() {
                     value={menu.category}
                     placeholder="Category"
                   />
+
+                  <div> Upload food Image : <input type='file' value={menu.img} onChange={(e) => {
+                      const img = e.target.value;
+                      setmenuField((currentMenu) =>
+                        produce(currentMenu, (v) => {
+                          v[index].img = img;
+                        })
+                      );
+                    }} /></div>
 
                   <IconButton
                     disabled={menuFields.length === 1}
@@ -162,79 +193,19 @@ export default function CreateStorePage() {
               </>
             ))}
           </form>
-          {/* <div><input {...register("menu")} placeholder="menu" /></div> */}
           <input type="submit" />
         </form>
         {/* </Row> */}
       </Card>
       <Card>
-        {/* <form>
-          {menuFields.map((menu, index) => (
-            <div key={menu.id}>
-              <input
-                onChange={(e) => {
-                  const name = e.target.value;
-                  setmenuField((currentPeople) =>
-                    produce(currentPeople, (v) => {
-                      v[index].name = name;
-                    })
-                  );
-                }}
-                value={menu.name}
-                placeholder="Food name"
-                // {...register('menu')}
-              />
-              <input
-                onChange={(e) => {
-                  const price = e.target.value;
-                  setmenuField((currentPeople) =>
-                    produce(currentPeople, (v) => {
-                      v[index].price = price;
-                    })
-                  );
-                }}
-                value={menu.price}
-                placeholder="Price"
-              />
-              <input
-                onChange={(e) => {
-                  const description = e.target.value;
-                  setmenuField((currentPeople) =>
-                    produce(currentPeople, (v) => {
-                      v[index].description = description;
-                    })
-                  );
-                }}
-                value={menu.description}
-                placeholder="description"
-              />
-              <input
-                onChange={(e) => {
-                  const category = e.target.value;
-                  setmenuField((currentPeople) =>
-                    produce(currentPeople, (v) => {
-                      v[index].category = category;
-                    })
-                  );
-                }}
-                value={menu.category}
-                placeholder="Category"
-              />
-
-              <IconButton
-                disabled={menuFields.length === 1}
-                onClick={() => handleRemoveFields(index)}
-              >
-                <RemoveIcon />
-              </IconButton>
-              <IconButton onClick={handleAddFields}>
-                <AddIcon />
-              </IconButton>
-            </div>
-          ))}
-        </form> */}
       </Card>
-      <pre>{JSON.stringify(menuFields, null, 2)}</pre>
+      <div id="upload-box">
+      {/* <input type="file" onChange={handleUpload} /> */}
+      {/* <p>Filename: {file.name}</p>
+      <p>File type: {file.type}</p>
+      <p>File size: {file.size} bytes</p> */}
+    </div>
+      {/* <pre>{JSON.stringify(menuFields, null, 2)}</pre> */}
     </Container>
   );
 }
