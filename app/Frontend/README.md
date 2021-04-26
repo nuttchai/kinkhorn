@@ -1,6 +1,24 @@
-# Getting Started with Create React App
+# How to get started
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+1. Install yarn package manager
+
+```
+npm install -g yarn
+```
+
+2. `cd` to this directory (/frontend) and install dependencies
+
+```
+yarn install
+```
+
+3. Start the React development server. The server should be up and running at [http://localhost:3000](http://localhost:3000)
+
+```
+yarn start
+```
+
+**Note**: if you want to add a library, use `yarn add [...]`. **Avoid** `npm install`.
 
 ## Available Scripts
 
