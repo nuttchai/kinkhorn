@@ -14,7 +14,18 @@ const Cart = ({ cart, currentKiosk }: any) => {
   const userContext = useContext(UserContext);
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalItems, setTotalItems] = useState(0);
+  
 
+  let json = {};
+  let orderButton = (<Button
+    variant="contained"
+    color="primary"
+    style={{ width: '100%', marginTop : '16px' }}
+    disabled
+  >
+    Place Order
+  </Button>);
+  
   useEffect(() => {
     let items = 0;
     let price = 0;
@@ -28,7 +39,7 @@ const Cart = ({ cart, currentKiosk }: any) => {
     setTotalPrice(price);
   }, [cart, totalPrice, totalItems, setTotalPrice, setTotalItems]);
   // console.log('cart : ', cart);
-  let json = {};
+
   if(cart.length != 0){
     json = { shopId : currentKiosk.id._id, userId : '---userId---' , orderList : cart}
 
@@ -40,43 +51,56 @@ const Cart = ({ cart, currentKiosk }: any) => {
       .post('http://143.198.208.245:9000/api/orders/customer', json)
       .then((res) => console.log('res placeorder : ', res));
   };
+  let currentKioskName = (<></>)
 
+  if(totalItems){
+    orderButton = (<>
+    <Link to="/ordering">
+    <Button
+      variant="contained"
+      color="primary"
+      style={{ width: '100%' }}
+      onClick={() => placeOrder()}
+    >
+      Place Order
+    </Button>
+    </Link>
+    </>
+    )
+
+    
+    currentKioskName = (<div>KioskName</div>)
+  }
+
+  
   return (
     <Container maxWidth="lg">
+      <h2>My Cart</h2>
       <Card>
-        {/* <div>back</div> */}
-        <div>Current Kiosks Name</div>
-      </Card>
-      <Subtitle>Order Summary</Subtitle>
-      <Card>
-        <div>
-          {cart.map((item: any) => (
-            <CartItem key={item._id} item={item} />
-            // console.log('item in cart : ',item)
-          ))}
-        </div>
-        ------
-        <div>
-          Total : ({totalItems} items)
-          <div>{totalPrice} Baht</div>
-        </div>
-      </Card>
-      <Subtitle>Payment Details</Subtitle>
-      <Card>
-        {/* OnClick = topup */}
-        <i className="fas fa-wallet" style={{ marginRight: '4px' }}></i>{' '}
-        {userContext.user.money} Baht
-      </Card>
-      <Link to="/ordering">
-        <Button
-          variant="contained"
-          color="primary"
-          style={{ width: '100%' }}
-          onClick={() => placeOrder()}
-        >
-          Place Order
-        </Button>
-      </Link>
+            {/* <div>back</div> */}
+            <div>{currentKioskName}</div>
+          </Card>
+          <Subtitle>Order Summary</Subtitle>
+          <Card>
+            <div>
+              {cart.map((item: any) => (
+                <CartItem key={item._id} item={item} />
+                // console.log('item in cart : ',item)
+              ))}
+            </div>
+            ------
+            <div>
+              Total : ({totalItems} items)
+              <div>{totalPrice} Baht</div>
+            </div>
+          </Card>
+          <Subtitle>Payment Details</Subtitle>
+          <Card>
+            {/* OnClick = topup */}
+            <i className="fas fa-wallet" style={{ marginRight: '4px' }}></i>{' '}
+            {userContext.user.money} Baht
+          </Card>
+            {orderButton}
       {/* <div className={styles.cart}>
         <div className={styles.cart__items}>
           {cart.map((item : any) => (
