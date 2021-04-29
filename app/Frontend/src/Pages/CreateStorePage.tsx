@@ -10,6 +10,7 @@ import AddIcon from '@material-ui/icons/Add';
 import { produce } from 'immer';
 import axios from 'axios';
 import {UserContext} from '../Context/UserContext';
+import { FilterDramaTwoTone } from '@material-ui/icons';
 
 interface menuType {
   id: string;
@@ -28,9 +29,14 @@ interface FormValues {
   fileupload : string;
 }
 
+// interface files {
+//   files : string;
+// }
+
 export default function CreateStorePage() {
   const userContext = useContext(UserContext).user;
   const [file, setFile] = useState("");
+  const [menuImg, setMenuImg] = useState([] as any);
   const { register, handleSubmit } = useForm<FormValues>();
   const [menuFields, setmenuField] = useState<menuType[]>([
     {
@@ -44,6 +50,7 @@ export default function CreateStorePage() {
   ]);
   const onSubmit = (data: FormValues) => {
     const formData = new FormData();
+    menuImg.forEach((file : any) => formData.append('files[]',file));
     formData.append("image",file);
     // formData.append("shop",'eiei');
     formData.append("shop",data.shop);
@@ -78,6 +85,12 @@ export default function CreateStorePage() {
       },
     ]);
   };
+
+  const imgChangeHandler = (e : any) => {
+    const files = [...menuImg];
+    files.push(...e.target.files);
+    setMenuImg(files)
+  }
 
   const handleRemoveFields = (index: number) => {
     console.log('pop :', index);

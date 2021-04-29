@@ -41,7 +41,7 @@ const Cart = ({ cart, currentKiosk }: any) => {
   // console.log('cart : ', cart);
 
   if(cart.length != 0){
-    json = { shopId : currentKiosk.id._id, userId : '---userId---' , orderList : cart}
+    json = { shopId : currentKiosk.id._id, userId : userContext.user.user_id , orderList : cart}
 
   }
 
