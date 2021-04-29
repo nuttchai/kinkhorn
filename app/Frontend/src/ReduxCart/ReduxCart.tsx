@@ -85,7 +85,6 @@ const Cart = ({ cart, currentKiosk }: any) => {
             <div>
               {cart.map((item: any) => (
                 <CartItem key={item._id} item={item} />
-                // console.log('item in cart : ',item)
               ))}
             </div>
             ------

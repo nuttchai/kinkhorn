@@ -28,8 +28,9 @@ export const UserContext = React.createContext<UserContextType>({
 
 const UserContextProvider = (props: Props) => {
   const [user, setUser] = useState<User>(EmptyUser);
-  const [isSignedIn, setSignedIn] = useState(false);
-
+  // const [isSignedIn, setSignedIn] = useState(false);
+  // FIXME : DELETE MOCKUP
+  const [isSignedIn, setSignedIn] = useState(true);
   const setCurrentUser = (user: any,money : number,user_id : string) => {
     // const amount = user.money;
     // const userData = data.user

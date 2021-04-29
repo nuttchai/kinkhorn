@@ -69,7 +69,7 @@ const CanteenPage = ( {fetchkiosks , kioskData, loadCurrentKiosk} : CanteenProps
   const KioskContent = (
     <>
       {kioskData.map((kiosk : any) => {
-        // console.log('kiosk ', kiosk);
+        console.log('kiosk ', kiosk);
         
         return (
           <>

@@ -6,6 +6,17 @@ import {
   adjustItemQty,
   removeFromCart,
 } from "../../Redux/Shopping/shopping-action";
+import styled from "styled-components";
+import { Grid } from "@material-ui/core";
+
+const Wrap = styled.div`
+  display : flex;
+  justify-conetent : space-between;
+`;
+
+const Price = styled.div`
+  font-weight : bold;
+`;
 
 const CartItem = ({ item, adjustQty, removeFromCart } : any) => {
   const [input, setInput] = useState(item.qty);
@@ -21,42 +32,17 @@ const CartItem = ({ item, adjustQty, removeFromCart } : any) => {
 
   return (
     <>
-    {item.qty} {item.name} {item.price}
-    {/* ... */}
-    {/* <div className={styles.cartItem}>
-      <img
-        className={styles.cartItem__image}
-        src={item.image}
-        alt={item.title}
-      />
-      <div className={styles.cartItem__details}>
-        <p className={styles.details__title}>{item.title}</p>
-        <p className={styles.details__desc}>{item.description}</p>
-        <p className={styles.details__price}>$ {item.price}</p>
-      </div>
-      <div className={styles.cartItem__actions}>
-        <div className={styles.cartItem__qty}>
-          <label htmlFor="qty">Qty</label>
-          <input
-            min="1"
-            type="number"
-            id="qty"
-            name="qty"
-            value={input}
-            onChange={onChangeHandler}
-          />
-        </div>
-        <button
-          onClick={() => removeFromCart(item)}
-          className={styles.actions__deleteItemBtn}
-        >
-          <img
-            src="https://image.flaticon.com/icons/svg/709/709519.svg"
-            alt=""
-          />
-        </button>
-      </div>
-    </div> */}
+    <Grid container spacing={3}>
+      <Grid item xs={2}>
+        {item.qty}
+      </Grid>
+      <Grid item xs={7}>
+        {item.name}
+      </Grid> 
+      <Grid item xs={3}>
+      <Price>{item.price}</Price>
+      </Grid>
+    </Grid>
     </>
   );
 };

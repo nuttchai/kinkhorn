@@ -66,14 +66,9 @@ const SingleKiosk = ({ currentKiosk, loadCurrentItem }: any) => {
   return (
     <>
       <BG className="content-wrapper">
-        {/* <StyledButton>
-          <Badge badgeContent={getTotalItems(cartItems)} color="error">
-            <AddShoppingCartIcon />
-          </Badge>
-        </StyledButton> */}
         <Card>
-         <Link to = '/canteen'> <i className="fas fa-chevron-left"/> </Link>
-          <img src="https://picsum.photos/414/149/?blur=2" style={{zIndex: -1,position: 'absolute'}}/>
+         <Link to = '/canteen' style = {{margin : '16px'}}> <i className="fas fa-chevron-left"/> </Link>
+          <img src="https://picsum.photos/414/149/?blur=2" />
           <ColStyled>
             <h2 style={{ marginBottom: '0px' }}>{curKiosk.shop}</h2>
             <Subtitle>Category</Subtitle>
