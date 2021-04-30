@@ -9,7 +9,7 @@ const mongoose = require('mongoose');
 const People = require('./models/people');
 
 // mongodb
-mongoose.connect('mongodb://kinkhorn:TcdVQ7XhxnS3Mp32uGSU@143.198.208.245:27017/kinkhorn', 
+mongoose.connect('mongodb://kinkhorn:TcdVQ7XhxnS3Mp32uGSU@172.31.25.123:27017/ciekinkhorn', 
                 { useNewUrlParser: true, useUnifiedTopology: true });
 
 // connect to mongodb
@@ -108,7 +108,8 @@ app.get('/oauth/google/callback',
 
 /* APIs */
 app.get('/success', (req, res) => {
-  const accessToken = jwt.sign({ user: userProfile["_json"] }, accessTokenSecret);
+  const accessToken = jwt.sign({ user: userProfile._json }, accessTokenSecret);
+  console.log(accessToken)
   var date = new Date();
   date.setDate(date.getDate() + 2);
 
@@ -119,15 +120,15 @@ app.get('/success', (req, res) => {
   });
 
   const person = new People({
-    name: userProfile["_json"].name,
-    given_name: userProfile["_json"].given_name,
-    family_name: userProfile["_json"].family_name,
-    picture: userProfile["_json"].picture,
-    email: userProfile["_json"].email,
-    email_verified: userProfile["_json"].email_verified,
-    hd: userProfile["_json"].hd
+    name: userProfile._json.name,
+    given_name: userProfile._json.given_name,
+    family_name: userProfile._json.family_name,
+    picture: userProfile._json.picture,
+    email: userProfile._json.email,
+    email_verified: userProfile._json.email_verified,
+    hd: userProfile._json.hd
   })
-  
+  console.log(person.name)
   db.collection("people").find({}, {name: person.name}).toArray(function(err, result){
     if (err) throw err;
     if (result.length === 0) {
@@ -145,6 +146,7 @@ app.get('/success', (req, res) => {
         res.end();
     }
   })
+  // console.log("Hello Success")
 });
 
 app.get('/oauth/user/info', authenticateJWT, (req, res) => {

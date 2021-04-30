@@ -74,7 +74,7 @@ export const adjustItemQty = (clickedItem: CartItemType, qty: any) => {
 export const fetchKiosks = () => {
   return (dispatch: any) => {
     axios
-      .get('http://143.198.208.245:9000/api/shops/customer')
+      .get('http://13.229.160.22:9000/api/shops/customer')
       .then((res) => {
         // console.log('res : ', res.data.data);
         const kiosks = res.data.data;
