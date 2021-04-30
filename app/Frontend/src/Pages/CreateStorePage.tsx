@@ -56,7 +56,7 @@ export default function CreateStorePage() {
     formData.append("ownerId",data.ownerId);
     formData.append("area",data.area);
     formData.append("menu",JSON.stringify(menuFields));
-    const finalData = {...data, menu : menuFields};
+    // const finalData = {...data, menu : menuFields};
     axios.post('http://13.229.160.22:9000/api/shops/upload',formData).then((res) => console.log('res :',res)).catch((err) => console.log('err : ',err));
     alert(JSON.stringify(formData));
   };

@@ -41,15 +41,17 @@ const Cart = ({ cart, currentKiosk }: any) => {
   // console.log('cart : ', cart);
 
   if(cart.length != 0){
-    json = { shopId : currentKiosk.id._id, userId : userContext.user.user_id , orderList : cart}
+    // json = { shopId : currentKiosk.id._id, userId : userContext.user.user_id , orderList : cart}
+    json = { shopId : currentKiosk.id._id, userId : '---userId---' , orderList : cart}
 
   }
 
-  // console.log('json : ', json);
+  console.log('json : ', json);
   const placeOrder = () => {
     axios
-      .post('http://143.198.208.245:9000/api/orders/customer', json)
-      .then((res) => console.log('res placeorder : ', res));
+      .post('http://13.229.160.22:9000/api/orders/customer', json)
+      .then((res) => console.log('res placeorder : ', res))
+      .catch((err) => console.log('err : ', err));
   };
   let currentKioskName = (<></>)
 

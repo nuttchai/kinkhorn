@@ -45,7 +45,7 @@ const SingleKiosk = ({ currentKiosk, loadCurrentItem }: any) => {
   const Menu = (
     <>
       {curKiosk.menu.map((ele: any) => {
-        console.log('ele : ', ele);
+        // console.log('ele : ', ele);
         return (
           <>
             <Grid item key={ele._id} xs={12} sm={4} 
@@ -88,7 +88,7 @@ const SingleKiosk = ({ currentKiosk, loadCurrentItem }: any) => {
 };
 
 const mapStateToProps = (state: any) => {
-  console.log('state : ', state.shop.currentKiosk.id);
+  // console.log('state : ', state.shop.currentKiosk.id);
   return {
     currentKiosk: state.shop.currentKiosk,
   };
