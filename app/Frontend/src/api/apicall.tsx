@@ -7,6 +7,7 @@ export interface IplaceOrderRequest {
     orderList : any[];
 }
 
+//FIXME : Add interface
 export interface IplaceOrderResponse {
     Data : string;
 }
