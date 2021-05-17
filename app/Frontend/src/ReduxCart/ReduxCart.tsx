@@ -9,11 +9,18 @@ import Subtitle from '../Components/Subtitle';
 import { UserContext } from '../Context/UserContext';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import * as apicall from '../api/apicall';
+
 
 const Cart = ({ cart, currentKiosk }: any) => {
   const userContext = useContext(UserContext);
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalItems, setTotalItems] = useState(0);
+  const [order , setOrder]  = useState<apicall.IplaceOrderRequest>({
+    shopId: "",
+    userId : "",
+    orderList : cart,
+  })
   
 
   let json = {};
@@ -38,31 +45,33 @@ const Cart = ({ cart, currentKiosk }: any) => {
     setTotalItems(items);
     setTotalPrice(price);
   }, [cart, totalPrice, totalItems, setTotalPrice, setTotalItems]);
-  // console.log('cart : ', cart);
 
-  if(cart.length != 0){
-    // json = { shopId : currentKiosk.id._id, userId : userContext.user.user_id , orderList : cart}
-    json = { shopId : currentKiosk.id._id, userId : '---userId---' , orderList : cart}
 
-  }
 
-  console.log('json : ', json);
-  const placeOrder = () => {
-    axios
-      .post('http://13.229.160.22:9000/api/orders/customer', json)
-      .then((res) => console.log('res placeorder : ', res))
-      .catch((err) => console.log('err : ', err));
+  const placeOrder = (order : apicall.IplaceOrderRequest) => {
+
+
+    // axios
+    //   .post('http://13.229.160.22:9000/api/orders/customer', json)
+    //   .then((res) => console.log('res placeorder : ', res))
+    //   .catch((err) => console.log('err : ', err));
+
+    apicall.placeOrder(order).then((res) => console.log('res placeorder : ', res))
+      .catch((err) => console.log('err : ', err));;
   };
-  let currentKioskName = (<></>)
 
+
+  let currentKioskName = (<></>)
+    
   if(totalItems){
+
     orderButton = (<>
     <Link to="/ordering">
     <Button
       variant="contained"
       color="primary"
       style={{ width: '100%' }}
-      onClick={() => placeOrder()}
+      onClick={() => placeOrder(order)}
     >
       Place Order
     </Button>

@@ -55,16 +55,11 @@ interface CanteenProps {
 }
 
 const CanteenPage = ( {fetchkiosks , kioskData, loadCurrentKiosk} : CanteenProps) => {
-  // const [kioskData, setKioskData] = useState<ShopType[]>([]);
 
   useEffect(() => {
-    // axios.get('http://143.198.208.245:9000/api/shops/customer').then((res) => {
-    // console.log(res.data.data);
-    // setKioskData(res.data.data);
     fetchkiosks();
     refreshCart();
   }, []);
-  // console.log('kioskData : ',kioskData); 
 
   const KioskContent = (
     <>
