@@ -1,10 +1,14 @@
 import axiosInstance from './axiosinstance';
 import { AxiosResponse } from 'axios';
 
-export interface IplaceOrderRequest {
+export interface IPlaceOrderRequest {
     shopId : string;
     userId : string;
     orderList : any[];
+}
+
+export interface IGetQueueRequest {
+    id : string;
 }
 
 //FIXME : Add interface
@@ -34,7 +38,11 @@ export interface ICreateStoreResponse {
     Data : string;
 }
 
-export const placeOrder = async(json : IplaceOrderRequest) : Promise<AxiosResponse<IplaceOrderResponse>> => {
+export interface IGetQueueResponse {
+    Data : string;
+}
+
+export const placeOrder = async(json : IPlaceOrderRequest) : Promise<AxiosResponse<IplaceOrderResponse>> => {
     const res = await axiosInstance.post('/api/orders/customer', json);
     return res;
 };
@@ -58,4 +66,9 @@ export const createStore = async (store : ICreateStoreRequest) : Promise<AxiosRe
     const response = await axiosInstance.post('/api/shops/upload',formData)
     
     return response;
+}
+
+export const getQueue = async (params : IGetQueueRequest) : Promise<AxiosResponse<IGetQueueResponse>> => {
+    const res = await axiosInstance.get('/api/orders/queue/customer',{params})
+    return res;
 }

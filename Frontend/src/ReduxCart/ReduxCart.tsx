@@ -16,7 +16,7 @@ const Cart = ({ cart, currentKiosk }: any) => {
   const userContext = useContext(UserContext);
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalItems, setTotalItems] = useState(0);
-  const [order , setOrder]  = useState<apicall.IplaceOrderRequest>({
+  const [order , setOrder]  = useState<apicall.IPlaceOrderRequest>({
     shopId: "",
     userId : "",
     orderList : cart,
@@ -46,7 +46,7 @@ const Cart = ({ cart, currentKiosk }: any) => {
 
 
 
-  const placeOrder = (order : apicall.IplaceOrderRequest) => {
+  const placeOrder = (order : apicall.IPlaceOrderRequest) => {
 
 
     // axios

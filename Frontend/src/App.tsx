@@ -19,6 +19,7 @@ import SingleKiosk from './Components/SingleKiosk/SingleKiosk';
 import QueuePage from './Pages/QueuePage';
 import CreateStorePage from './Pages/CreateStorePage';
 import OrderingPage from './Pages/OrderingPage';
+import HisotryPage from './Pages/HistoryPage';
 
 const PrivateRoute = (props: RouteProps) => {
   const userContext = useContext(UserContext);
@@ -70,6 +71,8 @@ function App({current} : any) {
         <Route exact path='/signout' component={SignOutPage}/>
         <Route exact path='/ordering' component={OrderingPage}/>
         <Route path = '/queue' component = {QueuePage}/>
+        {/* <Route exact path='/myactivity/order/:id' component={HisotryPage}/> */}
+        <Route path = '/history' component = {HisotryPage}/>
         {/* FIXME : DELETE THIS PATH */}
         <PrivateRoute exact path='/' component={HomePage}/>
         <PrivateRoute exact path='/canteen' component={CanteenPage}/>
