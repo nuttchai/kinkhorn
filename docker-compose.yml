@@ -1,0 +1,75 @@
+version: "3"
+
+services:
+  api:
+    container_name: api
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile
+    image: kk_api:1.0
+    restart: always
+    volumes: 
+      - ./backend:/usr/src/app
+      - /usr/src/app/node_modules 
+    ports:
+      - "9000:9000"
+    networks: 
+      - kinkhorn
+
+  frontend:
+    container_name: frontend
+    build: 
+      context: ./Frontend
+      dockerfile: Dockerfile
+    image: kk_frontend:1.0
+    restart: always
+    volumes: 
+      - ./Frontend:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - "3000:3000"
+    networks: 
+      - kinkhorn
+
+  loginServer:
+    container_name: loginServer
+    build: 
+      context: ./loginServer
+      dockerfile: Dockerfile
+    image: kk_loginserver:1.0
+    restart: always
+    volumes: 
+      - ./loginServer:/usr/src/app
+      - /usr/src/app/node_modules 
+    ports:
+      - "8000:8000"    
+    networks: 
+      - kinkhorn
+
+  swag:
+    image: ghcr.io/linuxserver/swag
+    container_name: swag
+    cap_add:
+      - NET_ADMIN
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Bangkok
+      - URL=kinkorn.pongpich.xyz
+      - SUBDOMAINS=wildcard
+      - VALIDATION=dns
+      - STAGING=true
+      - DNSPLUGIN=cloudflare
+    volumes:
+      - ./dockervolumn/swag:/config
+      - ./configuration/proxy-conf:/config/nginx/proxy-confs
+    ports:
+      - 443:443
+      - 80:80
+    restart: unless-stopped
+    networks: 
+      - kinkhorn
+
+networks: 
+  kinkhorn:
+    name: kinkhorn

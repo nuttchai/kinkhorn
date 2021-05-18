@@ -19,18 +19,16 @@ db.once('open', function () {
   console.log('connected sucessfully!!');
 })
 
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET, POST, PATCH, PUT, DELETE, OPTIONS"
-  );
-  next();
-});
+app.use(function(req, res, next) {
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PATCH, PUT, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'X-Requested-With, Content-type,Accept,X-Access-Token,X-Key,authorization');
+  res.header('Access-Control-Allow-Origin', '*');
+  if (req.method === 'OPTIONS') {
+      res.status(200).end();
+  } else {
+      next();
+      }
+})
 
 app.set('view engine', 'ejs');
 app.use(cookieParser());
@@ -40,7 +38,7 @@ app.use(session({
   secret: 'SECRET' 
 }));
 
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 8000;
 app.listen(port , () => console.log('App listening on port ' + port));
 
 var passport = require('passport');
@@ -87,7 +85,7 @@ const GOOGLE_CLIENT_SECRET = 'bbFoC3kM7XkJzf94EvYTNYcv';
 passport.use(new GoogleStrategy({
     clientID: GOOGLE_CLIENT_ID,
     clientSecret: GOOGLE_CLIENT_SECRET,
-    callbackURL: "http://localhost:8080/oauth/google/callback"
+    callbackURL: "http://auth.kinkorn.pongpich.xyz/oauth/google/callback"
   },
   function(accessToken, refreshToken, profile, done) {
       userProfile=profile;
@@ -108,8 +106,7 @@ app.get('/oauth/google/callback',
 
 /* APIs */
 app.get('/success', (req, res) => {
-  const accessToken = jwt.sign({ user: userProfile._json }, accessTokenSecret);
-  console.log(accessToken)
+  const accessToken = jwt.sign({ user: userProfile["_json"] }, accessTokenSecret);
   var date = new Date();
   date.setDate(date.getDate() + 2);
 
@@ -120,33 +117,32 @@ app.get('/success', (req, res) => {
   });
 
   const person = new People({
-    name: userProfile._json.name,
-    given_name: userProfile._json.given_name,
-    family_name: userProfile._json.family_name,
-    picture: userProfile._json.picture,
-    email: userProfile._json.email,
-    email_verified: userProfile._json.email_verified,
-    hd: userProfile._json.hd
+    name: userProfile["_json"].name,
+    given_name: userProfile["_json"].given_name,
+    family_name: userProfile["_json"].family_name,
+    picture: userProfile["_json"].picture,
+    email: userProfile["_json"].email,
+    email_verified: userProfile["_json"].email_verified,
+    hd: userProfile["_json"].hd
   })
-  console.log(person.name)
+  
   db.collection("people").find({}, {name: person.name}).toArray(function(err, result){
     if (err) throw err;
     if (result.length === 0) {
       person.save()
       .then(saveUser => {
         res.writeHead(302, {
-          Location: 'http://localhost:3000/'
+          Location: 'https://kinkorn.pongpich.xyz/'
           });
           res.end();
       })
     } else {
       res.writeHead(302, {
-        Location: 'http://localhost:3000/'
+        Location: 'https://kinkorn.pongpich.xyz/'
         });
         res.end();
     }
   })
-  // console.log("Hello Success")
 });
 
 app.get('/oauth/user/info', authenticateJWT, (req, res) => {

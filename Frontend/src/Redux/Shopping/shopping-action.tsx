@@ -1,7 +1,5 @@
 import * as actionTypes from './shopping-types';
 import axios from 'axios';
-import * as apicall from '../../api/apicall';
-
 
 export type CartItemType = {
   _id: number;
@@ -75,26 +73,17 @@ export const adjustItemQty = (clickedItem: CartItemType, qty: any) => {
 
 export const fetchKiosks = () => {
   return (dispatch: any) => {
-    // axios
-    //   .get('http://13.229.160.22:9000/api/shops/customer')
-    //   .then((res) => {
-    //     // console.log('res : ', res.data.data);
-    //     const kiosks = res.data.data;
-    //     dispatch(fetchKiosksSuccess(kiosks));
-    //   })
-    //   .catch((err) => {
-    //     const errMsg = err.message;
-    //     dispatch(fetchKiosksFailure(errMsg));
-    //   });
-    apicall.fetchKiosks().then((res) => {
-      // console.log('res : ', res.data.data);
-      const kiosks = res.data.data;
-      dispatch(fetchKiosksSuccess(kiosks));
-    })
-    .catch((err) => {
-      const errMsg = err.message;
-      dispatch(fetchKiosksFailure(errMsg));
-    });
+    axios
+      .get('http://13.229.160.22:9000/api/shops/customer')
+      .then((res) => {
+        // console.log('res : ', res.data.data);
+        const kiosks = res.data.data;
+        dispatch(fetchKiosksSuccess(kiosks));
+      })
+      .catch((err) => {
+        const errMsg = err.message;
+        dispatch(fetchKiosksFailure(errMsg));
+      });
   };
 };
 

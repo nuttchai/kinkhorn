@@ -45,7 +45,7 @@ const SingleKiosk = ({ currentKiosk, loadCurrentItem }: any) => {
   const Menu = (
     <>
       {curKiosk.menu.map((ele: any) => {
-        // console.log('ele : ', ele);
+        console.log('ele : ', ele);
         return (
           <>
             <Grid item key={ele._id} xs={12} sm={4} 
@@ -66,9 +66,14 @@ const SingleKiosk = ({ currentKiosk, loadCurrentItem }: any) => {
   return (
     <>
       <BG className="content-wrapper">
+        {/* <StyledButton>
+          <Badge badgeContent={getTotalItems(cartItems)} color="error">
+            <AddShoppingCartIcon />
+          </Badge>
+        </StyledButton> */}
         <Card>
-         <Link to = '/canteen' style = {{margin : '16px'}}> <i className="fas fa-chevron-left"/> </Link>
-          <img src="https://picsum.photos/414/149/?blur=2" />
+         <Link to = '/canteen'> <i className="fas fa-chevron-left"/> </Link>
+          <img src="https://picsum.photos/414/149/?blur=2" style={{zIndex: -1,position: 'absolute'}}/>
           <ColStyled>
             <h2 style={{ marginBottom: '0px' }}>{curKiosk.shop}</h2>
             <Subtitle>Category</Subtitle>
@@ -88,7 +93,7 @@ const SingleKiosk = ({ currentKiosk, loadCurrentItem }: any) => {
 };
 
 const mapStateToProps = (state: any) => {
-  // console.log('state : ', state.shop.currentKiosk.id);
+  console.log('state : ', state.shop.currentKiosk.id);
   return {
     currentKiosk: state.shop.currentKiosk,
   };

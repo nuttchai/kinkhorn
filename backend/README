@@ -1,0 +1,12 @@
+COMMAND:
+
+clear redis cache
+docker exec -it <container-name> redis-cli -a <redis-password> FLUSHALL
+
+access database (two accesses: root, kinkhorn)
+mongo -u <user> -p <password> --authenticationDatabase <database_name>
+
+docker exec -it redis redis-cli -a QCY68NMK7KGNabfPg72P FLUSHALL
+mongo -u kinkhorn -p TcdVQ7XhxnS3Mp32uGSU --authenticationDatabase kinkhorn
+
+docker exec -it redis redis-cli -a QCY68NMK7KGNabfPg72P FLUSHALL

@@ -11,26 +11,7 @@ interface TYPE_INITIAL_STATE {
 }
 
 const INITIAL_STATE: TYPE_INITIAL_STATE = {
-  kiosks: [{
-    _id : "607e874c0362aa001d64294a",
-    shop : "shop 1",
-    ownerId : "shopowner1_id",
-    area : "ena01",
-    menu : [{
-      name : "drink 1",
-      price : 7,
-      category : "other",
-      _id : "607e874c0362aa001d64294b",
-      description : "drink desc 1"
-    },
-    {
-      name : "drink 2",
-      price : 14,
-      category : "other",
-      _id : "607e874c0362aa001d64293b",
-      description : "drink desc 2"
-    }]
-  }],
+  kiosks: [],
   cart: [], // {id, title ,descr, price, img, qty}
   currentItem: [],
   currentKiosk: [],
