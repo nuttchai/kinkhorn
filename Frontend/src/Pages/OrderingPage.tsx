@@ -26,7 +26,7 @@ const TimeStlyed = styled.div`
 export default function OrderingPage() {
     return (
         <>
-         <div className="content-wrapper">
+         <div className="content-wrapper" style = {{margin : '16px'}}>
             <h3>Order status</h3>
             <div>
                 <div>Order ID : 2345</div>

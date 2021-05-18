@@ -55,7 +55,7 @@ export const createStore = async (store : ICreateStoreRequest) : Promise<AxiosRe
     formData.append("area", store.area);
     formData.append("menu",JSON.stringify(store.menuFiled));
     // const finalData = {...data, menu : menuFields};
-    const response = await axiosInstance.post('http://13.229.160.22:9000/api/shops/upload',formData)
+    const response = await axiosInstance.post('/api/shops/upload',formData)
     
     return response;
 }

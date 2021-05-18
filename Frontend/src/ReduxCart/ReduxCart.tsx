@@ -23,12 +23,10 @@ const Cart = ({ cart, currentKiosk }: any) => {
   })
   
 
-  let json = {};
   let orderButton = (<Button
     variant="contained"
     color="primary"
     style={{ width: '100%', marginTop : '16px' }}
-    disabled
   >
     Place Order
   </Button>);
@@ -56,8 +54,9 @@ const Cart = ({ cart, currentKiosk }: any) => {
     //   .then((res) => console.log('res placeorder : ', res))
     //   .catch((err) => console.log('err : ', err));
 
-    apicall.placeOrder(order).then((res) => console.log('res placeorder : ', res))
-      .catch((err) => console.log('err : ', err));;
+    apicall.placeOrder(order)
+      .then((res) => console.log('res placeorder : ', res.data.Data))
+      .catch((err) => console.log('err : ', err));
   };
 
 
