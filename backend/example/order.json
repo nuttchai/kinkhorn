@@ -1,0 +1,10 @@
+{   
+    "shopId" : "---shopId-2---",
+    "userId" : "---userId---", 
+    "orderList" : [{ 
+                        "foodId" : "606e13f24556d5009e40370c",
+                        "food" : "drink 1",
+                        "price" : 7,
+                        "quantity" : 2 
+                    }]
+}

@@ -1,0 +1,14 @@
+{
+   "shop" : "shop2", 
+   "ownerId" : "shopowner2_id",
+   "area" : "ena02", 
+   "menu" : [{ "name" : "food 1",
+               "price" : 10,
+               "description" : "food desc 1" },
+            { "name" : "food 2",
+               "price" : 20,
+               "description" : "food desc 2" },
+            { "name" : "food 3",
+               "price" : 13,
+               "description" : "food desc 3" }]
+}
