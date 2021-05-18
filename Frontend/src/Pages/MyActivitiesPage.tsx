@@ -7,6 +7,7 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 // import ButtonBase from '@material-ui/core/ButtonBase';
 import * as apicall from '../api/apicall';
+import { Link } from 'react-router-dom';
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -42,38 +43,40 @@ export default function MyActivitiesPage() {
 
   return (
     <div className={classes.root}>
-      <h2 style = {{marginLeft : '4px 8px'}}>My Activity</h2>
-      <Paper className={classes.paper}>
-        <Grid container wrap="nowrap" spacing={2}>
-          <Grid item>
-            <img
-              className={classes.img}
-              alt="complex"
-              src="https://picsum.photos/70/70"
-            />
-          </Grid>
-          <Grid item xs zeroMinWidth>
-            <Grid item xs container direction="column" spacing={1}>
-              <Grid item xs>
-                <Typography variant="subtitle1">
-                Canteen Name
-                </Typography>
-                <Typography variant="body2" color="textSecondary">
-                    2 items
-                </Typography>
+      <h2 style = {{margin : '4px 8px'}}>My Activity</h2>
+      <Link to='/history'>
+          <Paper className={classes.paper}>
+            <Grid container wrap="nowrap" spacing={2}>
+              <Grid item>
+                <img
+                  className={classes.img}
+                  alt="complex"
+                  src="https://picsum.photos/70/70"
+                />
               </Grid>
-              {/* <Grid item>
-                <Typography variant="subtitle1">฿ 40.00</Typography>
-              </Grid> */}
+              <Grid item xs zeroMinWidth>
+                <Grid item xs container direction="column" spacing={1}>
+                  <Grid item xs>
+                    <Typography variant="subtitle1">
+                    Canteen Name
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary">
+                        2 items
+                    </Typography>
+                  </Grid>
+                  {/* <Grid item>
+                    <Typography variant="subtitle1">฿ 40.00</Typography>
+                  </Grid> */}
+                </Grid>
+                <Grid item>
+                  <Typography variant="body2" color ="primary"  style={{ cursor: 'pointer' }}>
+                    Reorder
+                  </Typography>
+                </Grid>
+              </Grid>
             </Grid>
-            <Grid item>
-              <Typography variant="body2" color ="primary"  style={{ cursor: 'pointer' }}>
-                Reorder
-              </Typography>
-            </Grid>
-          </Grid>
-        </Grid>
-      </Paper>
+          </Paper>
+      </Link>
     </div>
   );
 }

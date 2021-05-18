@@ -5,7 +5,7 @@ export default function HisotryPage() {
 
     return(<>
     <div>
-        HistoryPage
+        OrderDetail
     </div>
 
         </>)
