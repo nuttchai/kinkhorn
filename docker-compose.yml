@@ -51,15 +51,8 @@ services:
     container_name: swag
     cap_add:
       - NET_ADMIN
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Asia/Bangkok
-      - URL=kinkorn.pongpich.xyz
-      - SUBDOMAINS=wildcard
-      - VALIDATION=dns
-      - STAGING=true
-      - DNSPLUGIN=cloudflare
+    env_file: 
+      - ./swag.env
     volumes:
       - ./dockervolumn/swag:/config
       - ./configuration/proxy-conf:/config/nginx/proxy-confs
@@ -69,7 +62,6 @@ services:
     restart: unless-stopped
     networks: 
       - kinkhorn
-
+  
 networks: 
   kinkhorn:
-    name: kinkhorn

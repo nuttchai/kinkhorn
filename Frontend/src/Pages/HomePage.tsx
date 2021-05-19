@@ -58,6 +58,15 @@ function Home() {
     setIsCanteenOpen((prevState) => !prevState);
   };
 
+  // const test = () => {
+  //     axios.get('https://oauth.kinkorn.pongpich.xyz/oauth/user/info')
+  //       .then((res) => {
+  //         console.log('res.data :',res.data); 
+  //         userContext.setCurrentUser(res.data.user,res.data.money,res.data.user_id);
+  //       })
+  //       .catch((err) => console.error(err));
+  // }
+
   for (let i = 0; i < 5; i += 1) {
     slides.push(
       <SwiperSlide key={`slide-${i}`} tag="li">
@@ -129,6 +138,7 @@ function Home() {
 
           </Card>
         </Container>
+        {/* <button onClick= { () => test()}>ddd</button> */}
         {/* <Float>
           <Button
           border="none"

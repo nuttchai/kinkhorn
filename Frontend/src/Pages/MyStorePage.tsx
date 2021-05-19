@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function MyActivitiesPage() {
+export default function MyStorePage() {
   const userContext = useContext(UserContext);
   const params = { id: userContext.user.user_id };
   const classes = useStyles();
@@ -43,8 +43,8 @@ export default function MyActivitiesPage() {
 
   return (
     <div className={classes.root}>
-      <h2 style = {{margin : '4px 8px'}}>My Activity</h2>
-      <Link to='/history'>
+      <h2 style = {{margin : '4px 8px'}}>My Store</h2>
+      <Link to='/mystore/id'>
           <Paper className={classes.paper}>
             <Grid container wrap="nowrap" spacing={2}>
               <Grid item>

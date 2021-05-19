@@ -96,6 +96,7 @@ const SingleItem = ({ current, addToCart }: any) => {
           variant="contained"
           color="primary"
           onClick={() => addToCart(curItem,quantity)}
+          style={{width:'100%', marginTop:'16px'}}
         >
           Add to Basket
         </Button>

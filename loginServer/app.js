@@ -60,7 +60,9 @@ passport.deserializeUser(function(obj, cb) {
   const accessTokenSecret = '9y$B&E)H@McQfTjWnZq4t7w!z%C*F-Ja';
 
   const authenticateJWT = (req, res, next) => {
+    console.log("Incomming user...")
     var cookie = req.cookies;
+    console.log(cookie)
 
     if (cookie['token']) {
       
@@ -72,6 +74,7 @@ passport.deserializeUser(function(obj, cb) {
         next();
       });
     } else {
+        // console.log("Bad Dear")
         res.sendStatus(401);
     }
 };
@@ -85,7 +88,7 @@ const GOOGLE_CLIENT_SECRET = 'bbFoC3kM7XkJzf94EvYTNYcv';
 passport.use(new GoogleStrategy({
     clientID: GOOGLE_CLIENT_ID,
     clientSecret: GOOGLE_CLIENT_SECRET,
-    callbackURL: "http://auth.kinkorn.pongpich.xyz/oauth/google/callback"
+    callbackURL: "http://oauth.kinkorn.pongpich.xyz/oauth/google/callback"
   },
   function(accessToken, refreshToken, profile, done) {
       userProfile=profile;
@@ -111,9 +114,11 @@ app.get('/success', (req, res) => {
   date.setDate(date.getDate() + 2);
 
   res.cookie('token', accessToken, {
+    path     : '/',
+    domain   : 'kinkorn.pongpich.xyz',
     expires: date,
-    secure: false, // set to true if your using https
-    httpOnly: true,
+    secure: true, // set to true if your using https
+    httpOnly: false,
   });
 
   const person = new People({
@@ -156,13 +161,23 @@ app.get('/oauth/user/info', authenticateJWT, (req, res) => {
     user = result[0]._id
     decoded["money"] = money
     decoded["user_id"] = user
+    console.log(decoded)
     return res.json(decoded)
   })
 });
 
 app.get('/oauth/logout', (req, res) => {
-  res.clearCookie("token");
-  res.redirect('/');
+  res.cookie('token', null, {
+    path     : '/',
+    domain   : 'kinkorn.pongpich.xyz',
+    maxAge: 0,
+    secure: true, // set to true if your using https
+    httpOnly: false,
+  });
+  res.writeHead(302, {
+    Location: 'https://kinkorn.pongpich.xyz/'
+    });
+    res.end();
 });
 
 app.get('/error', (req, res) => res.send("error logging in"));

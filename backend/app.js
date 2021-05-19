@@ -12,7 +12,7 @@ const app = express();
 //                 { useNewUrlParser: true, useUnifiedTopology: true });
 
 // document-db
-mongoose.connect('mongodb://kinkhorn.cluster-ciluasfmkj9g.ap-southeast-1.docdb.amazonaws.com:27017',
+mongoose.connect('mongodb://kinkhorn-db.cluster-ciluasfmkj9g.ap-southeast-1.docdb.amazonaws.com:27017/?ssl=true&ssl_ca_certs=rds-combined-ca-bundle.pem&replicaSet=rs0&readPreference=secondaryPreferred&retryWrites=false',
                 { 
                   dbName: 'ciekinkhorn',
                   retryWrites: false,
@@ -35,7 +35,7 @@ mongoose.connect('mongodb://kinkhorn.cluster-ciluasfmkj9g.ap-southeast-1.docdb.a
 // redis
 const redisClient = require("redis").createClient;
 const redis = redisClient({
-  host: '172.31.25.123',
+  host: '10.0.0.238',
   port: 6379,
   password: 'QCY68NMK7KGNabfPg72P'
 });

@@ -19,6 +19,10 @@ import SingleKiosk from './Components/SingleKiosk/SingleKiosk';
 import QueuePage from './Pages/QueuePage';
 import CreateStorePage from './Pages/CreateStorePage';
 import OrderingPage from './Pages/OrderingPage';
+import HisotryPage from './Pages/HistoryPage';
+import MyStorePage from './Pages/MyStorePage';
+import SingleStorePage from './Pages/SingleStorePage';
+import * as apicall from './api/apicall'
 
 const PrivateRoute = (props: RouteProps) => {
   const userContext = useContext(UserContext);
@@ -37,13 +41,13 @@ function App({current} : any) {
   const userContext = useContext(UserContext);
 
   useLayoutEffect(() => {
-    axios.get('/oauth/user/info')
+    apicall.getUserInfo()
       .then((res) => {
-
-        // console.log('res.data :',res.data); 
-        userContext.setCurrentUser(res.data.user,res.data.money,res.data.user_id);
+        console.log('res.data :',res.data); 
+        // userContext.setCurrentUser(res.data.user,res.data.money,res.data.user_id);
       })
       .catch((err) => console.error(err));
+
   }, []);
 
   // console.log('now user :', userContext.user.money ); 
@@ -63,13 +67,17 @@ function App({current} : any) {
         <Route exact path='/canteen/kiosk' component={KioskPage}/>
         <Route exact path='/oauth/logout'/>
         <Route path = '/cart' component={ReduxCart}/>
-        {/* <Route exact path="/product" component={Products} />
-        <Route exact path="/product/:id" component={SingleItem} /> */}
+        <Route exact path="/product" component={Products} />
+        <Route exact path="/product/:id" component={SingleItem} />
         <Route exact path='/canteen/kiosk/:id' component={SingleKiosk}/>
         <Route exact path='/createStore' component={CreateStorePage}/>
         <Route exact path='/signout' component={SignOutPage}/>
         <Route exact path='/ordering' component={OrderingPage}/>
         <Route path = '/queue' component = {QueuePage}/>
+        <Route exact path='/myactivity/order/:id' component={HisotryPage}/>
+        <Route path = '/history' component = {HisotryPage}/>
+        <Route exact path = '/mystore' component = {MyStorePage}/>
+        <Route exact path = '/mystore/id' component = {SingleStorePage}/>
         {/* FIXME : DELETE THIS PATH */}
         <PrivateRoute exact path='/' component={HomePage}/>
         <PrivateRoute exact path='/canteen' component={CanteenPage}/>
@@ -86,6 +94,9 @@ function App({current} : any) {
         <PrivateRoute exact path='/createStore' component={CreateStorePage}/>
         <PrivateRoute exact path='/signout' component={SignOutPage}/>
         <PrivateRoute exact path='/ordering' component={OrderingPage}/>
+        {/* <PrivateRoute exact path='/myactivity/order/:id' component={HisotryPage}/> */}
+        <PrivateRoute exact path = '/history' component = {HisotryPage}/>
+        <PrivateRoute exact path = '/mystore' component = {MyStorePage}/>
         <Route path = '/queue' component = {QueuePage}/>
         {!current ? (
         <Redirect to="/" />

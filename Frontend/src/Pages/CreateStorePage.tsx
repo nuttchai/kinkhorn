@@ -11,7 +11,7 @@ import { produce } from 'immer';
 import axios from 'axios';
 import {UserContext} from '../Context/UserContext';
 import { FilterDramaTwoTone } from '@material-ui/icons';
-
+import * as apicall from '../api/apicall';
 interface menuType {
   id: string;
   name: string;
@@ -48,17 +48,30 @@ export default function CreateStorePage() {
       img : '',
     },
   ]);
-  const onSubmit = (data: FormValues) => {
-    const formData = new FormData();
-    menuImg.forEach((file : any) => formData.append('files[]',file));
-    formData.append("image",file);
-    formData.append("shop",data.shop);
-    formData.append("ownerId",data.ownerId);
-    formData.append("area",data.area);
-    formData.append("menu",JSON.stringify(menuFields));
-    const finalData = {...data, menu : menuFields};
-    axios.post('http://13.250.64.65:9000/api/shops/upload',formData).then((res) => console.log('res :',res)).catch((err) => console.log('err : ',err));
-    alert(JSON.stringify(formData));
+
+
+  const onSubmit = (data : FormValues) => {
+    // const formData = new FormData();
+    // menuImg.forEach((file : any) => formData.append('files[]',file));
+    // formData.append("image",file);
+    // formData.append("shop",data.shop);
+    // formData.append("ownerId",data.ownerId);
+    // formData.append("area",data.area);
+    // formData.append("menu",JSON.stringify(menuFields));
+    // // const finalData = {...data, menu : menuFields};
+    // axios.post('http://13.229.160.22:9000/api/shops/upload',formData).then((res) => console.log('res :',res)).catch((err) => console.log('err : ',err));
+    // alert(JSON.stringify(formData));
+
+    const store: apicall.ICreateStoreRequest = {
+      ...data,
+      file: file,
+      menuImage: menuImg,
+      menuFiled : menuFields
+    }
+
+    apicall.createStore(store)
+      .then(res => console.log('res : ',res))
+      .catch(err => console.log('err : ',err))
   };
 
   const handleUpload = (event : any) => {

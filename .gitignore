@@ -74,6 +74,9 @@ jspm_packages/
 # Output of 'npm pack'
 *.tgz
 
+# info text file
+info.txt
+
 # Yarn Integrity file
 .yarn-integrity
 
@@ -93,3 +96,6 @@ Thumbs.db
 dockervolumn
 
 *.conf.sample
+
+*.env
+

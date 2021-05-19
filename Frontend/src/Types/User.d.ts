@@ -5,6 +5,7 @@ type User = {
     // amount: number;
     email : string;
     user_id : string;
+    roles : string;
   };
 
 export const EmptyUser:User = {
@@ -12,7 +13,10 @@ export const EmptyUser:User = {
   picture: '',
   money: 0,
   email : '',
-  user_id : ''
+  user_id : '',
+  role : 'Seller',
+  // role : ''
+
 };
 
 export default User;
