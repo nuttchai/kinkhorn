@@ -12,7 +12,7 @@ const app = express();
 //                 { useNewUrlParser: true, useUnifiedTopology: true });
 
 // document-db
-mongoose.connect('mongodb://kinkhorn-db.cluster-ciluasfmkj9g.ap-southeast-1.docdb.amazonaws.com:27017/?ssl=true&ssl_ca_certs=rds-combined-ca-bundle.pem&replicaSet=rs0&readPreference=secondaryPreferred&retryWrites=false',
+mongoose.connect('mongodb://kinkhorn-db.cluster-ciluasfmkj9g.ap-southeast-1.docdb.amazonaws.com:27017',
                 { 
                   dbName: 'ciekinkhorn',
                   retryWrites: false,

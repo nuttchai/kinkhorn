@@ -55,8 +55,8 @@ export default function Menu() {
   </div>
 </aside>);
 // console.log(userContext.user.roles);
-// if(isSignedIn && userContext.user.roles == "Seller"){
-  if(true){
+if(isSignedIn && userContext.user.roles == "Seller"){
+  // if(true){
     curUser = <aside className="main-sidebar sidebar-dark-primary elevation-4" style={{zIndex:2}}>
     {/* Brand Logo */}
     <Link to="/" className="brand-link">

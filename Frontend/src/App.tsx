@@ -58,7 +58,7 @@ function App({current} : any) {
       <Switch>
         {/* {route} */}
         {/* FIXME : DELETE THIS PATH */}
-        <Route exact path='/' component={HomePage}/>
+        {/* <Route exact path='/' component={HomePage}/>
         <Route exact path='/canteen' component={CanteenPage}/>
         <Route exact path='/myactivity' component={MyActivitiesPage}/>
         <Route exact path='/myaccount' component={AccountPage}/>
@@ -77,7 +77,7 @@ function App({current} : any) {
         <Route exact path='/myactivity/order/:id' component={HisotryPage}/>
         <Route path = '/history' component = {HisotryPage}/>
         <Route exact path = '/mystore' component = {MyStorePage}/>
-        <Route exact path = '/mystore/id' component = {SingleStorePage}/>
+        <Route exact path = '/mystore/id' component = {SingleStorePage}/> */}
         {/* FIXME : DELETE THIS PATH */}
         <PrivateRoute exact path='/' component={HomePage}/>
         <PrivateRoute exact path='/canteen' component={CanteenPage}/>

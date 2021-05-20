@@ -1,5 +1,5 @@
 import axiosInstance from './axiosinstance';
-import { AxiosResponse } from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { useContext } from 'react';
 import { UserContext } from '../Context/UserContext';
 
@@ -93,8 +93,8 @@ export const getQueue = async (
 };
 
 export const getUserInfo = async (): Promise<AxiosResponse<IGetUserInfoResponse>> => {
-  const res = await axiosInstance.get(
-    'https://oauth.kinkorn.pongpich.xyz/oauth/user/info'
+  const res = await axios.get(
+    'https://oauth.kinkhorn.pongpich.xyz/oauth/user/info'
   );
   return res;
 };

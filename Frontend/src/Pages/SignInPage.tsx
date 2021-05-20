@@ -18,8 +18,8 @@ function SignInPage() {
             <div>WELCOME</div>
             <div>PLEASE LOGIN TO USE THE APP!</div>
           </div>
-          {/* <a href="https://oauth.kinkorn.pongpich.xyz/oauth/google"> */} 
-          <a href="http://13.229.160.22:8080/oauth/google">
+          <a href="https://oauth.kinkhorn.pongpich.xyz/oauth/google"> 
+          {/* <a href="http://13.229.160.22:8080/oauth/google"> */}
             {/* Sign In With KMITL */}
             <Button
               variant="contained"
