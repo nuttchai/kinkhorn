@@ -54,6 +54,7 @@ function App({current} : any) {
   // console.log('now user :', userContext.user.money ); 
   // console.log(userContext.isSignedIn);
   let route = (<>
+
   </>)
 
   if (userContext.user.roles === 'customer'){
@@ -115,18 +116,18 @@ function App({current} : any) {
         <Route exact path = '/mystore' component = {MyStorePage}/>
         <Route exact path = '/mystore/id' component = {SingleStorePage}/> */}
         {/* FIXME : DELETE THIS PATH */}
-        
-        {/* <Route path = '/queue' component = {QueuePage}/>
-        {!current ? (
+        {/* <Route path = '/queue' component = {QueuePage}/> */}
+
+        {/* {!current ? (
         <Redirect to="/" />
         ) : (
           <Route exact path='/canteen/kiosk/menu/:id' component={SingleItem} />
-        )}
+        )} */}
         {
               (userContext.isSignedIn)
                 ? <Redirect from="/signin" to="/" />
                 : <Route path='/signin' component={SignInPage} />
-        } */}
+        }
       </Switch>
       </BasicLayout>
     </div>
