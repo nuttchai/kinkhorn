@@ -60,7 +60,7 @@ services:
     volumes:
       - /swagger/dockervolumn/swag:/config
       - ./swagger/configuration/proxy-conf:/config/nginx/proxy-confs
-      - ./default_setting/default:/config/nginx/site-confs/default
+      - ./swagger/default_setting/default:/config/nginx/site-confs/default
     ports:
       - "443:443"
       - "80:80"

@@ -11,7 +11,7 @@ import PaymentPage from './Pages/PaymentPage';
 import AccountPage from './Pages/AccountPage';
 import CanteenPage from './Pages/CanteenPage';
 import KioskPage from './Pages/KioskPage';
-import Products from './Product/Products';
+// import Products from './Product/Products';
 import ReduxCart from './ReduxCart/ReduxCart';
 import SingleItem from './SingleItem/SingleItem';
 import { connect } from 'react-redux';
@@ -43,7 +43,7 @@ function App({current} : any) {
   useLayoutEffect(() => {
     apicall.getUserInfo()
       .then((res) => {
-        console.log('res.data :',res.data); 
+        // console.log('res.data :',res.data); 
         userContext.setCurrentUser(res.data.user,res.data.money,res.data.user_id);
       })
       .catch((err) => console.error(err));
@@ -97,6 +97,7 @@ function App({current} : any) {
         {/* <PrivateRoute exact path='/myactivity/order/:id' component={HisotryPage}/> */}
         <PrivateRoute exact path = '/history' component = {HisotryPage}/>
         <PrivateRoute exact path = '/mystore' component = {MyStorePage}/>
+        <PrivateRoute exact path = '/mystore/id' component = {SingleStorePage}/>
         <Route path = '/queue' component = {QueuePage}/>
         {!current ? (
         <Redirect to="/" />

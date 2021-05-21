@@ -160,14 +160,16 @@ app.get("/oauth/success", (req, res) => {
     picture: userProfile["_json"].picture,
     email: userProfile["_json"].email,
     role: "customer",
-    registered: "false",
+    registered: false,
   });
 
   db.collection("people")
-    .find({}, { name: person.name })
+    .find({"name": person.name})
     .toArray(function (err, result) {
+      console.log(result)
       if (err) throw err;
       if (result.length === 0) {
+        console.log("New person")
         person.save().then((saveUser) => {
           res.writeHead(302, {
             Location: "https://" + process.env.DOMAIN,
