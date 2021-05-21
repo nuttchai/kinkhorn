@@ -52,10 +52,10 @@ services:
     cap_add:
       - NET_ADMIN
     env_file: 
-      - ./swag.env
+      - ./swagger/swag.env
     volumes:
-      - ./dockervolumn/swag:/config
-      - ./configuration/proxy-conf:/config/nginx/proxy-confs
+      - ./swagger/dockervolumn/swag:/config
+      - ./swagger/configuration/proxy-conf:/config/nginx/proxy-confs
     ports:
       - 443:443
       - 80:80
