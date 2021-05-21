@@ -22,6 +22,7 @@ import OrderingPage from './Pages/OrderingPage';
 import HisotryPage from './Pages/HistoryPage';
 import MyStorePage from './Pages/MyStorePage';
 import SingleStorePage from './Pages/SingleStorePage';
+import OrderHistoryPage from './Pages/OrderHistoryPage';
 import * as apicall from './api/apicall'
 
 const PrivateRoute = (props: RouteProps) => {
@@ -52,11 +53,46 @@ function App({current} : any) {
 
   // console.log('now user :', userContext.user.money ); 
   // console.log(userContext.isSignedIn);
+  let route = (<>
+  </>)
+
+  if (userContext.user.roles === 'customer'){
+    route = (<>
+        <PrivateRoute exact path='/' component={HomePage}/>
+        <PrivateRoute exact path='/canteen' component={CanteenPage}/>
+        <PrivateRoute exact path='/myactivity' component={MyActivitiesPage}/>
+        <PrivateRoute exact path='/myaccount' component={AccountPage}/>
+        <PrivateRoute exact path='/payment' component={PaymentPage}/>
+        <PrivateRoute exact path='/signout' component={SignOutPage}/>
+        <PrivateRoute exact path='/canteen/kiosk' component={KioskPage}/>
+        <PrivateRoute exact path='/oauth/logout'/>
+        <PrivateRoute path = '/cart' component={ReduxCart}/>
+        {/* <PrivateRoute exact path="/product" component={Products} />
+        <PrivateRoute exact path="/product/:id" component={SingleItem} /> */}
+        <PrivateRoute exact path='/canteen/kiosk/:id' component={SingleKiosk}/>
+        <PrivateRoute exact path='/createStore' component={CreateStorePage}/>
+        <PrivateRoute exact path='/signout' component={SignOutPage}/>
+        <PrivateRoute exact path='/ordering' component={OrderingPage}/>
+        {/* <PrivateRoute exact path='/myactivity/order/:id' component={HisotryPage}/> */}
+        <PrivateRoute exact path = '/history' component = {HisotryPage}/>
+        <PrivateRoute exact path = '/mystore' component = {MyStorePage}/>
+        <PrivateRoute exact path = '/mystore/id' component = {SingleStorePage}/>
+    </>)
+  }
+
+  if (userContext.user.roles === 'seller'){
+    route = (<>
+      <Route exact path = '/order' component = {OrderingPage} />
+      <Route exact path = '/orderHistory' component = {OrderHistoryPage} />
+    </>)
+  }
+
+
   return (
     <div>
       <BasicLayout>
       <Switch>
-        {/* {route} */}
+        {route}
         {/* FIXME : DELETE THIS PATH */}
         {/* <Route exact path='/' component={HomePage}/>
         <Route exact path='/canteen' component={CanteenPage}/>
@@ -79,26 +115,8 @@ function App({current} : any) {
         <Route exact path = '/mystore' component = {MyStorePage}/>
         <Route exact path = '/mystore/id' component = {SingleStorePage}/> */}
         {/* FIXME : DELETE THIS PATH */}
-        <PrivateRoute exact path='/' component={HomePage}/>
-        <PrivateRoute exact path='/canteen' component={CanteenPage}/>
-        <PrivateRoute exact path='/myactivity' component={MyActivitiesPage}/>
-        <PrivateRoute exact path='/myaccount' component={AccountPage}/>
-        <PrivateRoute exact path='/payment' component={PaymentPage}/>
-        <PrivateRoute exact path='/signout' component={SignOutPage}/>
-        <PrivateRoute exact path='/canteen/kiosk' component={KioskPage}/>
-        <PrivateRoute exact path='/oauth/logout'/>
-        <PrivateRoute path = '/cart' component={ReduxCart}/>
-        {/* <PrivateRoute exact path="/product" component={Products} />
-        <PrivateRoute exact path="/product/:id" component={SingleItem} /> */}
-        <PrivateRoute exact path='/canteen/kiosk/:id' component={SingleKiosk}/>
-        <PrivateRoute exact path='/createStore' component={CreateStorePage}/>
-        <PrivateRoute exact path='/signout' component={SignOutPage}/>
-        <PrivateRoute exact path='/ordering' component={OrderingPage}/>
-        {/* <PrivateRoute exact path='/myactivity/order/:id' component={HisotryPage}/> */}
-        <PrivateRoute exact path = '/history' component = {HisotryPage}/>
-        <PrivateRoute exact path = '/mystore' component = {MyStorePage}/>
-        <PrivateRoute exact path = '/mystore/id' component = {SingleStorePage}/>
-        <Route path = '/queue' component = {QueuePage}/>
+        
+        {/* <Route path = '/queue' component = {QueuePage}/>
         {!current ? (
         <Redirect to="/" />
         ) : (
@@ -108,7 +126,7 @@ function App({current} : any) {
               (userContext.isSignedIn)
                 ? <Redirect from="/signin" to="/" />
                 : <Route path='/signin' component={SignInPage} />
-        }
+        } */}
       </Switch>
       </BasicLayout>
     </div>
