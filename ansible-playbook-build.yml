@@ -1,0 +1,27 @@
+---
+- hosts: all
+  become: true
+  
+  vars:
+    version: build_test
+
+  tasks:
+  - name: stop current running container
+    command: docker stop api
+    ignore_errors: yes
+
+  - name: remove stopped container
+    command: docker rm api
+    ignore_errors: yes
+
+  - name: remove docker image
+    command: docker rmi kk_api:{{ version }}
+    ignore_errors: yes
+
+  - name: building docker backend image
+    command: docker build -t kk_api:{{ version }} .
+    args:
+      chdir: /opt/docker/backend
+
+  - name: creating docker image using docker command
+    command: docker run -d --name api -p 9000:9000 kk_api:build_test
