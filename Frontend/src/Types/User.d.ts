@@ -14,8 +14,8 @@ export const EmptyUser:User = {
   money: 0,
   email : '',
   user_id : '',
-  role : 'Seller',
-  // role : ''
+  // role : 'Seller',
+  role : '',
 
 };
 

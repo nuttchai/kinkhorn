@@ -44,7 +44,7 @@ function App({current} : any) {
     apicall.getUserInfo()
       .then((res) => {
         console.log('res.data :',res.data); 
-        // userContext.setCurrentUser(res.data.user,res.data.money,res.data.user_id);
+        userContext.setCurrentUser(res.data.user,res.data.money,res.data.user_id);
       })
       .catch((err) => console.error(err));
 

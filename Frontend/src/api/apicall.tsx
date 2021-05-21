@@ -49,7 +49,7 @@ export interface IGetUserInfoResponse {
         picture : string;
     },
     email : string;
-    iat : number;
+    user_id : string;
     money : number;
 
   }
@@ -63,7 +63,7 @@ export const placeOrder = async (
 
 export const fetchKiosks = async (): Promise<any> => {
   const res = await axiosInstance.get(
-    'https://api.kinkorn.pongpich.xyz/api/shops/customer'
+    '/api/shops/customer'
   );
   // console.log(res);
   return res;
@@ -94,7 +94,7 @@ export const getQueue = async (
 
 export const getUserInfo = async (): Promise<AxiosResponse<IGetUserInfoResponse>> => {
   const res = await axios.get(
-    'https://oauth.kinkhorn.pongpich.xyz/oauth/user/info'
+    '/oauth/user/info'
   );
   return res;
 };

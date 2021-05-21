@@ -12,9 +12,9 @@ const app = express();
 //                 { useNewUrlParser: true, useUnifiedTopology: true });
 
 // document-db
-mongoose.connect('mongodb://kinkhorn-db.cluster-ciluasfmkj9g.ap-southeast-1.docdb.amazonaws.com:27017',
+mongoose.connect(process.env.MONGO_URL,
                 { 
-                  dbName: 'ciekinkhorn',
+                  dbName: process.env.MONGO_DB,
                   retryWrites: false,
                   useFindAndModify: false,
                   useNewUrlParser: true,
@@ -22,8 +22,8 @@ mongoose.connect('mongodb://kinkhorn-db.cluster-ciluasfmkj9g.ap-southeast-1.docd
                   //replicaSet: 'rs0',
                   readPreference: 'secondaryPreferred',
                   auth: {
-                    user: 'kinkhorn',
-                    password: 'TcdVQ7XhxnS3Mp32uGSU'
+                    user: process.env.MONGO_USER,
+                    password: process.env.MONGO_PASS
                   },
                   tls: true,
                   tlsCAFile: './src/cert/rds-combined-ca-bundle.pem',
@@ -35,9 +35,9 @@ mongoose.connect('mongodb://kinkhorn-db.cluster-ciluasfmkj9g.ap-southeast-1.docd
 // redis
 const redisClient = require("redis").createClient;
 const redis = redisClient({
-  host: '10.0.0.238',
-  port: 6379,
-  password: 'QCY68NMK7KGNabfPg72P'
+  host: process.env.REDIS_HOST,
+  port: process.env.REDIS_PORT,
+  password: process.env.REDIS_PASS
 });
 
 // check redis connection error

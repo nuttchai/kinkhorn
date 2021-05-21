@@ -1,9 +1,11 @@
 const app_api = require("./app");
 const http = require("http");
 const debug = require("@xmpp/debug");
+const dotenv = require('dotenv');
+dotenv.config();
 
 const app = app_api.app;
-const PORT = "9000";
+const PORT = process.env.PORT;
 
 const normalizePort = val => {
   var port = parseInt(val, 10);

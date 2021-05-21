@@ -35,7 +35,7 @@ const UserContextProvider = (props: Props) => {
     // const amount = user.money;
     // const userData = data.user
     const userWithMoney = {...user, money : money, user_id : user_id}
-    // console.log('userWithMoney : ',userWithMoney);
+    console.log('input  : ',userWithMoney);
     setUser(userWithMoney);
     if (user.name) {
       setSignedIn(true);

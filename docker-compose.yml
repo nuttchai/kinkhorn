@@ -11,6 +11,8 @@ services:
     volumes: 
       - ./backend:/usr/src/app
       - /usr/src/app/node_modules 
+    env_file: 
+      - ./backend/environment/backend.env
     ports:
       - "9000:9000"
     networks: 
@@ -38,6 +40,8 @@ services:
       dockerfile: Dockerfile
     image: kk_loginserver:1.0
     restart: always
+    env_file: 
+      - ./loginServer/environment/.env
     volumes: 
       - ./loginServer:/usr/src/app
       - /usr/src/app/node_modules 
@@ -54,14 +58,15 @@ services:
     env_file: 
       - ./swagger/swag.env
     volumes:
-      - ./swagger/dockervolumn/swag:/config
+      - /swagger/dockervolumn/swag:/config
       - ./swagger/configuration/proxy-conf:/config/nginx/proxy-confs
+      - ./default_setting/default:/config/nginx/site-confs/default
     ports:
-      - 443:443
-      - 80:80
+      - "443:443"
+      - "80:80"
     restart: unless-stopped
     networks: 
       - kinkhorn
-  
+
 networks: 
   kinkhorn:

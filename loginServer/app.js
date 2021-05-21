@@ -3,7 +3,7 @@ const app = express();
 const session = require("express-session");
 const jwt = require("jsonwebtoken");
 const bodyParser = require("body-parser");
-// const cookieParser = require("cookie-parser");
+const cookieParser = require("cookie-parser");
 app.use(bodyParser.json());
 const mongoose = require("mongoose");
 const People = require("./models/people");
@@ -54,7 +54,7 @@ app.use(function (req, res, next) {
 });
 
 app.set("view engine", "ejs");
-// app.use(cookieParser());
+app.use(cookieParser());
 // var date = new Date();
 // date.setDate(date.getDate() + 2);
 app.use(
@@ -62,14 +62,6 @@ app.use(
     resave: false,
     saveUninitialized: true,
     secret: "SECRET",
-    cookie: {
-      path: "/",
-      domain: "kinkhorn.pongpich.xyz",
-      expires: new Date(new Date() + 2),
-    },
-    signed: false,
-    secure: true,
-    httpOnly: false,
   })
 );
 
@@ -91,17 +83,15 @@ passport.deserializeUser(function (obj, cb) {
 });
 
 /* JWT */
-const accessTokenSecret = "9y$B&E)H@McQfTjWnZq4t7w!z%C*F-Ja";
+const accessTokenSecret = process.env.JWT_SECRET;
 
 const authenticateJWT = (req, res, next) => {
-  console.log("Incomming user...");
-  // var cookie = req.cookies
-  var cookie = req.session.token;
-  console.log("cookie : ", cookie);
-  console.log("next : ", req.session.token);
+  // console.log("Incomming user...");
+  var cookie = req.cookies;
+  // console.log("cookie : ", cookie['token']);
 
-  if (cookie) {
-    jwt.verify(cookie, accessTokenSecret, (err, user) => {
+  if (cookie['token']) {
+    jwt.verify(cookie['token'], accessTokenSecret, (err, user) => {
       if (err) {
         return res.sendStatus(403);
       }
@@ -115,16 +105,15 @@ const authenticateJWT = (req, res, next) => {
 
 /*  Google AUTH  */
 var GoogleStrategy = require("passport-google-oauth").OAuth2Strategy;
-const GOOGLE_CLIENT_ID =
-  "867773542903-0hlkemtvhg4s5fuceopsh111kd729ulj.apps.googleusercontent.com";
-const GOOGLE_CLIENT_SECRET = "bbFoC3kM7XkJzf94EvYTNYcv";
+const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
+const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
 
 passport.use(
   new GoogleStrategy(
     {
       clientID: GOOGLE_CLIENT_ID,
       clientSecret: GOOGLE_CLIENT_SECRET,
-      callbackURL: "http://oauth.kinkhorn.pongpich.xyz/oauth/google/callback",
+      callbackURL: process.env.CALLBACKURL,
     },
     function (accessToken, refreshToken, profile, done) {
       userProfile = profile;
@@ -143,29 +132,26 @@ app.get(
   passport.authenticate("google", { failureRedirect: "/error" }),
   function (req, res) {
     // Successful authentication, redirect success.
-    res.redirect("/success");
+    res.redirect("/oauth/success");
   }
 );
 
 /* APIs */
-app.get("/success", (req, res) => {
+app.get("/oauth/success", (req, res) => {
+  // console.log(userProfile._json)
   const accessToken = jwt.sign(
-    { user: userProfile["_json"] },
+    { user: userProfile._json},
     accessTokenSecret
   );
-  // var date = new Date();
-  // date.setDate(date.getDate() + 2);
 
-  req.session = {
-   token: accessToken,
-  }
-  // res.cookie('token', accessToken, {
-  //   path     : '/',
-  //   domain   : 'kinkhorn.pongpich.xyz',
-  //   expires: date,
-  //   secure: true, // set to true if your using https
-  //   httpOnly: false,
-  // });
+  var date = new Date();
+  date.setDate(date.getDate() + 2);
+
+  res.cookie('token', accessToken, {
+    expires: date,
+    secure: true, // set to true if your using https
+    httpOnly: false,
+  });
 
   const person = new People({
     name: userProfile["_json"].name,
@@ -173,8 +159,8 @@ app.get("/success", (req, res) => {
     family_name: userProfile["_json"].family_name,
     picture: userProfile["_json"].picture,
     email: userProfile["_json"].email,
-    email_verified: userProfile["_json"].email_verified,
-    hd: userProfile["_json"].hd,
+    role: "customer",
+    registered: "false",
   });
 
   db.collection("people")
@@ -184,13 +170,13 @@ app.get("/success", (req, res) => {
       if (result.length === 0) {
         person.save().then((saveUser) => {
           res.writeHead(302, {
-            Location: "https://kinkhorn.pongpich.xyz/",
+            Location: "https://" + process.env.DOMAIN,
           });
           res.end();
         });
       } else {
         res.writeHead(302, {
-          Location: "https://kinkhorn.pongpich.xyz/",
+          Location: "https://" + process.env.DOMAIN,
         });
         res.end();
       }
@@ -205,12 +191,12 @@ app.get("/oauth/user/info", authenticateJWT, (req, res) => {
     .find({}, { name: decoded.name })
     .toArray(function (err, result) {
       if (err) throw err;
-      console.log(result[0]);
+      // console.log(result[0]);
       money = result[0].money;
       user = result[0]._id;
       decoded["money"] = money;
       decoded["user_id"] = user;
-      console.log(decoded);
+      // console.log(decoded);
       return res.json(decoded);
     });
 });
@@ -224,7 +210,7 @@ app.get("/oauth/logout", (req, res) => {
     httpOnly: false,
   });
   res.writeHead(302, {
-    Location: "https://kinkhorn.pongpich.xyz/",
+    Location: "https://" + process.env.DOMAIN,
   });
   res.end();
 });
