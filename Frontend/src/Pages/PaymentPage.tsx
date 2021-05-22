@@ -7,6 +7,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import CardHeader from '@material-ui/core/CardHeader';
 import Button from '@material-ui/core/Button';
+import * as apicall from '../api/apicall'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -31,12 +32,10 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-//state type
-
 type State = {
   username: string
   password:  string
-  topUpAmount: number
+  topUpAmount: string
   isButtonDisabled: boolean
   helperText: string
   isError: boolean
@@ -45,7 +44,7 @@ type State = {
 const initialState:State = {
   username: '',
   password: '',
-  topUpAmount: 0,
+  topUpAmount: '',
   isButtonDisabled: true,
   helperText: '',
   isError: false
@@ -53,7 +52,7 @@ const initialState:State = {
 
 type Action = { type: 'setUsername', payload: string }
   | { type: 'setPassword', payload: string }
-  | { type: 'setTopUpAmount', payload: number}
+  | { type: 'setTopUpAmount', payload: string}
   | { type: 'setIsButtonDisabled', payload: boolean }
   | { type: 'loginSuccess', payload: string }
   | { type: 'loginFailed', payload: string }
@@ -75,7 +74,7 @@ const reducer = (state: State, action: Action): State => {
       return {
         ...state,
         topUpAmount : action.payload
-      };
+      }
     case 'setIsButtonDisabled': 
       return {
         ...state,
@@ -117,20 +116,13 @@ const Login = () => {
         payload: true
       });
     }
-  }, [state.username, state.password]);
+  }, [state.topUpAmount]);
 
+  
   const handleLogin = () => {
-    if (state.username === 'abc@email.com' && state.password === 'password') {
-      dispatch({
-        type: 'loginSuccess',
-        payload: 'Login Successfully'
-      });
-    } else {
-      dispatch({
-        type: 'loginFailed',
-        payload: 'Incorrect username or password'
-      });
-    }
+    // apicall.topUp(state.topUpAmount).then( res => console.log(res)).catch(err => console.log('err : ', err))
+    // apicall.topUp(state.topUpAmount)
+    // axios.put('/')
   };
 
   const handleKeyPress = (event: React.KeyboardEvent) => {
@@ -150,17 +142,19 @@ const Login = () => {
   const handlePasswordChange: React.ChangeEventHandler<HTMLInputElement> =
     (event) => {
       dispatch({
-        type: 'setPassword',
+        type: 'setTopUpAmount',
         payload: event.target.value
       });
     }
+
+  console.log(state.topUpAmount)
   return (
     <form className={classes.container} noValidate autoComplete="off">
       <Card className={classes.card}>
         <CardHeader className={classes.header} title="Card Top Up" />
         <CardContent>
           <div>
-            <TextField
+            {/* <TextField
               error={state.isError}
               fullWidth
               id="username"
@@ -182,7 +176,7 @@ const Login = () => {
               helperText={state.helperText}
               onChange={handlePasswordChange}
               onKeyPress={handleKeyPress}
-            />
+            /> */}
             <TextField
               error={state.isError}
               fullWidth

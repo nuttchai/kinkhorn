@@ -36,12 +36,20 @@ export interface ICreateStoreRequest {
   }[];
 }
 
+export interface ItopUpRequest {
+  amount : string;
+}
+
 export interface ICreateStoreResponse {
   Data: string;
 }
 
 export interface IGetQueueResponse {
   Data: string;
+}
+
+export interface ItopUpResponse {
+  Data : string;
 }
 
 
@@ -54,6 +62,12 @@ export interface IGetUserInfoResponse {
   user_id : string;
   roles : string;
 }
+
+export interface IgetMyStoreResponse {
+  Data : string;
+}
+
+
 
 export const placeOrder = async (
   json: IPlaceOrderRequest
@@ -94,8 +108,25 @@ export const getQueue = async (
 };
 
 export const getUserInfo = async (): Promise<AxiosResponse<IGetUserInfoResponse>> => {
-  const res = await axios.get(
+  // const res = await axios.get(
+  //   '/oauth/user/info'
+  // );
+  const res = await axiosInstance.get(
     '/oauth/user/info'
   );
   return res;
 };
+
+export const topUp = async (amount : ItopUpRequest) : Promise<AxiosResponse<ItopUpResponse>> => {
+  const path = '/oauth/topup/' + amount
+  console.log(path);
+  const res = await axiosInstance.put(path)
+  return res;
+}
+
+export const getMyStore = async (): Promise<AxiosResponse<IgetMyStoreResponse>> => {
+  const res = await axiosInstance
+  return res;
+}
+
+

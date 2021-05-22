@@ -53,7 +53,6 @@ router.get('/frontstore/:ownerId', async (req, res, next) => {
 
         if (!getTitleDataFromCache) {
             
-            c
             const result = await Shop.find({ ownerId : ownerId });
 
             // send result from mongodb
@@ -62,7 +61,7 @@ router.get('/frontstore/:ownerId', async (req, res, next) => {
                 source: "mongodb",
                 data: result
             });
-            // add shopList to redis
+            // add shopList (frontstore view) to redis
             await app_api.redis.set(redisId, JSON.stringify(result));
 
             return;
@@ -124,9 +123,11 @@ router.get('/customer', async (req, res, next) => {
 // create shop (frontstore side)
 router.post('/frontstore', async (req, res, next) => {
     try {
+        const ownerId = req.body.ownerId;
+
         const shop = new Shop({
             shop: req.body.shop,
-            ownerId: req.body.ownerId,
+            ownerId: ownerId,
             area: req.body.area,
             menu: req.body.menu
         });
@@ -141,7 +142,12 @@ router.post('/frontstore', async (req, res, next) => {
         // update shopList to redis
         const updatedResult = await Shop.find()
         await app_api.redis.set(title, JSON.stringify(updatedResult));
-
+        
+        // update shopList (frontstore view) in redis
+        const redisId = title + ownerId;
+        const result = await Shop.find({ ownerId : ownerId });
+        await app_api.redis.set(redisId, JSON.stringify(result));
+        
     } catch (e) {
         console.error("unable to record shop", e);
         res.status(400).json({
@@ -153,12 +159,14 @@ router.post('/frontstore', async (req, res, next) => {
 
 // update frontstore
 router.put("/frontstore", async (req, res, next) => {
-
     try {
+        
+        const ownerId = req.body.ownerId;
+
         const shop = new Shop({
             _id: req.body.shopId,
             shop: req.body.shop,
-            ownerId: req.body.ownerId,
+            ownerId: ownerId,
             area: req.body.area,
             menu: req.body.menu
         });
@@ -172,10 +180,14 @@ router.put("/frontstore", async (req, res, next) => {
                                            result: notfound });
                 });
 
-        // update shopList to redis
-        console.log("Update Redis!")
+        // update shopList in redis
         const updatedResult = await Shop.find();
         await app_api.redis.set(title, JSON.stringify(updatedResult));
+
+        // update shopList (frontstore view) in redis
+        const redisId = title + ownerId;
+        const result = await Shop.find({ ownerId : ownerId });
+        await app_api.redis.set(redisId, JSON.stringify(result));
         
     } catch (e) {
         console.error("unable to record shop", e);
@@ -190,8 +202,14 @@ router.put("/frontstore", async (req, res, next) => {
 // remove shop (frontstore side)
 router.delete("/frontstore/:shopId", async (req, res, next) => {
     try {
+
+        //find ownerId from given shop (use to update redis)
+        const shopId = req.params.shopId
+        const givenShop = await Shop.findOne({ _id: req.params.shopId });
+        const ownerId = givenShop.ownerId
+
         //delete shop in mongodb
-        Shop.deleteOne({ _id: req.params.shopId })
+        Shop.deleteOne({ _id: shopId })
             .then(result => {
                     if (result.n == 1) {
                         res.status(200).json({ message: "shop deleted sucessfully!",
@@ -204,9 +222,15 @@ router.delete("/frontstore/:shopId", async (req, res, next) => {
                     res.status(400).json({ message: "unable to delete shop (wrong Id)",
                                            result: notfound });
                 });
+                
         // update shopList to redis
         const updatedResult = await Shop.find();
         await app_api.redis.set(title, JSON.stringify(updatedResult));
+
+        // update shopList (frontstore view) in redis
+        const redisId = title + ownerId;
+        const result = await Shop.find({ ownerId : ownerId });
+        await app_api.redis.set(redisId, JSON.stringify(result));
 
     } catch (e) {
         console.error("unable to delete shop", e);

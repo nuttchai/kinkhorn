@@ -64,9 +64,6 @@ export default function MyStorePage() {
                         2 items
                     </Typography>
                   </Grid>
-                  {/* <Grid item>
-                    <Typography variant="subtitle1">฿ 40.00</Typography>
-                  </Grid> */}
                 </Grid>
                 <Grid item>
                   <Typography variant="body2" color ="primary"  style={{ cursor: 'pointer' }}>
