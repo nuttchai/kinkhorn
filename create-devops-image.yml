@@ -1,0 +1,25 @@
+---
+- hosts: localhost
+  become: true
+  vars:
+    version: build_test
+    docker_name: nuttchai
+
+  tasks:
+    - name: create docker image
+      command: docker build -t kk_api:{{ version }} .
+      args:
+        chdir: /opt/docker/backend
+    
+    - name: create tag to image
+      command: docker tag kk_api:{{ version }} {{ docker_name }}/kk_api:{{ version }}
+
+    # - name: docker login
+    #   command: docker login -u "nuttchai"
+
+    - name: push image on to dockerhub
+      command: docker push {{ docker_name }}/kk_api:{{ version }}
+
+    - name: remove docker images from ansible server
+      command: docker rmi {{ docker_name }}/kk_api:{{ version }} kk_api:{{ version }}
+      ignore_errors: yes
