@@ -27,9 +27,6 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     card: {
       marginTop: theme.spacing(10),
-      display : 'flex',
-      flexFlow : 'column',
-      justifyContent : 'center'
     }
   })
 );
@@ -39,6 +36,7 @@ const useStyles = makeStyles((theme: Theme) =>
 type State = {
   username: string
   password:  string
+  topUpAmount: number
   isButtonDisabled: boolean
   helperText: string
   isError: boolean
@@ -47,6 +45,7 @@ type State = {
 const initialState:State = {
   username: '',
   password: '',
+  topUpAmount: 0,
   isButtonDisabled: true,
   helperText: '',
   isError: false
@@ -54,6 +53,7 @@ const initialState:State = {
 
 type Action = { type: 'setUsername', payload: string }
   | { type: 'setPassword', payload: string }
+  | { type: 'setTopUpAmount', payload: number}
   | { type: 'setIsButtonDisabled', payload: boolean }
   | { type: 'loginSuccess', payload: string }
   | { type: 'loginFailed', payload: string }
@@ -70,6 +70,11 @@ const reducer = (state: State, action: Action): State => {
       return {
         ...state,
         password: action.payload
+      };
+    case 'setTopUpAmount' :
+      return {
+        ...state,
+        topUpAmount : action.payload
       };
     case 'setIsButtonDisabled': 
       return {
@@ -101,7 +106,7 @@ const Login = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
-    if (state.username.trim() && state.password.trim()) {
+    if (state.topUpAmount.trim()) {
      dispatch({
        type: 'setIsButtonDisabled',
        payload: false
@@ -155,7 +160,7 @@ const Login = () => {
         <CardHeader className={classes.header} title="Card Top Up" />
         <CardContent>
           <div>
-            {/* <TextField
+            <TextField
               error={state.isError}
               fullWidth
               id="username"
@@ -165,8 +170,8 @@ const Login = () => {
               margin="normal"
               onChange={handleUsernameChange}
               onKeyPress={handleKeyPress}
-            /> */}
-            {/* <TextField
+            />
+            <TextField
               error={state.isError}
               fullWidth
               id="password"
@@ -177,9 +182,7 @@ const Login = () => {
               helperText={state.helperText}
               onChange={handlePasswordChange}
               onKeyPress={handleKeyPress}
-            /> */}
-            <div></div>
-            <div></div>
+            />
             <TextField
               error={state.isError}
               fullWidth
@@ -187,7 +190,7 @@ const Login = () => {
               type="Top Up Amount"
               label="Top Up Amount"
               placeholder="Top Up Amount"
-              // margin="auto"
+              margin="normal"
               helperText={state.helperText}
               onChange={handlePasswordChange}
               onKeyPress={handleKeyPress}

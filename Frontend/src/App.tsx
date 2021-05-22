@@ -45,18 +45,13 @@ function App({current} : any) {
   useLayoutEffect(() => {
     apicall.getUserInfo()
       .then((res) => {
-        // console.log('res.data :', res.data);
-        // let myinfo;
-        // res.data.map( data => myinfo = data)
-        // console.log('myinfo  : ',myinfo)
+
         userContext.setCurrentUser(res.data);
       })
       .catch((err) => console.error(err));
 
   }, []);
 
-  // console.log('now user :', userContext.user ); 
-  // console.log(userContext.isSignedIn);
   let route = (<>
   </>)
 
@@ -67,7 +62,6 @@ function App({current} : any) {
         <Route exact path='/myactivity' component={MyActivitiesPage}/>
         <Route exact path='/myaccount' component={AccountPage}/>
         <Route exact path='/payment' component={PaymentPage}/>
-        <Route exact path='/signout' component={SignOutPage}/>
         <Route exact path='/canteen/kiosk' component={KioskPage}/>
         <Route path = '/cart' component={ReduxCart}/>
         <Route exact path='/canteen/kiosk/:id' component={SingleKiosk}/>
@@ -76,6 +70,11 @@ function App({current} : any) {
         <Route exact path='/myactivity/order/:id' component={HisotryPage}/>
         <Route exact path = '/history' component = {HisotryPage}/>
         <Route exact path='/oauth/logout'/>
+        {
+              (userContext.isSignedIn)
+                ? <Redirect from="/signin" to="/" />
+                : <Route path='/signin' component={SignInPage} />
+        }
     </>)
   }
   else if (userContext.user.role === 'seller'){
@@ -89,6 +88,11 @@ function App({current} : any) {
       <Route exact path = '/mystore/id' component = {SingleStorePage}/>
       <Route exact path='/createStore' component={CreateStorePage}/>
       <Route exact path='/signout' component={SignOutPage}/>
+      {
+              (userContext.isSignedIn)
+                ? <Redirect from="/signin" to="/order" />
+                : <Route path='/signin' component={SignInPage} />
+      }
     </>)
   }
   else {
@@ -131,11 +135,7 @@ function App({current} : any) {
         ) : (
           <Route exact path='/canteen/kiosk/menu/:id' component={SingleItem} />
         )} */}
-        {
-              (userContext.isSignedIn)
-                ? <Redirect from="/signin" to="/" />
-                : <Route path='/signin' component={SignInPage} />
-        }
+
       </Switch>
       </BasicLayout>
     </div>

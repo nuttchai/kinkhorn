@@ -42,6 +42,48 @@ router.post('/upload', upload.single('image'), (req, res) => {
     //console.log(req.body.body.shop)
 });
 
+// get shop list (frontstore side)
+router.get('/frontstore/:ownerId', async (req, res, next) => {
+    try {
+
+        const ownerId = req.params.ownerId;
+        const redisId = title + ownerId;
+        // find data from redis
+        const getTitleDataFromCache = await app_api.getAsync(redisId);
+
+        if (!getTitleDataFromCache) {
+            
+            c
+            const result = await Shop.find({ ownerId : ownerId });
+
+            // send result from mongodb
+            res.status(200).json({
+                message: "message sent successfully!",
+                source: "mongodb",
+                data: result
+            });
+            // add shopList to redis
+            await app_api.redis.set(redisId, JSON.stringify(result));
+
+            return;
+        }
+
+        // send result from redis
+        res.status(200).json({
+        message: "message sent successfully!",
+        source: "redis",
+        data: JSON.parse(getTitleDataFromCache)
+        });
+
+    } catch (e) {
+        console.error("unable to get list of shops", e);
+        res.status(400).json({
+        success: false,
+        message: e
+        });
+    }
+})
+
 // get shop list (customer side)
 router.get('/customer', async (req, res, next) => {
     try {

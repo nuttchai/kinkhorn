@@ -196,7 +196,7 @@ export default function Menu() {
             </div>
           </div>
           {/* Sidebar Menu */}
-          <nav className="mt-2" data-widget="pushmenu">
+          <nav className="mt-2" >
             <ul
               className="nav nav-pills nav-sidebar flex-column"
               data-widget="treeview"
@@ -205,7 +205,7 @@ export default function Menu() {
             >
               {/* Add icons to the links using the .nav-icon class
        with font-awesome or any other icon font library */}
-              <li className="nav-item">
+              <li className="nav-item" data-widget="pushmenu">
                 <Link to="/" className="nav-link">
                   <i className="nav-icon fas fa-home" />
                   <p>
@@ -214,13 +214,13 @@ export default function Menu() {
                   </p>
                 </Link>
               </li>
-              <li className="nav-item">
+              <li className="nav-item" data-widget="pushmenu">
                 <Link to="/myactivity" className="nav-link">
                   <i className="nav-icon fas fa-clipboard-list" />
                   <p>My Activites</p>
                 </Link>
               </li>
-              <li className="nav-item">
+              <li className="nav-item" data-widget="pushmenu">
                 <Link to="/payment" className="nav-link">
                   <i className="nav-icon fas fa-wallet" />
                   <p>
@@ -229,7 +229,7 @@ export default function Menu() {
                   </p>
                 </Link>
               </li>
-              <li className="nav-item">
+              <li className="nav-item" data-widget="pushmenu">
                 <Link to="/myaccount" className="nav-link">
                   <i className="nav-icon fas fa-user-circle" />
                   <p>
@@ -241,7 +241,7 @@ export default function Menu() {
 
               <li className="nav-item">
                 {/* <a href="/oauth/logout" className="nav-link"> */}
-                <a href="/oauth/logout" className="nav-link">
+                <a href="https://kinkhorn.pongpich.xyz/oauth/logout" className="nav-link">
                   <i className="nav-icon fas fa-sign-out-alt" />
                   <p>
                     Sign out
