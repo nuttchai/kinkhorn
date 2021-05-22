@@ -2,6 +2,7 @@ import axiosInstance from './axiosinstance';
 import axios, { AxiosResponse } from 'axios';
 import { useContext } from 'react';
 import { UserContext } from '../Context/UserContext';
+import User from '../Types/User';
 
 export interface IPlaceOrderRequest {
   shopId: string;
@@ -43,16 +44,16 @@ export interface IGetQueueResponse {
   Data: string;
 }
 
-export interface IGetUserInfoResponse {
-    user : {
-        name : string;
-        picture : string;
-    },
-    email : string;
-    user_id : string;
-    money : number;
 
-  }
+
+export interface IGetUserInfoResponse {
+  money : number;
+  name: string;
+  picture: string;
+  email : string;
+  user_id : string;
+  roles : string;
+}
 
 export const placeOrder = async (
   json: IPlaceOrderRequest

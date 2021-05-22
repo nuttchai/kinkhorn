@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { UserContext } from '../Context/UserContext';
-import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
+// import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
@@ -51,7 +51,7 @@ const Header = ({cart} : any) => {
       </nav>
     </>
   );
-  if (isSignedIn && userContext.user.roles === "Customer") {
+  if (isSignedIn && userContext.user.role === "customer") {
     curUser = (
       <nav className="main-header navbar navbar-expand navbar-white navbar-light">
         {/* Left navbar links */}
@@ -147,8 +147,8 @@ const Header = ({cart} : any) => {
     );
   }
 
-  // if (isSignedIn && userContext.user.roles === "Seller") {
-    if(true) {
+  if (isSignedIn && userContext.user.role === "seller") {
+    // if(true) {
     curUser = (
       <nav className="main-header navbar navbar-expand navbar-white navbar-light">
         {/* Left navbar links */}
@@ -164,12 +164,17 @@ const Header = ({cart} : any) => {
             </a>
           </li>
           <li className="nav-item d-sm-inline-block">
-            <Link to="/mystore" className="nav-link">
-              Home
+            <Link to="/order" className="nav-link">
+              Order
+            </Link>
+          </li>
+          <li className="nav-item d-sm-inline-block">
+            <Link to="/orderHistory" className="nav-link">
+              Order History
             </Link>
           </li>
         </ul>
-       
+        {/* Right navbar links */}
         <ul className="navbar-nav ml-auto">
           <li className="nav-item dropdown">
           <a className="nav-link" data-toggle="dropdown" href="#">
@@ -227,8 +232,7 @@ const Header = ({cart} : any) => {
             </div>
           </li>
         </ul>
-      </nav>
-    );
+      </nav>    );
   }
 
   return <>{curUser}</>;

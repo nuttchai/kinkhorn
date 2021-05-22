@@ -31,24 +31,23 @@ const UserContextProvider = (props: Props) => {
   const [isSignedIn, setSignedIn] = useState(false);
   // FIXME : DELETE MOCKUP
   // const [isSignedIn, setSignedIn] = useState(true);
-  const setCurrentUser = (user: any,money : number,user_id : string) => {
-    // const amount = user.money;
-    // const userData = data.user
-    const userWithMoney = {...user, money : money, user_id : user_id}
+  const setCurrentUser = (user: User) => {
+    
+    // const userWithMoney = {...user, money : money, user_id : user_id, roles : 'seller'}
     // console.log('input  : ',userWithMoney);
-    setUser(userWithMoney);
+    setUser(user);
     if (user.name) {
       setSignedIn(true);
     } 
     else {
       setSignedIn(false);
     }
-    // console.log('user email : ', user.email);
+    console.log('user : ', user);
   };
 
   const signOut = () => {
     setSignedIn(false);
-    setCurrentUser(EmptyUser,0,'');
+    setCurrentUser(EmptyUser);
   };
 
   return (

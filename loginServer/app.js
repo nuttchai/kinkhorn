@@ -188,25 +188,20 @@ app.get("/oauth/success", (req, res) => {
 app.get("/oauth/user/info", authenticateJWT, (req, res) => {
   var cookie = req.cookies;
   var decoded = jwt.decode(cookie["token"]);
+  console.log(decoded.user.name)
   var money = 0;
   db.collection("people")
-    .find({}, { name: decoded.name })
+    .find({ "name": decoded.user.name })
     .toArray(function (err, result) {
+      console.log(result)
       if (err) throw err;
-      // console.log(result[0]);
-      money = result[0].money;
-      user = result[0]._id;
-      decoded["money"] = money;
-      decoded["user_id"] = user;
-      // console.log(decoded);
-      return res.json(decoded);
+      return res.json(result[0]);
     });
 });
 
 app.get("/oauth/logout", (req, res) => {
-  res.cookie("token", null, {
-    path: "/",
-    domain: "kinkhorn.pongpich.xyz",
+  res.cookie('token', null, {
+    expires: Date.now(),
     maxAge: 0,
     secure: true, // set to true if your using https
     httpOnly: false,

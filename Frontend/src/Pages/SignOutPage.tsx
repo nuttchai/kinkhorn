@@ -6,7 +6,7 @@ function SignOutPage() {
     <>
       <div className="content-wrapper">
       SignOutPage
-    </div>
+      </div>
 
     </>
   );

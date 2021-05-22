@@ -7,7 +7,9 @@ import {
   Paper,
   Switch,
   Typography,
+  withStyles,
 } from '@material-ui/core';
+import { green, red, blue } from "@material-ui/core/colors";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -47,6 +49,7 @@ export default function SingleStorePage() {
   const [state, setState] = useState({
     storeStatus: false,
   });
+  
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setState({ ...state, [event.target.name]: event.target.checked });
   };
@@ -63,32 +66,18 @@ export default function SingleStorePage() {
     </>
   );
 
-  const theme = createMuiTheme({
-    overrides: {
-      MuiSwitch: {
-        switchBase: {
-          // Controls default (unchecked) color for the thumb
-          color: '#ccc',
-        },
-        colorSecondary: {
-          '&$checked': {
-            // Controls checked color for the thumb
-            color: '#5cb85c',
-          },
-        },
-        track: {
-          // Controls default (unchecked) color for the track
-          opacity: 0.2,
-          backgroundColor: '#fff',
-          '$checked$checked + &': {
-            // Controls checked color for the track
-            opacity: 0.7,
-            backgroundColor: '#fff',
-          },
-        },
+  const CustomSwitch = withStyles({
+    switchBase : {
+      '&$checked' : {
+        color : green[600],
       },
+    '&$checked + $track' : {
+      backgroundColor : green[300],
     },
-  });
+    },
+    checked : {},
+    track : {},
+  })(Switch);
 
   return (
     <>
@@ -116,7 +105,7 @@ export default function SingleStorePage() {
           <div>Store Status</div>
           <FormControlLabel
             control={
-              <Switch
+              <CustomSwitch
                 checked={state.storeStatus}
                 onChange={handleChange}
                 name="storeStatus"

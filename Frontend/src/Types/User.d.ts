@@ -1,11 +1,10 @@
-type User = {
+export interface User {
     money : number;
     name: string;
     picture: string;
-    // amount: number;
     email : string;
     user_id : string;
-    roles : string;
+    role : string;
   };
 
 export const EmptyUser:User = {
@@ -14,7 +13,6 @@ export const EmptyUser:User = {
   money: 0,
   email : '',
   user_id : '',
-  // role : 'Seller',
   role : '',
 
 };
