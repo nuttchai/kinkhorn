@@ -9,8 +9,8 @@ import Typography from '@material-ui/core/Typography';
 import * as apicall from '../api/apicall';
 import { Link } from 'react-router-dom';
 import Subtitle from '../Components/Subtitle';
-import VerticalLine from '../Components/VerticalLine';
-import { green, red, blue } from '@material-ui/core/colors';
+
+
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,

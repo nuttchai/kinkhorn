@@ -26,7 +26,10 @@ const useStyles = makeStyles((theme: Theme) =>
       color: '#fff'
     },
     card: {
-      marginTop: theme.spacing(10)
+      marginTop: theme.spacing(10),
+      display : 'flex',
+      flexFlow : 'column',
+      justifyContent : 'center'
     }
   })
 );
@@ -152,7 +155,7 @@ const Login = () => {
         <CardHeader className={classes.header} title="Card Top Up" />
         <CardContent>
           <div>
-            <TextField
+            {/* <TextField
               error={state.isError}
               fullWidth
               id="username"
@@ -162,8 +165,8 @@ const Login = () => {
               margin="normal"
               onChange={handleUsernameChange}
               onKeyPress={handleKeyPress}
-            />
-            <TextField
+            /> */}
+            {/* <TextField
               error={state.isError}
               fullWidth
               id="password"
@@ -174,7 +177,7 @@ const Login = () => {
               helperText={state.helperText}
               onChange={handlePasswordChange}
               onKeyPress={handleKeyPress}
-            />
+            /> */}
             <TextField
               error={state.isError}
               fullWidth
@@ -182,7 +185,7 @@ const Login = () => {
               type="Top Up Amount"
               label="Top Up Amount"
               placeholder="Top Up Amount"
-              margin="normal"
+              // margin="auto"
               helperText={state.helperText}
               onChange={handlePasswordChange}
               onKeyPress={handleKeyPress}
