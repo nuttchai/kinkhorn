@@ -66,9 +66,10 @@ export default function CreateStorePage() {
       ...data,
       file: file,
       menuImage: menuImg,
-      menuFiled : menuFields
+      menu : menuFields,
+      ownerId : userContext._id
     }
-
+    console.log('store : ',store);
     apicall.createStore(store)
       .then(res => console.log('res : ',res))
       .catch(err => console.log('err : ',err))

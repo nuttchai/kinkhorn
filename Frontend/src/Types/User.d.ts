@@ -3,7 +3,7 @@ export interface User {
     name: string;
     picture: string;
     email : string;
-    user_id : string;
+    _id : string;
     role : string;
   };
 
@@ -12,7 +12,7 @@ export const EmptyUser:User = {
   picture: '',
   money: 0,
   email : '',
-  user_id : '',
+  _id : '',
   role : '',
 
 };

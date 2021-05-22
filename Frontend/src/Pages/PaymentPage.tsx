@@ -8,6 +8,7 @@ import CardActions from '@material-ui/core/CardActions';
 import CardHeader from '@material-ui/core/CardHeader';
 import Button from '@material-ui/core/Button';
 import * as apicall from '../api/apicall'
+import { Redirect } from 'react-router-dom';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -120,9 +121,13 @@ const Login = () => {
 
   
   const handleLogin = () => {
-    // apicall.topUp(state.topUpAmount).then( res => console.log(res)).catch(err => console.log('err : ', err))
+    apicall.topUp(state.topUpAmount).then( res => console.log(res)).catch(err => console.log('err : ', err))
     // apicall.topUp(state.topUpAmount)
     // axios.put('/')
+    alert('Success!')
+    return (<>
+    <Redirect from='/payment' to='/' />
+    </>)
   };
 
   const handleKeyPress = (event: React.KeyboardEvent) => {

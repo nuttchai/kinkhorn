@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function HomePageSeller() {
   const userContext = useContext(UserContext);
-  const params = { id: userContext.user.user_id };
+  const params = { id: userContext.user._id };
   const classes = useStyles();
   
 

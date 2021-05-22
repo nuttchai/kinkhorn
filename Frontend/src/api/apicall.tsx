@@ -25,8 +25,8 @@ export interface ICreateStoreRequest {
   area: string;
   status: string;
   menuImage: any[];
-  file: string;
-  menuFiled: {
+  file: any;
+  menu: {
     id: string;
     name: string;
     price: number;
@@ -38,6 +38,10 @@ export interface ICreateStoreRequest {
 
 export interface ItopUpRequest {
   amount : string;
+}
+
+export interface IgetMyStoreRequest {
+  id : string;
 }
 
 export interface ICreateStoreResponse {
@@ -64,10 +68,24 @@ export interface IGetUserInfoResponse {
 }
 
 export interface IgetMyStoreResponse {
-  Data : string;
+  data : Imystore[];
+  // {status : string;
+  //   _id : string;
+  //   area : string;
+  //   menu : any;
+  //   ownerId : string;
+  //   shop : string;}
 }
 
-
+export interface Imystore {
+  _id : string;
+  area : string;
+  menu : any;
+  ownerId : string;
+  shop : string;
+  status : string;
+  name : string;
+}
 
 export const placeOrder = async (
   json: IPlaceOrderRequest
@@ -87,15 +105,16 @@ export const fetchKiosks = async (): Promise<any> => {
 export const createStore = async (
   store: ICreateStoreRequest
 ): Promise<AxiosResponse<ICreateStoreResponse>> => {
-  const formData = new FormData();
-  store.menuImage.forEach((file: any) => formData.append('files[]', file));
-  formData.append('image', store.file);
-  formData.append('shop', store.shop);
-  formData.append('ownerId', store.ownerId);
-  formData.append('area', store.area);
-  formData.append('menu', JSON.stringify(store.menuFiled));
+  // const formData = new FormData();
+  // store.menuImage.forEach((file: any) => formData.append('files[]', file));
+  // formData.append('image', store.file);
+  // formData.append('shop', store.shop);
+  // formData.append('ownerId', store.ownerId);
+  // formData.append('area', store.area);
+  // formData.append('menu', JSON.stringify(store.menuFiled));
   // const finalData = {...data, menu : menuFields};
-  const response = await axiosInstance.post('/api/shops/upload', formData);
+  console.log('Store : ',store)
+  const response = await axiosInstance.post('/api/shops/frontstore', store);
 
   return response;
 };
@@ -117,16 +136,19 @@ export const getUserInfo = async (): Promise<AxiosResponse<IGetUserInfoResponse>
   return res;
 };
 
-export const topUp = async (amount : ItopUpRequest) : Promise<AxiosResponse<ItopUpResponse>> => {
+export const topUp = async (amount : string) : Promise<AxiosResponse<ItopUpResponse>> => {
   const path = '/oauth/topup/' + amount
   console.log(path);
   const res = await axiosInstance.put(path)
   return res;
 }
 
-export const getMyStore = async (): Promise<AxiosResponse<IgetMyStoreResponse>> => {
-  const res = await axiosInstance
-  return res;
+export const getMyStore = async (id : string): Promise<AxiosResponse<IgetMyStoreResponse[]>> => {
+  // console.log(id);
+  const path = '/api/shops/frontstore/' + id ;
+  // console.log(path);
+  const res = await axiosInstance.get(path)
+  return res.data;
 }
 
 

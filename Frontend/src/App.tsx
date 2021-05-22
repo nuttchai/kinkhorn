@@ -78,7 +78,7 @@ function App({current} : any) {
     </>)
   }
   else if (userContext.user.role === 'seller'){
-    console.log('Seller')
+    // console.log('Seller')
     route = (<>
       <Route exact path='/oauth/logout'/>
       <Redirect from="/" to="/order" />
@@ -96,13 +96,13 @@ function App({current} : any) {
     </>)
   }
   else {
-    console.log('else')
+    // console.log('else')
     route = (<>
       <Redirect from="/" to="/signin" />
       <Route path='/signin' component={SignInPage} />
      </>)
   }
-  console.log('State sign in: ', userContext.isSignedIn)
+  // console.log('user id: ', userContext.user._id)
   return (
     <div>
       <BasicLayout>

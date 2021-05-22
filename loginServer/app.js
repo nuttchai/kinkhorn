@@ -188,8 +188,7 @@ app.get("/oauth/success", (req, res) => {
 app.get("/oauth/user/info", authenticateJWT, (req, res) => {
   var cookie = req.cookies;
   var decoded = jwt.decode(cookie["token"]);
-  console.log(decoded.user.name)
-  var money = 0;
+  // console.log(decoded.user.name)
   db.collection("people")
     .find({ "name": decoded.user.name })
     .toArray(function (err, result) {
@@ -219,14 +218,16 @@ app.put("/oauth/topup/:money", authenticateJWT, (req, res) => {
     var cookie = req.cookies;
     var decoded = jwt.decode(cookie["token"]);
     var money_change = parseInt(req.params.money);
+    // console.log(decoded.user.name)
     db.collection("people")
-      .find({}, { name: decoded.name })
+      .find({ "name": decoded.user.name })
       .toArray(function (err, result) {
         if (err) throw err;
+        // console.log(result[0])
         var currMoney = result[0].money + money_change;
         db.collection("people").updateOne(
-          { name: decoded.user.name },
-          { $set: { money: currMoney } },
+          { "name": decoded.user.name },
+          { $set: { "money": currMoney } },
           function (err, res) {
             if (err) throw err;
             console.log("1 record updated");
@@ -240,12 +241,11 @@ app.put("/oauth/topup/:money", authenticateJWT, (req, res) => {
 });
 
 app.put("/oauth/pay/:price", authenticateJWT, (req, res) => {
-  try {
-    var cookie = req.cookies;
+  try { res
     var decoded = jwt.decode(cookie["token"]);
     var money_change = parseInt(req.params.price);
     db.collection("people")
-      .find({}, { name: decoded.name })
+      .find({ "name": decoded.user.name })
       .toArray(function (err, result) {
         if (err) throw err;
         if (result[0].money < money_change) {
@@ -266,4 +266,9 @@ app.put("/oauth/pay/:price", authenticateJWT, (req, res) => {
   } catch (e) {
     res.status(404).send("Error!");
   }
+});
+
+app.post('/oauth/current/card', function(request, response){
+  console.log(request.body);      // your JSON
+  response.send(request.body);    // echo the result back
 });

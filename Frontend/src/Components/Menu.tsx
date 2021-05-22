@@ -100,7 +100,7 @@ export default function Menu() {
             </div>
           </div>
           {/* Sidebar Menu */}
-          <nav className="mt-2" data-widget="pushmenu">
+          <nav className="mt-2" >
             <ul
               className="nav nav-pills nav-sidebar flex-column"
               data-widget="treeview"
@@ -108,7 +108,7 @@ export default function Menu() {
               data-accordion="false"
             >
               <li className="nav-item">
-                <Link to="/order" className="nav-link">
+                <Link to="/order" className="nav-link" data-widget="pushmenu">
                   <i className="nav-icon fas fa-home" />
                   <p>
                     Order
@@ -118,7 +118,7 @@ export default function Menu() {
               </li>
 
               <li className="nav-item">
-                <Link to="/mystore" className="nav-link">
+                <Link to="/mystore" className="nav-link" data-widget="pushmenu">
                   <i className="nav-icon fas fa-store" />
                   <p>
                     My Store
@@ -128,14 +128,14 @@ export default function Menu() {
               </li>
 
               <li className="nav-item">
-                <Link to="/orderHistory" className="nav-link">
+                <Link to="/orderHistory" className="nav-link" data-widget="pushmenu">
                   <i className="nav-icon fas fa-clipboard-list" />
                   <p>Order history</p>
                 </Link>
               </li>
 
               <li className="nav-item">
-                <Link to="/createStore" className="nav-link">
+                <Link to="/createStore" className="nav-link" data-widget="pushmenu">
                   {/* <i className="nav-icon fas fa-user-circle" /> */}
                   <i className="nav-icon fas fa-plus-circle" />
                   <p>

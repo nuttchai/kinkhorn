@@ -76,7 +76,7 @@ export const adjustItemQty = (clickedItem: CartItemType, qty: any) => {
 export const fetchKiosks = () => {
   return (dispatch: any) => {
     apicall.fetchKiosks().then((res) => {
-      // console.log('res : ', res.data.data);
+      console.log('res : ', res.data);
       const kiosks = res.data.data;
       dispatch(fetchKiosksSuccess(kiosks));
     })

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { UserContext } from '../Context/UserContext';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
@@ -31,22 +31,65 @@ const useStyles = makeStyles((theme) => ({
 
 export default function MyStorePage() {
   const userContext = useContext(UserContext);
-  const params = { id: userContext.user.user_id };
+  const params = { id: userContext.user._id };
   const classes = useStyles();
+  const [mystore,setMyStore] = useState<apicall.IgetMyStoreResponse[]>([]);
 
   useEffect(() => {
-    apicall
-      .getQueue(params)
-      .then((res) => console.log('res :', res))
+    // apicall
+    //   .getQueue(params)
+    //   .then((res) => console.log('res :', res))
+    //   .catch((err) => console.log('err : ', err));
+    apicall.getMyStore(userContext.user._id)
+    .then((res) => {
+      console.log('res getMyStore :', res.data);
+      // setMyStore(res.data => )
+      // setMyStore(res.data)
+      // res.data.map(store => console.log(data))
+      // setMyStore([...mystore,res.data])
+      setMyStore(res.data)
+      
+    }) 
       .catch((err) => console.log('err : ', err));
   }, []);
 
+  const myStoreContent = (
+    <>
+    {
+      mystore.map((store : any, i : number) => {
+        // console.log('map here :',store)
+        return (<>
+        <Grid container wrap="nowrap" spacing={2} key={`${i}`}>
+              <Grid item>
+                <img
+                  className={classes.img}
+                  alt="complex"
+                  src="https://picsum.photos/70/70"
+                />
+              </Grid>
+              <Grid item xs zeroMinWidth>
+                <Grid item xs container direction="column" spacing={1}>
+                  <Grid item xs>
+                    <Typography variant="subtitle1">
+                      {store.shop}
+                    </Typography>
+                  </Grid>
+                </Grid>
+                <Grid item>
+                </Grid>
+              </Grid>
+            </Grid>
+        </>)
+      })
+    }
+    </>
+  )
   return (
     <div className={classes.root}>
       <h2 style = {{margin : '4px 8px'}}>My Store</h2>
       <Link to='/mystore/id'>
           <Paper className={classes.paper}>
-            <Grid container wrap="nowrap" spacing={2}>
+            {/* <Grid container wrap="nowrap" spacing={2}>
               <Grid item>
                 <img
                   className={classes.img}
@@ -60,18 +103,13 @@ export default function MyStorePage() {
                     <Typography variant="subtitle1">
                     Canteen Name
                     </Typography>
-                    <Typography variant="body2" color="textSecondary">
-                        2 items
-                    </Typography>
                   </Grid>
                 </Grid>
                 <Grid item>
-                  <Typography variant="body2" color ="primary"  style={{ cursor: 'pointer' }}>
-                    Reorder
-                  </Typography>
                 </Grid>
               </Grid>
-            </Grid>
+            </Grid> */}
+            {myStoreContent}
           </Paper>
       </Link>
     </div>
