@@ -45,7 +45,6 @@ router.post('/upload', upload.single('image'), (req, res) => {
 // get shop list (frontstore side)
 router.get('/frontstore/:ownerId', async (req, res, next) => {
     try {
-
         const ownerId = req.params.ownerId;
         const redisId = title + ownerId;
         // find data from redis
@@ -54,7 +53,6 @@ router.get('/frontstore/:ownerId', async (req, res, next) => {
         if (!getTitleDataFromCache) {
             
             const result = await Shop.find({ ownerId : ownerId });
-
             // send result from mongodb
             res.status(200).json({
                 message: "message sent successfully!",
@@ -91,7 +89,7 @@ router.get('/customer', async (req, res, next) => {
 
         if (!getTitleDataFromCache) {
             
-            const result = await Shop.find({ status : "open" });
+            const result = await Shop.find();
             // send result from mongodb
             res.status(200).json({
                 message: "message sent successfully!",
@@ -129,7 +127,8 @@ router.post('/frontstore', async (req, res, next) => {
             shop: req.body.shop,
             ownerId: ownerId,
             area: req.body.area,
-            menu: req.body.menu
+            menu: req.body.menu,
+            status: req.body.status
         });
 
         const createdShop = await shop.save()
@@ -139,7 +138,7 @@ router.post('/frontstore', async (req, res, next) => {
             message: 'shop added sucessfully!'
         })
 
-        // update shopList to redis
+        // update shopList (customer view) to redis
         const updatedResult = await Shop.find()
         await app_api.redis.set(title, JSON.stringify(updatedResult));
         
@@ -162,25 +161,26 @@ router.put("/frontstore", async (req, res, next) => {
     try {
         
         const ownerId = req.body.ownerId;
+        const shopId  = req.body._id;
 
         const shop = new Shop({
-            _id: req.body._id,
+            _id: shopId,
             shop: req.body.shop,
             ownerId: ownerId,
             area: req.body.area,
             menu: req.body.menu
         });
 
-        Shop.updateOne({ _id: req.body._id }, shop)
+        Shop.updateOne({ _id: shopId }, shop)
             .then(result => {
                     res.status(200).json({ message: "shop updated sucessfully!",
-                                        result: result }); 
+                                           result: result }); 
                 }, notfound => {
                     res.status(400).json({ message: "unable to update shop (wrong Id)",
                                            result: notfound });
                 });
 
-        // update shopList in redis
+        // update shopList (customer view) in redis
         const updatedResult = await Shop.find();
         await app_api.redis.set(title, JSON.stringify(updatedResult));
 
@@ -234,6 +234,48 @@ router.delete("/frontstore/:shopId", async (req, res, next) => {
 
     } catch (e) {
         console.error("unable to delete shop", e);
+        res.status(400).json({
+        success: false,
+        message: e
+    });
+    }
+
+})
+
+// open/close shop
+router.put("/frontstore/:action", async (req, res, next) => {
+    try {
+        const shopId = req.body._id;
+        const ownerId = req.body.ownerId;
+        const action = req.params.action;
+
+        if (action != "open" && action != "close") {
+            res.status(400).json({ message: "invalid action!",
+                                   status: action, 
+                                   success: false });
+            return;
+        }
+
+        let shopResult = await Shop.findOneAndUpdate({ _id : shopId, ownerId: ownerId }, { status : action }, { new: true })
+        if (shopResult) {
+            res.status(200).json({ message: "shop updated sucessfully!",
+                                   result: shopResult }); 
+        } else {
+            res.status(400).json({ message: "unable to update shop (wrong Id)",
+                                   result: notfound });
+        }
+
+        // update shopList in redis
+        const updatedResult = await Shop.find();
+        await app_api.redis.set(title, JSON.stringify(updatedResult));
+
+        // update shopList (frontstore view) in redis
+        const redisId = title + ownerId;
+        const result = await Shop.find({ ownerId : ownerId });
+        await app_api.redis.set(redisId, JSON.stringify(result));
+        
+    } catch (e) {
+        console.error("unable to record shop", e);
         res.status(400).json({
         success: false,
         message: e

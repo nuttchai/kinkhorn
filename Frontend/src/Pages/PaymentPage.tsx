@@ -9,6 +9,25 @@ import CardHeader from '@material-ui/core/CardHeader';
 import Button from '@material-ui/core/Button';
 import * as apicall from '../api/apicall'
 import { Redirect } from 'react-router-dom';
+import Typography from '@material-ui/core/Typography';
+import Container from '@material-ui/core/Container';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Avatar from '@material-ui/core/Avatar';
+import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
+import Box from '@material-ui/core/Box';
+
+function Copyright() {
+  return (
+    <Typography variant="body2" color="textSecondary" align="center">
+      {'Copyright Reserve © '}
+      <a color="inherit" href="https://material-ui.com/">
+        KinKhorn
+      </a>{' '}
+      {new Date().getFullYear()}
+      {'.'}
+    </Typography>
+  );
+}
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -29,7 +48,24 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     card: {
       marginTop: theme.spacing(10),
-    }
+    },
+    avatar: {
+      margin: theme.spacing(1),
+      backgroundColor: theme.palette.secondary.main,
+    },
+    paper: {
+      marginTop: theme.spacing(8),
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+    },
+    form: {
+      width: '100%', // Fix IE 11 issue.
+      marginTop: theme.spacing(1),
+    },
+    submit: {
+      margin: theme.spacing(3, 0, 2),
+    },
   })
 );
 
@@ -122,12 +158,8 @@ const Login = () => {
   
   const handleLogin = () => {
     apicall.topUp(state.topUpAmount).then( res => console.log(res)).catch(err => console.log('err : ', err))
-    // apicall.topUp(state.topUpAmount)
-    // axios.put('/')
     alert('Success!')
-    // return (<>
-    // <Redirect from='/payment' to='/' />
-    // </>)
+
   };
 
   const handleKeyPress = (event: React.KeyboardEvent) => {
@@ -152,37 +184,23 @@ const Login = () => {
       });
     }
 
-  console.log(state.topUpAmount)
+  const test = () => {
+    apicall.payMoney('10').then(res => console.log('test res : ',res)).catch( err => console.log(err))
+  }
+  // console.log(state.topUpAmount)
   return (
-    <form className={classes.container} noValidate autoComplete="off">
-      <Card className={classes.card}>
-        <CardHeader className={classes.header} title="Card Top Up" />
-        <CardContent>
-          <div>
-            {/* <TextField
-              error={state.isError}
-              fullWidth
-              id="username"
-              type="email"
-              label="Username"
-              placeholder="Username"
-              margin="normal"
-              onChange={handleUsernameChange}
-              onKeyPress={handleKeyPress}
-            />
-            <TextField
-              error={state.isError}
-              fullWidth
-              id="password"
-              type="password"
-              label="Password"
-              placeholder="Password"
-              margin="normal"
-              helperText={state.helperText}
-              onChange={handlePasswordChange}
-              onKeyPress={handleKeyPress}
-            /> */}
-            <TextField
+    <>
+    <Container component="main" maxWidth="xs">
+      <CssBaseline />
+      <div className={classes.paper}>
+        <Avatar className={classes.avatar}>
+          <MonetizationOnIcon  />
+        </Avatar>
+        <Typography component="h1" variant="h5">
+          Top Up
+        </Typography>
+        <form className={classes.form} noValidate>
+        <TextField
               error={state.isError}
               fullWidth
               id="Top Up Amount"
@@ -194,21 +212,28 @@ const Login = () => {
               onChange={handlePasswordChange}
               onKeyPress={handleKeyPress}
             />
-          </div>
-        </CardContent>
-        <CardActions>
           <Button
             variant="contained"
             size="large"
             color="secondary"
             className={classes.loginBtn}
             onClick={handleLogin}
-            disabled={state.isButtonDisabled}>
+            disabled={state.isButtonDisabled}
+            fullWidth
+          >
             Confirm
           </Button>
-        </CardActions>
-      </Card>
-    </form>
+        </form>
+      </div>
+      <Box mt={8}>
+        <Copyright />
+      </Box>
+      {/* FIXME : FOR TEST PAY MONEY */}
+      {/* <Button variant="contained" onClick ={ () => test()}> 
+        test
+      </Button> */}
+    </Container>
+    </>
   );
 }
 

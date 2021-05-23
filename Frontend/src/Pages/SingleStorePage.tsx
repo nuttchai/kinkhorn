@@ -25,6 +25,7 @@ import * as apicall from '../api/apicall';
 import produce from 'immer';
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -92,7 +93,7 @@ const SingleStorePage = ({ currentKiosk }: any) => {
         price: 0,
         description: '',
         category: '',
-        img : '',
+        img: '',
       },
     ]);
   };
@@ -123,7 +124,6 @@ const SingleStorePage = ({ currentKiosk }: any) => {
     setNewMenu(values);
   };
 
-
   const InService = (
     <>
       <div className={classes.InService}>Open</div>
@@ -135,6 +135,14 @@ const SingleStorePage = ({ currentKiosk }: any) => {
       <div className={classes.outService}>Closed</div>
     </>
   );
+
+  const DeleteStore = () => {
+    console.log('id delte : ', currentKiosk.id._id);
+    apicall
+      .deleteStore(currentKiosk.id._id)
+      .then((res) => console.log('delete res : ', res))
+      .catch((err) => console.log('err delete : ', err));
+  };
 
   const CustomSwitch = withStyles({
     switchBase: {
@@ -294,31 +302,40 @@ const SingleStorePage = ({ currentKiosk }: any) => {
         }}
       >
         {!edit ? (
-          <Button
-            variant="contained"
-            color="default"
-            style={{ margin: '8px', maxWidth: '100px' }}
-            startIcon={<CreateIcon />}
-            onClick={() => handleEdit()}
-          >
-            Edit
-          </Button>
+          <>
+            <Button
+              variant="contained"
+              color="default"
+              style={{ margin: '8px', maxWidth: '100px' }}
+              startIcon={<CreateIcon />}
+              onClick={() => handleEdit()}
+            >
+              Edit
+            </Button>
+            <Button
+              variant="contained"
+              color="secondary"
+              startIcon={<DeleteIcon />}
+              onClick={() => DeleteStore()}
+            >
+              Delete Store
+            </Button>
+          </>
         ) : (
           <>
-          <Button
-            variant="contained"
-            color="primary"
-            style={{ margin: '8px', maxWidth: '100px' }}
-            startIcon={<CreateIcon />}
-            onClick={() => {
-              handleEdit();
-              UpdateMenu();
-            }}
-          >
-            Update
-          </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              style={{ margin: '8px', maxWidth: '100px' }}
+              startIcon={<CreateIcon />}
+              onClick={() => {
+                handleEdit();
+                UpdateMenu();
+              }}
+            >
+              Update
+            </Button>
           </>
-          
         )}
       </div>
     </>

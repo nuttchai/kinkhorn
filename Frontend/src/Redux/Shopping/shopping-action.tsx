@@ -110,8 +110,8 @@ export const fetchKiosksFailure = (err: any) => {
 export const fetchMyStore = (id : any) => {
   return (dispatch : any) => {
     apicall.getMyStore(id).then((res) => {
-      console.log('mystore : ',res.data);
-      const mystore = res.data;
+      console.log('mystore : ',res);
+      const mystore = res;
       dispatch(fetchMyStoreSuccess(mystore))
     }).catch((err) => {
       const errMsg = err.message;

@@ -7,6 +7,7 @@ const cookieParser = require("cookie-parser");
 const fetch = require("node-fetch");
 const mongoose = require("mongoose");
 const People = require("./models/people");
+const crypto = require("crypto");
 
 app.use(bodyParser.json());
 
@@ -82,11 +83,12 @@ passport.deserializeUser(function (obj, cb) {
   cb(null, obj);
 });
 
-var idCardInserted = {
-  "name" : null,
-  "system" : null,
-  "mac" : null,
-}
+// var idCardInserted = {
+//   "name" : null,
+//   "system" : null,
+//   "mac" : null,
+// }
+let machines = new Array()
 
 /* JWT */
 const accessTokenSecret = process.env.JWT_SECRET;
@@ -144,7 +146,6 @@ app.get(
 
 /* APIs */
 app.get("/oauth/success", (req, res) => {
-  // console.log(userProfile._json)
   const accessToken = jwt.sign(
     { user: userProfile._json},
     accessTokenSecret
@@ -246,10 +247,12 @@ app.put("/oauth/topup/:money", authenticateJWT, (req, res) => {
   res.sendStatus(200);
 });
 
-app.put("/oauth/pay/:price", authenticateJWT, (req, res) => {
-  try { 
+app.put("/oauth/pay/:money", authenticateJWT, (req, res) => {
+  try {
+    var cookie = req.cookies;
     var decoded = jwt.decode(cookie["token"]);
-    var money_change = parseInt(req.params.price);
+    var money_change = parseInt(req.params.money);
+    // console.log(decoded.user.name)
     db.collection("people")
       .find({ "name": decoded.user.name })
       .toArray(function (err, result) {
@@ -260,29 +263,48 @@ app.put("/oauth/pay/:price", authenticateJWT, (req, res) => {
         }
         var currMoney = result[0].money - money_change;
         db.collection("people").updateOne(
-          { name: decoded.user.name },
-          { $set: { money: currMoney } },
+          { "name": decoded.user.name },
+          { $set: { "money": currMoney } },
           function (err, res) {
             if (err) throw err;
             console.log("1 record updated");
           }
         );
-        res.status(200).send("Paid!");
       });
   } catch (e) {
     res.status(404).send("Error!");
   }
+  res.sendStatus(200);
 });
 
+app.get('/oauth/exchange', (req, res) => {
+  var date = new Date();
+  date.setDate(date.getDate() + 10);
+  var id = crypto.randomBytes(16).toString("hex");
+  console.log(id)
+  res.cookie('machine_token', id, {
+    expires: date,
+    secure: true, // set to true if your using https
+    httpOnly: false,
+  });
+  return res.json({"machine_token": id})
+})
+
 app.put('/oauth/card/insert', (req, res) => {
-  idCardInserted.name = req.body.name
-  idCardInserted.system = req.body.system
-  idCardInserted.mac = req.body.mac
-  console.log(req.body);      // your JSON
+  var index = machines.findIndex(x => x.machine == req.body.machine)
+  // console.log(index)
+  if (index === -1) {
+    machines.push(req.body)
+  } else {
+    // console.log(machines[index])
+    machines[index].data.name = req.body.data.name
+    machines[index].data.system = req.body.data.system
+    machines[index].data.mac = req.body.data.mac
+    machines[index].status = req.body.status
+  }
   res.send(req.body);    // echo the result back
 });
 
 app.get('/oauth/card/current', (req, res) => {
-  console.log(idCardInserted)
-  return res.json(idCardInserted)
+  return res.json(machines)
 });

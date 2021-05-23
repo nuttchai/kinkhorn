@@ -129,7 +129,7 @@ export default function CreateStorePage() {
               <>
                 <h4>Menu {index + 1}</h4>
                 <div key={menu.id}>
-                  <input
+                  <TextField
                     onChange={(e) => {
                       const name = e.target.value;
                       setmenuField((currentMenu) =>
@@ -141,7 +141,8 @@ export default function CreateStorePage() {
                     value={menu.name}
                     placeholder="Food name"
                   />
-                  <input
+          
+                  <TextField
                     onChange={(e) => {
                       const price = e.target.value;
                       setmenuField((currentMenu) =>

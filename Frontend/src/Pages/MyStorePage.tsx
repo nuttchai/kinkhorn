@@ -42,22 +42,17 @@ const MyStorePage = ( {fetchMyStore, myStore, loadCurrentKiosk} : IMyStorePage) 
   const userContext = useContext(UserContext);
   const classes = useStyles();
   // const [mystore,setMyStore] = useState<apicall.IgetMyStoreResponse[]>([]);
-
+  const params = {ownerId : userContext.user._id}
   useEffect(() => {
-    // fetchMyStore(userContext.user._id);
+
     fetchMyStore(userContext.user._id)
-    // apicall.getMyStore(userContext.user._id)
-    // .then((res) => {
-    //   console.log('res getMyStore :', res.data);
-    //   setMyStore(res.data)
-    // }) 
-    //   .catch((err) => console.log('err : ', err));
+    // axios.get('/api/shops/frontstore', { params }).then( res => console.log('res : ', res)).catch(err => console.log(err))
 
   }, []);
 
   const myStoreContent = (
     <>
-    {
+    {/* {
       myStore.map((store : any, i : number) => {
         // console.log('map here :',store)
         return (<>
@@ -88,9 +83,11 @@ const MyStorePage = ( {fetchMyStore, myStore, loadCurrentKiosk} : IMyStorePage) 
             </Grid>
           </Link>
             <Colorline color="#C1C7CF" />
-        </>)
-      })
-    }
+        </>
+        )
+      }
+      )
+    } */}
     </>
   )
   return (

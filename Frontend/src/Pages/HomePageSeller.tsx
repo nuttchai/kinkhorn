@@ -39,47 +39,20 @@ export default function HomePageSeller() {
   const userContext = useContext(UserContext);
   const classes = useStyles();
   const [mystore, setMyStore] = useState<apicall.IgetMyStoreResponse[]>([]);
-  
+  // const params = { id : userContext.user._id }
 
   useEffect(() => {
-    // apicall
-    //   .getQueue(params)
-    //   .then((res) => console.log('res :', res))
-    //   .catch((err) => console.log('err : ', err));
     apicall.getMyStore(userContext.user._id).then((res) => {
-      console.log('res getMyStore :', res.data);
+      // console.log('res getMyStore :', res.data);
       setMyStore(res.data);
+    // apicall.getQueueSeller(userContext.user._id).then((res) => {
+    //   console.log('res getQueue : ', res.data)
+    // }).catch( err => console.log('err : ',err))
     });
   }, []);
 
   const OrderContent = (
     <>
-      {/* <h4 style = {{margin : '4px 8px'}}>Canteen Name1</h4>
-      <Link to='/order/id'>
-          <Paper className={classes.paper}>
-            <Grid container wrap="nowrap" spacing={2}>
-              <Grid item xs zeroMinWidth>
-                <Grid item xs container direction="column" spacing={2}>
-                  <Grid item xs>
-                    <div style = {{display : 'flex', flexFlow : 'row',justifyContent : 'space-between'}}>
-                        <Subtitle font = '18px'>
-                        ORDER ID
-                        </Subtitle>
-                         <Subtitle>5:15 PM</Subtitle>
-                    </div>
-                    <div style = {{display : 'flex', flexFlow : 'row',justifyContent : 'space-between'}}>
-                        <div style = {{display : 'flex', flexFlow : 'row'}}>
-                            <div style ={{ fontWeight : 'bold', marginRight : '4px'}}>2 item </div> <div>for Visarut</div>
-                        </div> 
-                        <div style = {{ marginTop : '0'}}><i className="fas fa-chevron-right"></i></div>
-                    </div>
-                  </Grid>
-                  <ColorLine color="#C1C7CF" />
-                </Grid>
-              </Grid>
-            </Grid>
-          </Paper>
-      </Link> */}
       {mystore.map((store: any,index : number) => {
         // console.log(store);
         return (
