@@ -3,7 +3,6 @@ import Button from '@material-ui/core/Button';
 // import React, { useEffect } from 'react';
 // import { Link } from 'react-router-dom';
 // import styled from 'styled-components';
-import DeleteIcon from '@material-ui/icons/Delete';
 
 function SignInPage() {
   return (
@@ -13,7 +12,7 @@ function SignInPage() {
         style={{ textAlign: 'center', backgroundSize: 'cover' }}
       >
         <div style={{ transform: 'translate(0%,50%)' }}>
-          <img src="https://picsum.photos/150/150" alt="Logo KK"></img>
+          <img src="https://d1hjxsusq6jw1u.cloudfront.net/Kinkhorn.gif" alt="Logo KK" width="250" height="160"></img>
           {/* <img src="./img/promo1.jpg" alt="Logo KK"></img> */}
           <div style={{ margin: '16px' }}>
             <div>WELCOME</div>

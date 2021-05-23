@@ -185,9 +185,11 @@ export const topUp = async (amount : string) : Promise<AxiosResponse<ItopUpRespo
 export const setOpenCloseStore = async (status : string, shopId : string , ownerId : string) : Promise<AxiosResponse<IsetOpenAndClose>> => {
   const path = '/api/shops/frontstore/' + status
   const data = {
-    shopId : shopId,
+    _id : shopId,
     ownerId : ownerId,
   }
+  console.log('path : ', path);
+  console.log('data : ',data);
   const res = axiosInstance.put(path,data)
   return res
 }

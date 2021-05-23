@@ -2,7 +2,6 @@ import react, { useEffect, useState } from 'react';
 import Button from '@material-ui/core/Button';
 import CreateIcon from '@material-ui/icons/Create';
 import {
-  createMuiTheme,
   FormControlLabel,
   Grid,
   makeStyles,
@@ -14,12 +13,10 @@ import {
 import { connect } from 'react-redux';
 import ColorLine from '../Components/ColorLine';
 import Item from '../item/item';
-import { Link } from 'react-router-dom';
-import { green, red, blue } from '@material-ui/core/colors';
-import { Card, IconButton, Fab } from '@material-ui/core';
+import { green } from '@material-ui/core/colors';
+import { IconButton } from '@material-ui/core';
 import { menuType } from './CreateStorePage';
 import { Wrapper } from '../item/item.styles';
-import Subtitle from '../Components/Subtitle';
 import { Col, Row } from 'react-grid-system';
 import * as apicall from '../api/apicall';
 import produce from 'immer';
@@ -78,9 +75,8 @@ const SingleStorePage = ({ currentKiosk }: any) => {
   });
   const [edit, setEdit] = useState(false);
   const [newMenu, setNewMenu] = useState<menuType[]>([]);
-
   useEffect(() => {
-    console.log('current :', currentKiosk);
+    // console.log('current :', currentKiosk.id._id);
     setNewMenu(currentKiosk.id.menu);
     if(currentKiosk.id.status === 'open'){
       setState({ ...state, storeStatus : true})
@@ -104,7 +100,7 @@ const SingleStorePage = ({ currentKiosk }: any) => {
 
   const UpdateMenu = () => {
     const requestData = { ...currentKiosk.id, menu: newMenu };
-    console.log('final data  : ', requestData);
+    // console.log('final data  : ', requestData);
     apicall
       .updateMyStore(requestData)
       .then((res) => console.log('res : ', res))
@@ -113,11 +109,19 @@ const SingleStorePage = ({ currentKiosk }: any) => {
 
   const handleEdit = () => {
     setEdit((prev) => !prev);
+    // apicall.setOpenCloseStore()
   };
   // console.log(edit)
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setState({ ...state, [event.target.name]: event.target.checked });
+    if(!state.storeStatus){
+      console.log('in if')
+      apicall.setOpenCloseStore('open',currentKiosk.id._id,currentKiosk.id.ownerId).then(res => console.log('res open : ', res)).catch(err => console.log(err))
+    }else{
+      console.log('in else')
+      apicall.setOpenCloseStore('close',currentKiosk.id._id,currentKiosk.id.ownerId).then(res => console.log('res close : ', res)).catch(err => console.log(err))
+    }
   };
 
   const handleRemoveFields = (index: number) => {

@@ -277,7 +277,7 @@ app.put("/oauth/pay/:money", authenticateJWT, (req, res) => {
   res.sendStatus(200);
 });
 
-app.get('/oauth/exchange', (req, res) => {
+app.get('/oauth/card/exchange', (req, res) => {
   var date = new Date();
   date.setDate(date.getDate() + 10);
   var id = crypto.randomBytes(16).toString("hex");
@@ -308,3 +308,7 @@ app.put('/oauth/card/insert', (req, res) => {
 app.get('/oauth/card/current', (req, res) => {
   return res.json(machines)
 });
+
+app.get('/oauth/card/generate', (req, res) => {
+  
+})

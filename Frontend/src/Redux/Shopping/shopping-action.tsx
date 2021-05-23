@@ -54,7 +54,7 @@ export const loadCurrentItem = (clickedItem: CartItemType) => {
 };
 
 export const loadCurrentKiosk = (clickKiosk: apicall.Imystore) => {
-  console.log('load kiosk : ', clickKiosk);
+  // console.log('load kiosk : ', clickKiosk);
   return {
     type: actionTypes.LOAD_CURRENT_KIOSK,
     payload: {
