@@ -9,28 +9,30 @@ interface TYPE_INITIAL_STATE {
   error: string;
   loading: boolean;
 }
+// DATA EXAMPLE
+// {
+//   _id : "607e874c0362aa001d64294a",
+//   shop : "shop 1",
+//   ownerId : "shopowner1_id",
+//   area : "ena01",
+//   menu : [{
+//     name : "drink 1",
+//     price : 7,
+//     category : "other",
+//     _id : "607e874c0362aa001d64294b",
+//     description : "drink desc 1"
+//   },
+//   {
+//     name : "drink 2",
+//     price : 14,
+//     category : "other",
+//     _id : "607e874c0362aa001d64293b",
+//     description : "drink desc 2"
+//   }]
+// }
 
 const INITIAL_STATE: TYPE_INITIAL_STATE = {
-  kiosks: [{
-    _id : "607e874c0362aa001d64294a",
-    shop : "shop 1",
-    ownerId : "shopowner1_id",
-    area : "ena01",
-    menu : [{
-      name : "drink 1",
-      price : 7,
-      category : "other",
-      _id : "607e874c0362aa001d64294b",
-      description : "drink desc 1"
-    },
-    {
-      name : "drink 2",
-      price : 14,
-      category : "other",
-      _id : "607e874c0362aa001d64293b",
-      description : "drink desc 2"
-    }]
-  }],
+  kiosks: [],
   cart: [], // {id, title ,descr, price, img, qty}
   currentItem: [],
   currentKiosk: [],
@@ -96,7 +98,6 @@ const shopReducer = (state = INITIAL_STATE, action: any) => {
       return {
         ...state,
         currentKiosk: action.payload,
-        // cart : [],
       };
     case actionTypes.FETCH_KIOSKS_REQUEST:
       return {
@@ -117,6 +118,25 @@ const shopReducer = (state = INITIAL_STATE, action: any) => {
         kiosks: [],
         error: action.payload,
       };
+    case actionTypes.FETCH_MYSTORE_REQUEST:
+      return {
+        ...state,
+        loading : true,
+      }
+    case actionTypes.FETCH_MYSTORE_SUCCESS:
+      return {
+        ...state,
+        loading : false,
+        kiosks : action.payload,
+        error : '',
+      }
+    case actionTypes.FETCH_MYSTORE_FAIL:
+      return {
+        ...state,
+        loading : false,
+        kiosks : [],
+        error : action.payload,
+        }
     default:
       return state;
   }

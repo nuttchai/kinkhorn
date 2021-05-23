@@ -14,6 +14,10 @@ export interface IGetQueueRequest {
   id: string;
 }
 
+export interface IGetHistoryRequest {
+  id: string;
+}
+
 //FIXME : Add interface
 export interface IplaceOrderResponse {
   Data: string;
@@ -52,6 +56,10 @@ export interface IGetQueueResponse {
   Data: string;
 }
 
+export interface IGetQueueSellerResponse {
+  Data: string;
+}
+
 export interface ItopUpResponse {
   Data : string;
 }
@@ -75,6 +83,10 @@ export interface IgetMyStoreResponse {
   //   menu : any;
   //   ownerId : string;
   //   shop : string;}
+}
+
+export interface IUpdateMyStoreResponse {
+  data : string;
 }
 
 export interface Imystore {
@@ -119,12 +131,21 @@ export const createStore = async (
   return response;
 };
 
-export const getQueue = async (
+export const getQueueCustomer = async (
   params: IGetQueueRequest
 ): Promise<AxiosResponse<IGetQueueResponse>> => {
   const res = await axiosInstance.get('/api/orders/queue/customer', { params });
   return res;
 };
+
+export const getQueueSeller = async ( params : IGetQueueRequest ): Promise<AxiosResponse<IGetQueueSellerResponse>> => {
+  const res = await axiosInstance.get('/api/orders/queue/frontstore', { params });
+  return res;
+}
+// FIXME : tmr will do
+// export const getHistory = async ( params : IGetHistoryRequest) : Prmoise<AxiosResponse<>> => {
+//   const res = await axiosInstance.get('/api/orders/record/'+)
+// }
 
 export const getUserInfo = async (): Promise<AxiosResponse<IGetUserInfoResponse>> => {
   // const res = await axios.get(
@@ -151,4 +172,9 @@ export const getMyStore = async (id : string): Promise<AxiosResponse<IgetMyStore
   return res.data;
 }
 
+export const updateMyStore = async ( newkiosk : Imystore )  : Promise<AxiosResponse<IUpdateMyStoreResponse>> => {
+  const path = '/api/shops/frontstore' 
+  const res = await axiosInstance.put(path,newkiosk)
+  return res;
+}
 

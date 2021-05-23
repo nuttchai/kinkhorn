@@ -4,30 +4,30 @@ const session = require("express-session");
 const jwt = require("jsonwebtoken");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
-app.use(bodyParser.json());
+const fetch = require("node-fetch");
 const mongoose = require("mongoose");
 const People = require("./models/people");
 
+app.use(bodyParser.json());
+
 // mongodb
-mongoose.connect(
-  "mongodb://kinkhorn-db.cluster-ciluasfmkj9g.ap-southeast-1.docdb.amazonaws.com:27017/?ssl=true&ssl_ca_certs=rds-combined-ca-bundle.pem&replicaSet=rs0&readPreference=secondaryPreferred&retryWrites=false",
-  {
-    dbName: "ciekinkhorn",
+mongoose.connect(process.env.MONGO_URL,
+  { 
+    dbName: process.env.MONGO_DB,
     retryWrites: false,
     useFindAndModify: false,
     useNewUrlParser: true,
     useUnifiedTopology: true,
     //replicaSet: 'rs0',
-    readPreference: "secondaryPreferred",
+    readPreference: 'secondaryPreferred',
     auth: {
-      user: "kinkhorn",
-      password: "TcdVQ7XhxnS3Mp32uGSU",
+      user: process.env.MONGO_USER,
+      password: process.env.MONGO_PASS
     },
     tls: true,
-    tlsCAFile: "./src/cert/rds-combined-ca-bundle.pem",
+    tlsCAFile: './src/cert/rds-combined-ca-bundle.pem',
     //tlsAllowInvalidHostNames: true
-  }
-);
+  });
 
 // connect to mongodb
 var db = mongoose.connection;
@@ -81,6 +81,12 @@ passport.serializeUser(function (user, cb) {
 passport.deserializeUser(function (obj, cb) {
   cb(null, obj);
 });
+
+var idCardInserted = {
+  "name" : null,
+  "system" : null,
+  "mac" : null,
+}
 
 /* JWT */
 const accessTokenSecret = process.env.JWT_SECRET;
@@ -241,7 +247,7 @@ app.put("/oauth/topup/:money", authenticateJWT, (req, res) => {
 });
 
 app.put("/oauth/pay/:price", authenticateJWT, (req, res) => {
-  try { res
+  try { 
     var decoded = jwt.decode(cookie["token"]);
     var money_change = parseInt(req.params.price);
     db.collection("people")
@@ -268,7 +274,15 @@ app.put("/oauth/pay/:price", authenticateJWT, (req, res) => {
   }
 });
 
-app.post('/oauth/current/card', function(request, response){
-  console.log(request.body);      // your JSON
-  response.send(request.body);    // echo the result back
+app.put('/oauth/card/insert', (req, res) => {
+  idCardInserted.name = req.body.name
+  idCardInserted.system = req.body.system
+  idCardInserted.mac = req.body.mac
+  console.log(req.body);      // your JSON
+  res.send(req.body);    // echo the result back
+});
+
+app.get('/oauth/card/current', (req, res) => {
+  console.log(idCardInserted)
+  return res.json(idCardInserted)
 });

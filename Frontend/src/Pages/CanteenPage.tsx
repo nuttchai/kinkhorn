@@ -65,7 +65,6 @@ const CanteenPage = ( {fetchkiosks , kioskData, loadCurrentKiosk} : CanteenProps
     <>
       {kioskData.map((kiosk : any) => {
         // console.log('kiosk ', kiosk);
-        
         return (
           <>
             <StyledRow key={kiosk._id}>

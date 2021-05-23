@@ -12,7 +12,7 @@ import axios from 'axios';
 import {UserContext} from '../Context/UserContext';
 import { FilterDramaTwoTone } from '@material-ui/icons';
 import * as apicall from '../api/apicall';
-interface menuType {
+export interface menuType {
   id: string;
   name: string;
   price: number;
@@ -51,17 +51,7 @@ export default function CreateStorePage() {
 
 
   const onSubmit = (data : FormValues) => {
-    // const formData = new FormData();
-    // menuImg.forEach((file : any) => formData.append('files[]',file));
-    // formData.append("image",file);
-    // formData.append("shop",data.shop);
-    // formData.append("ownerId",data.ownerId);
-    // formData.append("area",data.area);
-    // formData.append("menu",JSON.stringify(menuFields));
-    // // const finalData = {...data, menu : menuFields};
-    // axios.post('http://13.229.160.22:9000/api/shops/upload',formData).then((res) => console.log('res :',res)).catch((err) => console.log('err : ',err));
-    // alert(JSON.stringify(formData));
-
+    
     const store: apicall.ICreateStoreRequest = {
       ...data,
       file: file,
@@ -130,7 +120,6 @@ export default function CreateStorePage() {
               <option value="B">Canteen B</option>
             </select>
           </div>
-
           <div>
             Upload Shop Image :
             <input onChange={handleUpload} type='file'/>
@@ -151,7 +140,6 @@ export default function CreateStorePage() {
                     }}
                     value={menu.name}
                     placeholder="Food name"
-                    // {...register('menu')}
                   />
                   <input
                     onChange={(e) => {

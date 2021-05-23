@@ -125,9 +125,9 @@ const Login = () => {
     // apicall.topUp(state.topUpAmount)
     // axios.put('/')
     alert('Success!')
-    return (<>
-    <Redirect from='/payment' to='/' />
-    </>)
+    // return (<>
+    // <Redirect from='/payment' to='/' />
+    // </>)
   };
 
   const handleKeyPress = (event: React.KeyboardEvent) => {

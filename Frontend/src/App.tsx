@@ -13,10 +13,10 @@ import CanteenPage from './Pages/CanteenPage';
 import KioskPage from './Pages/KioskPage';
 // import Products from './Product/Products';
 import ReduxCart from './ReduxCart/ReduxCart';
-import SingleItem from './SingleItem/SingleItem';
+// import SingleItem from './SingleItem/SingleItem';
 import { connect } from 'react-redux';
 import SingleKiosk from './Components/SingleKiosk/SingleKiosk';
-import QueuePage from './Pages/QueuePage';
+// import QueuePage from './Pages/QueuePage';
 import CreateStorePage from './Pages/CreateStorePage';
 import OrderingPage from './Pages/OrderingPage';
 import HisotryPage from './Pages/HistoryPage';
@@ -25,6 +25,8 @@ import SingleStorePage from './Pages/SingleStorePage';
 import OrderHistoryPage from './Pages/OrderHistoryPage';
 import * as apicall from './api/apicall'
 import HomePageSeller from './Pages/HomePageSeller';
+import SingleOrderPage from './Pages/SingleOrderPage';
+import SingleItem from './SingleItem/SingleItem';
 
 const PrivateRoute = (props: RouteProps) => {
   const userContext = useContext(UserContext);
@@ -70,6 +72,11 @@ function App({current} : any) {
         <Route exact path='/myactivity/order/:id' component={HisotryPage}/>
         <Route exact path = '/history' component = {HisotryPage}/>
         <Route exact path='/oauth/logout'/>
+        {!current ? (
+        <Redirect to="/" />
+        ) : (
+          <Route exact path='/canteen/kiosk/menu/:id' component={SingleItem} />
+        )}
         {
               (userContext.isSignedIn)
                 ? <Redirect from="/signin" to="/" />
@@ -83,9 +90,10 @@ function App({current} : any) {
       <Route exact path='/oauth/logout'/>
       <Redirect from="/" to="/order" />
       <Route exact path = '/order' component = {HomePageSeller} />
+      <Route exact path = '/order/id' component = {SingleOrderPage} />
       <Route exact path = '/orderHistory' component = {OrderHistoryPage} />
       <Route exact path = '/mystore' component = {MyStorePage} />
-      <Route exact path = '/mystore/id' component = {SingleStorePage}/>
+      <Route exact path = '/mystore/:id' component = {SingleStorePage}/>
       <Route exact path='/createStore' component={CreateStorePage}/>
       <Route exact path='/signout' component={SignOutPage}/>
       {

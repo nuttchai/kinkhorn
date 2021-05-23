@@ -164,14 +164,14 @@ router.put("/frontstore", async (req, res, next) => {
         const ownerId = req.body.ownerId;
 
         const shop = new Shop({
-            _id: req.body.shopId,
+            _id: req.body._id,
             shop: req.body.shop,
             ownerId: ownerId,
             area: req.body.area,
             menu: req.body.menu
         });
 
-        Shop.updateOne({ _id: req.body.shopId }, shop)
+        Shop.updateOne({ _id: req.body._id }, shop)
             .then(result => {
                     res.status(200).json({ message: "shop updated sucessfully!",
                                         result: result }); 

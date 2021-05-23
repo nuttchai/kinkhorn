@@ -36,7 +36,7 @@ export default function MyActivitiesPage() {
 
   useEffect(() => {
     apicall
-      .getQueue(params)
+      .getQueueCustomer(params)
       .then((res) => console.log('res :', res))
       .catch((err) => console.log('err : ', err));
   }, []);

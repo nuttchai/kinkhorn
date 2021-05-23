@@ -53,7 +53,7 @@ export const loadCurrentItem = (clickedItem: CartItemType) => {
   };
 };
 
-export const loadCurrentKiosk = (clickKiosk: any) => {
+export const loadCurrentKiosk = (clickKiosk: apicall.Imystore) => {
   console.log('load kiosk : ', clickKiosk);
   return {
     type: actionTypes.LOAD_CURRENT_KIOSK,
@@ -102,7 +102,34 @@ export const fetchKiosksSuccess = (kiosks: any) => {
 
 export const fetchKiosksFailure = (err: any) => {
   return {
-    type: actionTypes.FETCH_KIOSKS_SUCCESS,
+    type: actionTypes.FETCH_KIOSKS_FAIL,
+    payload: err,
+  };
+};
+
+export const fetchMyStore = (id : any) => {
+  return (dispatch : any) => {
+    apicall.getMyStore(id).then((res) => {
+      console.log('mystore : ',res.data);
+      const mystore = res.data;
+      dispatch(fetchMyStoreSuccess(mystore))
+    }).catch((err) => {
+      const errMsg = err.message;
+      dispatch(fetchMyStoreFailure(errMsg))
+    })
+  }
+}
+
+export const fetchMyStoreSuccess = (kiosks: any) => {
+  return {
+    type: actionTypes.FETCH_MYSTORE_SUCCESS,
+    payload: kiosks,
+  };
+};
+
+export const fetchMyStoreFailure = (err: any) => {
+  return {
+    type: actionTypes.FETCH_MYSTORE_FAIL,
     payload: err,
   };
 };

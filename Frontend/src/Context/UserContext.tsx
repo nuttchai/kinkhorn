@@ -42,7 +42,7 @@ const UserContextProvider = (props: Props) => {
     else {
       setSignedIn(false);
     }
-    console.log('user : ', user);
+    // console.log('user : ', user);
   };
 
   const signOut = () => {

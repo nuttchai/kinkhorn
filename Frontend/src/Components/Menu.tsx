@@ -48,8 +48,7 @@ export default function Menu() {
               <a href="/signin" className="nav-link">
                 <i className="nav-icon fas fa-sign-in-alt" />
                 <p>
-                  Sign In
-                  {/* <span className="right badge badge-danger">New</span> */}
+                  Sign I
                 </p>
               </a>
             </li>
@@ -90,9 +89,9 @@ export default function Menu() {
               />
             </div>
             <div>
-              <Link to="/myaccount" style={{ marginLeft: '0px' }}>
+              {/* <Link to="/myaccount" style={{ marginLeft: '0px' }}> */}
                 {usersplit}
-              </Link>
+              {/* </Link> */}
               <Link to="/" className="d-block" style={{ margin: '4px 12px' }}>
                 <i className="fas fa-wallet" style={{ marginRight: '4px' }}></i>{' '}
                 {userContext.user.money} Baht
@@ -112,7 +111,6 @@ export default function Menu() {
                   <i className="nav-icon fas fa-home" />
                   <p>
                     Order
-                    {/* <span className="right badge badge-danger">New</span> */}
                   </p>
                 </Link>
               </li>
@@ -122,7 +120,6 @@ export default function Menu() {
                   <i className="nav-icon fas fa-store" />
                   <p>
                     My Store
-                    {/* <span className="right badge badge-danger">New</span> */}
                   </p>
                 </Link>
               </li>
@@ -140,7 +137,6 @@ export default function Menu() {
                   <i className="nav-icon fas fa-plus-circle" />
                   <p>
                     Create Store
-                    {/* <span className="right badge badge-danger">New</span> */}
                   </p>
                 </Link>
               </li>
@@ -210,7 +206,6 @@ export default function Menu() {
                   <i className="nav-icon fas fa-home" />
                   <p>
                     Home
-                    {/* <span className="right badge badge-danger">New</span> */}
                   </p>
                 </Link>
               </li>
@@ -225,19 +220,18 @@ export default function Menu() {
                   <i className="nav-icon fas fa-wallet" />
                   <p>
                     Payment
-                    {/* <span className="right badge badge-danger">New</span> */}
                   </p>
                 </Link>
               </li>
-              <li className="nav-item" data-widget="pushmenu">
+              
+              {/* <li className="nav-item" data-widget="pushmenu">
                 <Link to="/myaccount" className="nav-link">
                   <i className="nav-icon fas fa-user-circle" />
                   <p>
                     Account
-                    {/* <span className="right badge badge-danger">New</span> */}
                   </p>
                 </Link>
-              </li>
+              </li> */}
 
               <li className="nav-item">
                 {/* <a href="/oauth/logout" className="nav-link"> */}
@@ -245,7 +239,6 @@ export default function Menu() {
                   <i className="nav-icon fas fa-sign-out-alt" />
                   <p>
                     Sign out
-                    {/* <span className="right badge badge-danger">New</span> */}
                   </p>
                   </a>
                 {/* </a> */}
