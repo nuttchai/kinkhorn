@@ -1,8 +1,4 @@
 import Button from '@material-ui/core/Button';
-// import axios from 'axios';
-// import React, { useEffect } from 'react';
-// import { Link } from 'react-router-dom';
-// import styled from 'styled-components';
 
 function SignInPage() {
   return (

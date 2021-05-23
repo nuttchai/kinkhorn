@@ -145,34 +145,40 @@ router.delete('/:command/:orderId', async (req, res, next) => {
 })
 
 // get order queue (from customer or frontstore view)
-router.get('/queue/:viewer', async (req, res, next) => {
+router.get('/queue/:viewer/:id', async (req, res, next) => {
   try {
+
     // "foq" stands for frontstore order queue
     // "coq" stands for customer order queue
     // viewerCode is code that is added to id in redis
-    const viewerCode = req.params.viewer == "frontstore" ? "foq" :
-                       req.params.viewer == "customer" ? "coq" :
+    const viewer = req.params.viewer;
+    const viewerCode = viewer == "frontstore" ? "foq" :
+                       viewer == "customer" ? "coq" :
                        "invalid"
 
     // If a given viewer in URL is incorrect, return error response
     if (viewerCode == "invalid") {
       res.status(400).json({
         message: "invalid viewer!",
-        givenViewer: req.params.viewer
+        givenViewer: viewer
       });
       return;
     } 
 
+    // set variable for shopId or customerId (depends on given viewer)
+    const id = req.params.id;
+    const redisId = viewerCode + id;
+
     // find data from redis
-    const getOrderFromRedis = await app_api.getAsync(viewerCode + req.body._id);
+    const getOrderFromRedis = await app_api.getAsync(redisId);
 
     if (!getOrderFromRedis) {
       // In case of there is no data in redis but still is in database
       let queue;
       if (viewerCode == "foq") {
-        queue = await Order.find({ shopId : req.body._id })
+        queue = await Order.find({ shopId : id })
       } else {
-        queue = await Order.find({ userId : req.body._id })
+        queue = await Order.find({ userId : id })
       }
       
       if (queue.length != 0) {
@@ -183,12 +189,12 @@ router.get('/queue/:viewer', async (req, res, next) => {
           data: queue
         });
         // update in redis given with a apporpriate viewer
-        await app_api.redis.set(viewerCode + req.body._id, JSON.stringify(queue));
+        await app_api.redis.set(redisId, JSON.stringify(queue));
 
       } else {
         // data not found
         res.status(404).json({
-          givenId: req.body._id,
+          givenId: id,
           message: "no order yet (or maybe invalid given id)",
           data: queue
         });
@@ -213,34 +219,40 @@ router.get('/queue/:viewer', async (req, res, next) => {
 })
 
 // get historical order record
-router.get('/record/:viewer', async (req, res, next) => {
+router.get('/record/:viewer/:id', async (req, res, next) => {
   try {
+
     // "for" stands for frontstore order record
     // "cor" stands for customer order record
     // viewerCode is code that is added to id in redis
-    const viewerCode = req.params.viewer == "frontstore" ? "for" :
-                       req.params.viewer == "customer" ? "cor" :
+    const viewer = req.params.viewer;
+    const viewerCode = viewer == "frontstore" ? "for" :
+                       viewer == "customer" ? "cor" :
                        "invalid"
     
     // If a given viewer in URL is incorrect, return error response
     if (viewerCode == "invalid") {
       res.status(400).json({
         message: "invalid viewer!",
-        givenViewer: req.params.viewer
+        givenViewer: viewer
       });
       return;
     } 
+    
+    // set variable for shopId or customerId (depends on given viewer)
+    const id = req.params.id;
+    const redisId = viewerCode + id;
 
     // find data from redis
-    const getRecordFromRedis = await app_api.getAsync(viewerCode + req.body._id);
+    const getRecordFromRedis = await app_api.getAsync(redisId);
 
     if (!getRecordFromRedis) {
       // In case of there is no data in redis but still is in database
       let record;
       if (viewerCode == "for") {
-        record = await OrderRecord.find({ shopId : req.body._id, complete : true })
+        record = await OrderRecord.find({ shopId : id, complete : true })
       } else {
-        record = await OrderRecord.find({ userId : req.body._id })
+        record = await OrderRecord.find({ userId : id })
       }
 
       if (record.length != 0) {
@@ -251,12 +263,12 @@ router.get('/record/:viewer', async (req, res, next) => {
           data: record
         });
         // update in redis given with a apporpriate viewer
-        await app_api.redis.set(viewerCode + req.body._id, JSON.stringify(record));
+        await app_api.redis.set(redisId, JSON.stringify(record));
 
       } else {
         // data not found
         res.status(404).json({
-          givenId: req.body._id,
+          givenId: id,
           message: "no record yet (or maybe invalid given id)",
           data: record
         });

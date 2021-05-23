@@ -36,11 +36,7 @@ const useStyles = makeStyles((theme) => ({
     // background : '#d8a1a4',
   },
   switch: {
-    // display : 'flex',
-    // justifyContent : 'space-between',
-    // padding: theme.spacing(1),
     margin: '8px 0px',
-    // alignItems : 'center',
   },
   image: {
     borderRadius: '50%',
@@ -76,12 +72,10 @@ const SingleStorePage = ({ currentKiosk }: any) => {
   const [edit, setEdit] = useState(false);
   const [newMenu, setNewMenu] = useState<menuType[]>([]);
   useEffect(() => {
-    // console.log('current :', currentKiosk.id._id);
     setNewMenu(currentKiosk.id.menu);
     if(currentKiosk.id.status === 'open'){
       setState({ ...state, storeStatus : true})
     }
-    // setState(currentKiosk.id.shop);
   }, []);
 
   const handleAddFields = () => {

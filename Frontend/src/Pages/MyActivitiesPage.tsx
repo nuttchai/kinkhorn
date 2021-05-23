@@ -31,12 +31,11 @@ const useStyles = makeStyles((theme) => ({
 
 export default function MyActivitiesPage() {
   const userContext = useContext(UserContext);
-  const params = { id: userContext.user._id };
   const classes = useStyles();
 
   useEffect(() => {
     apicall
-      .getQueueCustomer(params)
+      .getQueueCustomer(userContext.user._id)
       .then((res) => console.log('res :', res))
       .catch((err) => console.log('err : ', err));
   }, []);

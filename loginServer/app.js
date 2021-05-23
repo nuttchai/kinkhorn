@@ -88,7 +88,8 @@ passport.deserializeUser(function (obj, cb) {
 //   "system" : null,
 //   "mac" : null,
 // }
-let machines = new Array()
+let machineArray = new Array()
+let idArray = new Array()
 
 /* JWT */
 const accessTokenSecret = process.env.JWT_SECRET;
@@ -282,33 +283,35 @@ app.get('/oauth/card/exchange', (req, res) => {
   date.setDate(date.getDate() + 10);
   var id = crypto.randomBytes(16).toString("hex");
   console.log(id)
-  res.cookie('machine_token', id, {
-    expires: date,
-    secure: true, // set to true if your using https
-    httpOnly: false,
-  });
-  return res.json({"machine_token": id})
+  // res.cookie('machine_token', null, {
+  //   expires: date,
+  //   secure: true, // set to true if your using https
+  //   httpOnly: false,
+  // });
+  // return res.json({"machine_token": id})
 })
 
 app.put('/oauth/card/insert', (req, res) => {
-  var index = machines.findIndex(x => x.machine == req.body.machine)
+  var index = machineArray.findIndex(x => x.machine == req.body.machine)
   // console.log(index)
   if (index === -1) {
-    machines.push(req.body)
+    machineArray.push(req.body)
   } else {
     // console.log(machines[index])
-    machines[index].data.name = req.body.data.name
-    machines[index].data.system = req.body.data.system
-    machines[index].data.mac = req.body.data.mac
-    machines[index].status = req.body.status
+    machineArray[index].data.name = req.body.data.name
+    machineArray[index].data.system = req.body.data.system
+    machineArray[index].data.mac = req.body.data.mac
+    machineArray[index].status = req.body.status
   }
   res.send(req.body);    // echo the result back
 });
 
 app.get('/oauth/card/current', (req, res) => {
-  return res.json(machines)
+  return res.json(machineArray)
 });
 
 app.get('/oauth/card/generate', (req, res) => {
-  
+  var id = crypto.randomBytes(16).toString("hex")
+  idArray.push({"id": id, "taken": false})
+  return res.json({"machine_token": id})
 })
