@@ -106,6 +106,7 @@ export interface Imystore {
 export const placeOrder = async (
   json: IPlaceOrderRequest
 ): Promise<AxiosResponse<IplaceOrderResponse>> => {
+  console.log(json);
   const res = await axiosInstance.post('/api/orders/customer', json);
   return res;
 };

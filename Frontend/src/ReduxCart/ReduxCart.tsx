@@ -17,8 +17,8 @@ const Cart = ({ cart, currentKiosk }: any) => {
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalItems, setTotalItems] = useState(0);
   const [order , setOrder]  = useState<apicall.IPlaceOrderRequest>({
-    shopId: "",
-    userId : "",
+    shopId: userContext.user._id,
+    userId : currentKiosk.id._id,
     orderList : cart,
   })
   
@@ -48,14 +48,8 @@ const Cart = ({ cart, currentKiosk }: any) => {
 
   const placeOrder = (order : apicall.IPlaceOrderRequest) => {
 
-
-    // axios
-    //   .post('http://13.229.160.22:9000/api/orders/customer', json)
-    //   .then((res) => console.log('res placeorder : ', res))
-    //   .catch((err) => console.log('err : ', err));
-
     apicall.placeOrder(order)
-      .then((res) => console.log('res placeorder : ', res.data.Data))
+      .then((res) => console.log('res placeorder : ', res.data))
       .catch((err) => console.log('err : ', err));
   };
 

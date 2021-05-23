@@ -281,14 +281,16 @@ app.put("/oauth/pay/:money", authenticateJWT, (req, res) => {
 app.get('/oauth/card/exchange', (req, res) => {
   var date = new Date();
   date.setDate(date.getDate() + 10);
-  var id = crypto.randomBytes(16).toString("hex");
-  console.log(id)
-  // res.cookie('machine_token', null, {
-  //   expires: date,
-  //   secure: true, // set to true if your using https
-  //   httpOnly: false,
-  // });
-  // return res.json({"machine_token": id})
+  idArray.forEach(function (arrayItem) {
+    if (arrayItem.taken === false) {
+      res.cookie('machine_token', arrayItem.id, {
+        expires: date,
+        secure: true, // set to true if your using https
+        httpOnly: false,
+      });
+      arrayItem.take = true
+    }
+  })
 })
 
 app.put('/oauth/card/insert', (req, res) => {

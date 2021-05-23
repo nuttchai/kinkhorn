@@ -38,7 +38,10 @@ export default function MyActivitiesPage() {
       .getQueueCustomer(userContext.user._id)
       .then((res) => console.log('res :', res))
       .catch((err) => console.log('err : ', err));
-  }, []);
+    apicall.getHistory(userContext.user._id,'customer')
+    .then((res) => console.log('res :', res))
+      .catch((err) => console.log('err : ', err));
+    }, []);
 
   return (
     <div className={classes.root}>
