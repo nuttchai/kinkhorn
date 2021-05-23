@@ -111,7 +111,7 @@ export const fetchMyStore = (id : any) => {
   return (dispatch : any) => {
     apicall.getMyStore(id).then((res) => {
       console.log('mystore : ',res);
-      const mystore = res;
+      const mystore = res.data;
       dispatch(fetchMyStoreSuccess(mystore))
     }).catch((err) => {
       const errMsg = err.message;

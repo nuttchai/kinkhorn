@@ -149,7 +149,8 @@ export const getUserInfo = async (): Promise<AxiosResponse<IGetUserInfoResponse>
 export const getMyStore = async (id : string): Promise<AxiosResponse<IgetMyStoreResponse[]>> => {
   const path = '/api/shops/frontstore/' + id
   const res = await axiosInstance.get(path)
-  return res.data;
+
+  return res;
 }
 
 export const updateMyStore = async ( newkiosk : Imystore )  : Promise<AxiosResponse<IUpdateMyStoreResponse>> => {
@@ -177,4 +178,8 @@ export const topUp = async (amount : string) : Promise<AxiosResponse<ItopUpRespo
   return res;
 }
 
-// export const setOpenCloseStore
+export const setOpenCloseStore = async (status : string) : Promise<void> => {
+  const path = '/api/shops/frontstore/' + status
+  
+  const res = axiosInstance.put(path)
+}
