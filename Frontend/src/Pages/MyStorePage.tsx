@@ -47,7 +47,7 @@ const MyStorePage = ( {fetchMyStore, myStore, loadCurrentKiosk} : IMyStorePage) 
   console.log(myStore);
   const myStoreContent = (
     <>
-    {/* {
+    {
       myStore.map((store : any, i : number) => {
         // console.log('map here :',store)
         return (<>
@@ -82,7 +82,7 @@ const MyStorePage = ( {fetchMyStore, myStore, loadCurrentKiosk} : IMyStorePage) 
         )
       }
       )
-    } */}
+    }
     </>
   )
   return (

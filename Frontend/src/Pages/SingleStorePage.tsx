@@ -170,7 +170,6 @@ const SingleStorePage = ({ currentKiosk }: any) => {
               xs={12}
               sm={4}
               style={{ marginLeft: '16px' }}
-              // onClick={() => loadCurrentItem(ele)}
             >
               {edit ? (
                 <Wrapper>

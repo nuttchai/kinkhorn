@@ -68,6 +68,10 @@ export interface ItopUpResponse {
   Data : string;
 }
 
+export interface IsetOpenAndClose {
+  Data : string;
+}
+
 export interface IGetUserInfoResponse {
   money : number;
   name: string;
@@ -150,7 +154,7 @@ export const getMyStore = async (id : string): Promise<AxiosResponse<IgetMyStore
   const path = '/api/shops/frontstore/' + id
   const res = await axiosInstance.get(path)
 
-  return res;
+  return res.data;
 }
 
 export const updateMyStore = async ( newkiosk : Imystore )  : Promise<AxiosResponse<IUpdateMyStoreResponse>> => {
@@ -178,8 +182,12 @@ export const topUp = async (amount : string) : Promise<AxiosResponse<ItopUpRespo
   return res;
 }
 
-export const setOpenCloseStore = async (status : string) : Promise<void> => {
+export const setOpenCloseStore = async (status : string, shopId : string , ownerId : string) : Promise<AxiosResponse<IsetOpenAndClose>> => {
   const path = '/api/shops/frontstore/' + status
-  
-  const res = axiosInstance.put(path)
+  const data = {
+    shopId : shopId,
+    ownerId : ownerId,
+  }
+  const res = axiosInstance.put(path,data)
+  return res
 }

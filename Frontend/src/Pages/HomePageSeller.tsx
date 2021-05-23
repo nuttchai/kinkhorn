@@ -5,7 +5,6 @@ import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
-// import ButtonBase from '@material-ui/core/ButtonBase';
 import * as apicall from '../api/apicall';
 import { Link } from 'react-router-dom';
 import Subtitle from '../Components/Subtitle';
@@ -43,14 +42,12 @@ export default function HomePageSeller() {
 
   useEffect(() => {
     apicall.getMyStore(userContext.user._id).then((res) => {
-      // console.log('res getMyStore :', res.data);
       setMyStore(res.data);
-    // apicall.getQueueSeller(userContext.user._id).then((res) => {
-    //   console.log('res getQueue : ', res.data)
-    // }).catch( err => console.log('err : ',err))
+  
     });
   }, []);
 
+  // console.log('myStore : ', mystore)
   const OrderContent = (
     <>
       {mystore.map((store: any,index : number) => {
@@ -77,7 +74,6 @@ export default function HomePageSeller() {
   return (
     <div className={classes.root}>
       <h2 style={{ margin: '4px 8px' }}>Order</h2>
-
       {OrderContent}
     </div>
   );
