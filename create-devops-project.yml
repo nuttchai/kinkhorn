@@ -6,6 +6,7 @@
     new_version: build_test
     docker_name: nuttchai
 
+
   tasks:
   - name: stop current running container
     command: docker stop api

@@ -2,24 +2,32 @@
 - hosts: localhost
   become: true
   vars:
-    version: build_test
-    docker_name: nuttchai
-
+    version: k8s1.0
+    docker_name: nuttchai  
+    images:
+      - path: backend
+        image_name: kk_api
+      - path: Frontend
+        image_name: kk_frontend
+      - path: loginServer
+        image_name: kk_loginserver
+  
   tasks:
     - name: create docker image
-      command: docker build -t kk_api:{{ version }} .
+      command: docker build -t {{ item.image_name }}:{{ version }} .
       args:
-        chdir: /opt/docker/backend
-    
-    - name: create tag to image
-      command: docker tag kk_api:{{ version }} {{ docker_name }}/kk_api:{{ version }}
+        chdir: /opt/docker/{{ item.path }}
+      loop: "{{ images }}"
 
-    # - name: docker login
-    #   command: docker login -u "nuttchai"
+    - name: create tag to image
+      command: docker tag {{ item.image_name }}:{{ version }} {{ docker_name }}/{{ item.image_name }}:{{ version }}
+      loop: "{{ images }}"
 
     - name: push image on to dockerhub
-      command: docker push {{ docker_name }}/kk_api:{{ version }}
-
+      command: docker push {{ docker_name }}/{{ item.image_name }}:{{ version }}
+      loop: "{{ images }}"
+      
     - name: remove docker images from ansible server
-      command: docker rmi {{ docker_name }}/kk_api:{{ version }} kk_api:{{ version }}
+      command: docker rmi {{ docker_name }}/{{ item.image_name }}:{{ version }} {{ item.image_name }}:{{ version }}
+      loop: "{{ images }}"
       ignore_errors: yes
