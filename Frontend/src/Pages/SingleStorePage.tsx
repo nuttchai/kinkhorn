@@ -77,11 +77,15 @@ const SingleStorePage = ({ currentKiosk }: any) => {
     storeStatus: false,
   });
   const [edit, setEdit] = useState(false);
-
   const [newMenu, setNewMenu] = useState<menuType[]>([]);
 
   useEffect(() => {
+    console.log('current :', currentKiosk);
     setNewMenu(currentKiosk.id.menu);
+    if(currentKiosk.id.status === 'open'){
+      setState({ ...state, storeStatus : true})
+    }
+    // setState(currentKiosk.id.shop);
   }, []);
 
   const handleAddFields = () => {
