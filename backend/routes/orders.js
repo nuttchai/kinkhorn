@@ -13,6 +13,8 @@ router.post('/customer', async (req, res, next) => {
   try {
     const order = new Order({
       shopId: req.body.shopId,        // .body simplify a complex message to a simple form
+      shop: req.body.shop,
+      area: req.body.area,
       userId: req.body.userId,
       recieveTime: req.body.recieveTime,
       orderList: req.body.orderList
@@ -74,6 +76,7 @@ router.post('/customer', async (req, res, next) => {
 // change status to be "accept" or "complete" of the order
 router.put('/frontstore/:orderId/:status', async (req, res, next) => {
   try {
+
     const status = req.params.status;
     const orderId = req.params.orderId;
 
@@ -83,6 +86,7 @@ router.put('/frontstore/:orderId/:status', async (req, res, next) => {
                              success: false });
       return;
     }
+
     Order.updateOne({ _id: orderId }, { status: status })
          .then(result => {
                 res.status(200).json({ message: "order updated sucessfully!",
@@ -177,7 +181,7 @@ router.delete('/:command/:orderId', async (req, res, next) => {
 // get order queue (from customer or frontstore view)
 router.get('/queue/:viewer/:id', async (req, res, next) => {
   try {
-
+    console.log('getting data...')
     // "foq" stands for frontstore order queue
     // "coq" stands for customer order queue
     // viewerCode is code that is added to id in redis
@@ -201,30 +205,35 @@ router.get('/queue/:viewer/:id', async (req, res, next) => {
 
     // find data from redis
     const getOrderFromRedis = await app_api.getAsync(redisId);
+    // console.log(getOrderFromRedis)
 
     if (!getOrderFromRedis) {
       // In case of there is no data in redis but still is in database
       let queue;
+      let ordering_shop;
       if (viewerCode == "foq") {
         queue = await Order.find({ shopId : id })
-        ordering_shop = await Shop.find({ "_id" : id })
+        // ordering_shop = await Shop.find({ "_id" : id })
       } else {
         queue = await Order.find({ userId : id })
-        ordering_shop = await Shop.find({ "_id" : queue.shopId })
+        // ordering_shop = await Shop.find({ "_id" : queue[0].shopId })
       }
 
-      var shop_data = {
-        "shop_name": ordering_shop.shop,
-        "area": ordering_shop.area,
-      }
+      // console.log(ordering_shop)
+
+      // for (var i = 0; i < queue.length; i++) {
+      //   queue[i].shop_name = ordering_shop[0].shop
+      //   queue[i].shop_area = ordering_shop[0].area
+      // }
+
+      // console.log(queue)
 
       if (queue.length != 0) {
         // data found
         res.status(200).json({
           source: "mongodb",
           message: "query the queue sucessfully!",
-          data: queue,
-          shop_detail: shop_data,
+          data: queue
         });
         // update in redis given with a apporpriate viewer
         await app_api.redis.set(redisId, JSON.stringify(queue));
@@ -234,8 +243,7 @@ router.get('/queue/:viewer/:id', async (req, res, next) => {
         res.status(404).json({
           givenId: id,
           message: "no order yet (or maybe invalid given id)",
-          data: queue,
-          shop_detail: shop_data,
+          data: queue
         });
       }
 
@@ -288,11 +296,19 @@ router.get('/record/:viewer/:id', async (req, res, next) => {
     if (!getRecordFromRedis) {
       // In case of there is no data in redis but still is in database
       let record;
+      // let ordering_shop;
       if (viewerCode == "for") {
         record = await OrderRecord.find({ shopId : id, complete : true })
+        // ordering_shop = await Shop.find({ "_id" : id })
       } else {
         record = await OrderRecord.find({ userId : id })
+        // ordering_shop = await Shop.find({ "_id" : record.shopId })
       }
+
+      // for (var i = 0; i < record.length; i++) {
+      //   record[i].shop_name = ordering_shop.shop
+      //   record[i].shop_area = ordering_shop.area
+      // }
 
       if (record.length != 0) {
         // data found

@@ -1,6 +1,6 @@
 const express = require('express');
 const multer = require('multer');
-const multers3 = require('multer-s3-v3');
+const multers3 = require('multer-s3');
 
 const Shop = require('../models/shop');
 const app_api = require('../app');
@@ -9,16 +9,15 @@ const router = express.Router();
 const title = "shopList";
 //const expiration = 3600; // second units
 
-const fs = require('fs');
-const path = require('path');
+const AWS = require('aws-sdk');
 
 // These values will be either what's in .env,
 // or what's in the Docker, Heroku, AWS environment
 const AWS_ACCESS_KEY = process.env.AWS_ACCESS_KEY;
 const AWS_SECRET_ACCESS_KEY = process.env.AWS_SECRET_ACCESS_KEY;
-const AWS_BUCKET_NAME = 'kinkhorn-bucket-1';
+const AWS_BUCKET_NAME = process.env.AWS_BUCKET_NAME;
 
-const AWS = require('aws-sdk');
+
 const s3 = new AWS.S3({
     accessKeyId: AWS_ACCESS_KEY,
     secretAccessKey: AWS_SECRET_ACCESS_KEY
@@ -34,13 +33,12 @@ const MIME_TYPE_MAP = {
 const storages = multers3({
     s3:s3,
     bucket:AWS_BUCKET_NAME,
-    acl:'public-read',
+    ACL:'public-read',
     contentType: (req,file,cb) => {
         const ext = MIME_TYPE_MAP[file.mimetype];
         cb(null,ext);
     },
-    key:(req, file, cb) => {
-
+    key:(req,file,cb) => {
         const name = file.originalname.split('.')[0]
             .toLowerCase()
             .split(" ")
@@ -48,6 +46,13 @@ const storages = multers3({
         const ext = MIME_TYPE_MAP[file.mimetype];
         const nameFile = name + "." + ext
         cb(null, nameFile);
+    },
+    fileFilter:(req,file,cb)=>{
+        if  (file.mimetype != "image/png" | "image/jpg" ){
+            RegExp.fileValidationError = "Mimetype goes wrong"
+            return cb(null,false, new Error('Mimetype goes wrong'));
+        }
+        cb(null,true);
     }
 })
 
@@ -56,13 +61,10 @@ const upload = multer({
 });
 
 router.post('/upload', upload.single('image'), async (req, res) => {  
-    if (err){
-        console.log('Something went wrong with the image')
-        res.send('Something went wrong')
-    }else{
-        res.send('uploaded!')
-        next();
+    if(req.fileValidationError){
+        return res.send('FileValidationError')
     }
+    res.send('uploaded!')
 });
 
 // get shop list (frontstore side)

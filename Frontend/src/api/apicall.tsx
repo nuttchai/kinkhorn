@@ -1,12 +1,11 @@
 import axiosInstance from './axiosinstance';
-import axios, { AxiosResponse } from 'axios';
-import { useContext } from 'react';
-import { UserContext } from '../Context/UserContext';
-import User from '../Types/User';
+import { AxiosResponse } from 'axios';
 
 export interface IPlaceOrderRequest {
   shopId: string;
   userId: string;
+  shop : string;
+  area : string;
   orderList: any[];
 }
 
@@ -111,7 +110,7 @@ export interface IchangeStatusResponse {
 export const placeOrder = async (
   json: IPlaceOrderRequest
 ): Promise<AxiosResponse<IplaceOrderResponse>> => {
-  // console.log(json);
+  console.log(json);
   const res = await axiosInstance.post('/api/orders/customer', json);
   return res;
 };
@@ -223,7 +222,7 @@ export const setOpenCloseStore = async (
 };
 
 export const changeStatus = async (orderId : string, status : string ) : Promise<AxiosResponse<IchangeStatusResponse>> => {
-  const path = '/api/frontstore/' + orderId + '/' + status
+  const path = '/api/orders/frontstore/' + orderId + '/' + status
   const res = await axiosInstance.put(path)
   return res;
 } 
