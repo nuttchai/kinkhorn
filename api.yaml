@@ -17,6 +17,7 @@ spec:
       containers:
       - name: api
         image: nuttchai/kk_api:k8s1.0
+        imagePullPolicy: Always
         ports:
         - containerPort: 9000
         env:

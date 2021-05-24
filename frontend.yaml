@@ -17,6 +17,7 @@ spec:
       containers:
       - name: frontend
         image: nuttchai/kk_frontend:k8s1.0
+        imagePullPolicy: Always
         ports:
         - containerPort: 3000
         env:
@@ -25,6 +26,7 @@ spec:
             configMapKeyRef:
               name: api-configmap
               key: api_url
+      restartPolicy: Always
 ---
 apiVersion: v1
 kind: Service
