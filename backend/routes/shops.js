@@ -8,6 +8,20 @@ const router = express.Router();
 const title = "shopList";
 //const expiration = 3600; // second units
 
+const fs = require('fs');
+const path = require('path');
+
+// These values will be either what's in .env,
+// or what's in the Docker, Heroku, AWS environment
+const AWS_ACCESS_KEY = process.env.AWS_ACCESS_KEY;
+const AWS_SECRET_ACCESS_KEY = process.env.AWS_SECRET_ACCESS_KEY;
+
+const AWS = require('aws-sdk');
+const s3 = new AWS.S3({
+    accessKeyId: AWS_ACCESS_KEY,
+    secretAccessKey: AWS_SECRET_ACCESS_KEY
+});
+
 // upload image
 const MIME_TYPE_MAP = {
     "image/png": "png",
@@ -40,6 +54,20 @@ router.post('/upload', upload.single('image'), (req, res) => {
     console.log(req);
     res.send('upload!')
     //console.log(req.body.body.shop)
+
+    // upload to AWS S3
+    const fileStream = fs.createReadStream('script/KinKhorn/backend/src/images/*');
+    return new Promise(function(resolve, reject) {
+        fileStream.once('error', reject);
+        s3.upload(
+            {
+                Bucket: 'kinkhorn-bucket-1',
+                Key: 'testname',
+                Body: fileStream,
+                ContentType: 'image/jpg'
+            }
+        ).promise().then(resolve, reject);
+    });
 });
 
 // get shop list (frontstore side)

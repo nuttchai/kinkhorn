@@ -81,6 +81,10 @@ app.use(express.static(__dirname + '/public'));
 app.use("/api/shops", shopsRoutes);
 app.use("/api/orders", ordersRoutes);
 
+app.get('/', async (req, res, next) => {
+  res.send("Hello World!");
+})
+
 module.exports.app = app;
 module.exports.redis = redis;
 module.exports.getAsync = getAsync;
