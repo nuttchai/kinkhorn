@@ -1,0 +1,84 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-deployment
+  labels:
+    app: api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api
+  template:
+    metadata:
+      labels:
+        app: api
+    spec:
+      containers:
+      - name: api
+        image: nuttchai/kk_api:k8s1.0
+        ports:
+        - containerPort: 9000
+        env:
+        - name: PORT
+          valueFrom:
+            secretKeyRef:
+              name: api-secret
+              key: api-port
+        - name: MONGO_DB
+          valueFrom: 
+            secretKeyRef:
+              name: api-secret
+              key: mongo-db
+        - name: MONGO_USER
+          valueFrom: 
+            secretKeyRef:
+              name: api-secret
+              key: mongo-root-username
+        - name: MONGO_PASS
+          valueFrom: 
+            secretKeyRef:
+              name: api-secret
+              key: mongo-root-password
+        - name: MONGO_URL
+          valueFrom: 
+            secretKeyRef:
+              name: api-secret
+              key: mongo-url
+        - name: REDIS_HOST
+          valueFrom: 
+            secretKeyRef:
+              name: api-secret
+              key: redis-url
+        - name: REDIS_PORT
+          valueFrom: 
+            secretKeyRef:
+              name: api-secret
+              key: redis-port
+        - name: REDIS_PASS
+          valueFrom: 
+            secretKeyRef:
+              name: api-secret
+              key: redis-pass
+        - name: AWS_ACCESS_KEY
+          valueFrom: 
+            secretKeyRef:
+              name: api-secret
+              key: aws-access-key
+        - name: AWS_SECRET_ACCESS_KEY
+          valueFrom: 
+            secretKeyRef:
+              name: api-secret
+              key: aws-secret-key
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: api-service
+spec:
+  selector:
+    app: api
+  ports:
+    - protocol: TCP
+      port: 9000
+      targetPort: 9000
