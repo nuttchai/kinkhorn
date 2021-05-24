@@ -73,6 +73,16 @@ export const loadOrderStatus = (order : any) => {
   };
 }
 
+export const loadCurrentOrder = (order : any) => {
+  console.log('load current order ',order)
+  return {
+    type : actionTypes.LOAD_CURRENT_ORDER,
+    payload : {
+      currentOrder : order,
+    }
+  }
+}
+
 // export const loadOrderStatusSuccess = (order : any) =>{
 //   return {
 //     type: actionTypes.FETCH_KIOSKS_SUCCESS,

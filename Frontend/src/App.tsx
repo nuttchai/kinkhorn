@@ -89,7 +89,7 @@ function App({current} : any) {
       <Route exact path='/oauth/logout'/>
       <Redirect from="/" to="/order" />
       <Route exact path = '/order' component = {HomePageSeller} />
-      <Route exact path = '/order/id' component = {SingleOrderPage} />
+      <Route exact path = '/order/:id' component = {SingleOrderPage} />
       <Route exact path = '/orderHistory' component = {OrderHistoryPage} />
       <Route exact path = '/mystore' component = {MyStorePage} />
       <Route exact path = '/mystore/:id' component = {SingleStorePage}/>

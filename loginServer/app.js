@@ -83,11 +83,6 @@ passport.deserializeUser(function (obj, cb) {
   cb(null, obj);
 });
 
-// var idCardInserted = {
-//   "name" : null,
-//   "system" : null,
-//   "mac" : null,
-// }
 let machineArray = new Array()
 let idArray = new Array()
 
@@ -170,7 +165,8 @@ app.get("/oauth/success", (req, res) => {
     role: "customer",
     registered: false,
   });
-
+  person.name = person.name.toUpperCase()
+  
   db.collection("people")
     .find({"name": person.name})
     .toArray(function (err, result) {

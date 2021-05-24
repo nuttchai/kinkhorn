@@ -9,6 +9,7 @@ interface TYPE_INITIAL_STATE {
   error: string;
   loading: boolean;
   orderstatus : any;
+  currentOrder : any;
 }
 // DATA EXAMPLE
 // {
@@ -40,6 +41,7 @@ const INITIAL_STATE: TYPE_INITIAL_STATE = {
   error: '',
   loading: false,
   orderstatus : [],
+  currentOrder : {},
 };
 
 const shopReducer = (state = INITIAL_STATE, action: any) => {
@@ -105,6 +107,11 @@ const shopReducer = (state = INITIAL_STATE, action: any) => {
       return{
         ...state,
         orderstatus : action.payload,
+      };
+    case actionTypes.LOAD_CURRENT_ORDER:
+      return{
+        ...state,
+        currentOrder : action.payload,
       }
     case actionTypes.FETCH_KIOSKS_REQUEST:
       return {

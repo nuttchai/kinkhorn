@@ -6,7 +6,7 @@ import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
-
+import { connect } from 'react-redux';
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -32,11 +32,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SingleOrderPage() {
+const SingleOrderPage = () => {
   const userContext = useContext(UserContext);
   const params = { id: userContext.user._id };
   const classes = useStyles();
-  // const params = { 'id' : '---userId---'};
+
   useEffect(() => {
     // axios
     //   .get("http://143.198.208.245:9000/api/orders/queue/customer", { params })
@@ -196,3 +196,11 @@ export default function SingleOrderPage() {
     </div>
   );
 }
+
+const mapStateToProps = (state : any) => {
+  return {
+    current: state.shop.currentItem,
+  };
+};
+
+export default connect(mapStateToProps)(SingleOrderPage);

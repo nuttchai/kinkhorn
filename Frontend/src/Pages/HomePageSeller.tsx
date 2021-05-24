@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom';
 import Subtitle from '../Components/Subtitle';
 import VerticalLine from '../Components/VerticalLine';
 import ColorLine from '../Components/ColorLine';
+import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -46,31 +47,39 @@ export default function HomePageSeller() {
   };
 
   useEffect(() => {
-    apicall.getMyStore(userContext.user._id).then((res) => {
-      console.log('res', res.data);
-      setMyStore(res.data);
-    });
-    
-    apicall.getQueueSeller('60aa81019f558400b7de3fd9').then((res) => {
-      console.log('res', res);
-    })
-    
-    console.log('my store : ',mystore);
 
-    mystore.map((store: any, index: number) => {
-      console.log(store._id);
-      apicall
-        .getQueueSeller(store._id)
-        .then((res) => {
-          console.log('res', index, res);
-          setMyQueue(res.data);
-        })
-        .catch((err) => console.log('err : ', index, err));
-    });
+    apicall.getMyStore(userContext.user._id).then((res) => {
+      // console.log('res', res.data);
+      // setMyStore(res.data);
+      res.data.map((store, index: number) => {
+        console.log(store);
+        // apicall
+        //   .getQueueSeller(store._id)
+        //   .then((res) => {
+        //     console.log('res', index, res);
+        //     setMyQueue(res.data);
+        //   })
+        //   .catch((err) => console.log('err : ', index, err));
+        return (<div>
+          ...
+        </div>)
+      });
+    }).catch(err => console.log('err : ', err));
+    
+    // apicall.getQueueSeller('60aa81019f558400b7de3fd9').then((res) => {
+    //   console.log('res', res.data);
+    //   setMyQueue(res.data);
+    // })
+    
+    // console.log('my store : ',mystore);
+
+    
+
     console.log('MyQueue : ', myqueue);
   }, []);
 
   console.log('my store : ',mystore);
+  
   const OrderContent = (
     <>
       {mystore.map((store: any, index: number) => {
@@ -80,7 +89,8 @@ export default function HomePageSeller() {
             <div style ={{display : 'flex', flexFlow : 'column'}}>
               <h4 style={{ margin: '4px 8px' }}>{store.shop} ({myqueue.length})</h4>
             </div>
-            <Link to="/order/id" key={index}>
+            {/* <Link to="/order/id" key={index}> */}
+            {/* <Link to ={`menu/${ele._id}`}> */}
               <Paper className={classes.paper}>
                 <Grid container wrap="nowrap" spacing={2}>
                   <Grid item xs zeroMinWidth>
@@ -89,44 +99,45 @@ export default function HomePageSeller() {
                         console.log('queue : ', queue);
                         return (
                           <>
-                            
-                              <Grid item xs key={index}>
-                                <div
-                                  style={{
-                                    display: 'flex',
-                                    flexFlow: 'row',
-                                    justifyContent: 'space-between',
-                                  }}
-                                >
-                                  <Subtitle font="14px">{queue._id}</Subtitle>
-                                  <Subtitle>{queue.orderTime}</Subtitle>
-                                </div>
-                                <div
-                                  style={{
-                                    display: 'flex',
-                                    flexFlow: 'row',
-                                    justifyContent: 'space-between',
-                                  }}
-                                >
+                              <Link to = {`order/${queue._id}`} key={`${queue._id}`}>
+                                <Grid item xs key={index}>
                                   <div
-                                    style={{ display: 'flex', flexFlow: 'row' }}
+                                    style={{
+                                      display: 'flex',
+                                      flexFlow: 'row',
+                                      justifyContent: 'space-between',
+                                    }}
+                                  >
+                                    <Subtitle font="14px">{queue._id}</Subtitle>
+                                    <Subtitle>{queue.orderTime}</Subtitle>
+                                  </div>
+                                  <div
+                                    style={{
+                                      display: 'flex',
+                                      flexFlow: 'row',
+                                      justifyContent: 'space-between',
+                                    }}
                                   >
                                     <div
-                                      style={{
-                                        fontWeight: 'bold',
-                                        marginRight: '4px',
-                                      }}
+                                      style={{ display: 'flex', flexFlow: 'row' }}
                                     >
-                                      {queue.orderList.length} items{' '}
-                                    </div>{' '}
-                                    {/* <div>for Visarut</div> */}
+                                      <div
+                                        style={{
+                                          fontWeight: 'bold',
+                                          marginRight: '4px',
+                                        }}
+                                      >
+                                        {queue.orderList.length} items{' '}
+                                      </div>{' '}
+                                      {/* <div>for Visarut</div> */}
+                                    </div>
+                                    <div style={{ marginTop: '0' }}>
+                                      <i className="fas fa-chevron-right"></i>
+                                    </div>
                                   </div>
-                                  <div style={{ marginTop: '0' }}>
-                                    <i className="fas fa-chevron-right"></i>
-                                  </div>
-                                </div>
-                              </Grid>
-                              <ColorLine color="#C1C7CF" />
+                                </Grid>
+                                <ColorLine color="#C1C7CF" />
+                              </Link>
                           </>
                         );
                       })}
@@ -134,7 +145,7 @@ export default function HomePageSeller() {
                   </Grid>
                 </Grid>
               </Paper>
-            </Link>
+            {/* </Link> */}
           </>
         );
       })}

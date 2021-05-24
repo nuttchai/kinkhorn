@@ -16,6 +16,8 @@ router.post('/customer', async (req, res, next) => {
       orderList: req.body.orderList
     });
 
+    console.log(req.body)
+
     const orderedFood = await order.save();
     res.status(201).json({
       orderId: orderedFood._id,

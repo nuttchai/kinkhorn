@@ -1,5 +1,6 @@
 const express = require('express');
 const multer = require('multer');
+const multers3 = require('multer-s3');
 
 const Shop = require('../models/shop');
 const app_api = require('../app');
@@ -15,6 +16,7 @@ const path = require('path');
 // or what's in the Docker, Heroku, AWS environment
 const AWS_ACCESS_KEY = process.env.AWS_ACCESS_KEY;
 const AWS_SECRET_ACCESS_KEY = process.env.AWS_SECRET_ACCESS_KEY;
+const AWS_BUCKET_NAME = 'kinkhorn-bucket-1';
 
 const AWS = require('aws-sdk');
 const s3 = new AWS.S3({
@@ -28,7 +30,7 @@ const MIME_TYPE_MAP = {
     "image/jpeg": "jpg",
     "image/jpg": "jpg"
 };
-
+/*
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     const isValid = MIME_TYPE_MAP[file.mimetype];
@@ -49,31 +51,33 @@ const storage = multer.diskStorage({
     const nameFile = name + "." + ext
     cb(null, nameFile);
     //cb(null, name + "-" + Date.now() + "." + ext);
-    
-    const fileStream = fs.readFileSync('./src/images/' + nameFile);
-    s3.upload(
-        {
-            Bucket: 'kinkhorn-bucket-1',
-            Key: nameFile,
-            Body: fileStream,
-            ContentType: 'image/' + ext,
-            ACL:'public-read'
-        },
-        function(err, data){
-            console.log(err, data);
-        }
-    )
-    console.log('AWS S3 upload passed')
-   }
-
+  }
 });
-const upload = multer({ storage: storage });
+*/
+const upload = multer({ 
+    storage: multers3({
+        s3:s3,
+        bucket:AWS_BUCKET_NAME,
+        ACL:'public-read',
+        contentType: (req,file,cb) => {
+            const ext = MIME_TYPE_MAP[file.mimetype];
+            cb(null,ext);
+        },
+        key:(req, file, cb) => {
+    
+            const name = file.originalname.split('.')[0]
+                .toLowerCase()
+                .split(" ")
+                .join("-");
+            const ext = MIME_TYPE_MAP[file.mimetype];
+            const nameFile = name + "." + ext
+            cb(null, nameFile);
+          }
+    }) 
+});
 
 router.post('/upload', upload.single('image'), async (req, res) => {    
-    res.send('upload!')
-    //console.log(req.body.body.shop)
-    //console.log(name + "." + ext);
-    // upload to AWS S3
+    res.send('uploaded!')
 });
 
 // get shop list (frontstore side)

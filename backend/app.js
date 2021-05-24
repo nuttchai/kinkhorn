@@ -11,10 +11,29 @@ const app = express();
 // mongoose.connect('mongodb://kinkhorn:TcdVQ7XhxnS3Mp32uGSU@172.31.25.123:27017/ciekinkhorn', 
 //                 { useNewUrlParser: true, useUnifiedTopology: true });
 
+// // document-db
+// mongoose.connect(process.env.MONGO_URL,
+//                 { 
+//                   dbName: process.env.MONGO_DB,
+//                   retryWrites: false,
+//                   useFindAndModify: false,
+//                   useNewUrlParser: true,
+//                   useUnifiedTopology: true,
+//                   //replicaSet: 'rs0',
+//                   readPreference: 'secondaryPreferred',
+//                   auth: {
+//                     user: process.env.MONGO_USER,
+//                     password: process.env.MONGO_PASS
+//                   },
+//                   tls: true,
+//                   tlsCAFile: './src/cert/rds-combined-ca-bundle.pem',
+//                   //tlsAllowInvalidHostNames: true
+//                 });
+
 // document-db
-mongoose.connect(process.env.MONGO_URL,
+mongoose.connect('mongodb://kinkhorn-db.cluster-ciluasfmkj9g.ap-southeast-1.docdb.amazonaws.com:27017',
                 { 
-                  dbName: process.env.MONGO_DB,
+                  dbName: 'ciekinkhorn',
                   retryWrites: false,
                   useFindAndModify: false,
                   useNewUrlParser: true,
@@ -22,14 +41,14 @@ mongoose.connect(process.env.MONGO_URL,
                   //replicaSet: 'rs0',
                   readPreference: 'secondaryPreferred',
                   auth: {
-                    user: process.env.MONGO_USER,
-                    password: process.env.MONGO_PASS
+                    user: 'kinkhorn',
+                    password: 'TcdVQ7XhxnS3Mp32uGSU'
                   },
                   tls: true,
                   tlsCAFile: './src/cert/rds-combined-ca-bundle.pem',
                   //tlsAllowInvalidHostNames: true
                 });
-
+                
 // oomhaikumrangjainutt<3
 
 // redis
