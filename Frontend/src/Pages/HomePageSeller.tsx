@@ -106,6 +106,7 @@ export default function HomePageSeller() {
               <Grid item xs container direction="column" spacing={2}>
                 {myqueue.map((queue: any) => {
                   // console.log('queue : ', queue);
+                  const time = queue.orderTime.slice(11,16)
                   return (
                     <>
                       {/* <Link to={`order/${queue._id}`} key={`${queue._id}`}> */}
@@ -123,7 +124,7 @@ export default function HomePageSeller() {
                           }}
                         >
                           <Subtitle font="14px">{queue._id}</Subtitle>
-                          <Subtitle>{queue.orderTime}</Subtitle>
+                          <Subtitle>{time}</Subtitle>
                         </div>
                         <div
                           style={{

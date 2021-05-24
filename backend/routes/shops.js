@@ -56,7 +56,13 @@ const upload = multer({
 });
 
 router.post('/upload', upload.single('image'), async (req, res) => {  
-    res.send('uploaded!')
+    if (err){
+        console.log('Something went wrong with the image')
+        res.send('Something went wrong')
+    }else{
+        res.send('uploaded!')
+        next();
+    }
 });
 
 // get shop list (frontstore side)

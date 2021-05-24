@@ -207,16 +207,24 @@ router.get('/queue/:viewer/:id', async (req, res, next) => {
       let queue;
       if (viewerCode == "foq") {
         queue = await Order.find({ shopId : id })
+        ordering_shop = await Shop.find({ "_id" : id })
       } else {
         queue = await Order.find({ userId : id })
+        ordering_shop = await Shop.find({ "_id" : queue.shopId })
       }
-      
+
+      var shop_data = {
+        "shop_name": ordering_shop.shop,
+        "area": ordering_shop.area,
+      }
+
       if (queue.length != 0) {
         // data found
         res.status(200).json({
           source: "mongodb",
           message: "query the queue sucessfully!",
-          data: queue
+          data: queue,
+          shop_detail: shop_data,
         });
         // update in redis given with a apporpriate viewer
         await app_api.redis.set(redisId, JSON.stringify(queue));
@@ -226,7 +234,8 @@ router.get('/queue/:viewer/:id', async (req, res, next) => {
         res.status(404).json({
           givenId: id,
           message: "no order yet (or maybe invalid given id)",
-          data: queue
+          data: queue,
+          shop_detail: shop_data,
         });
       }
 

@@ -56,32 +56,21 @@ const HistoryPage = ({currentOrder} : any ) => {
     //   .get("http://143.198.208.245:9000/api/orders/queue/customer", { params })
     //   .then((res) => console.log("res :", res));
   }, []);
-
-  const DateTimeToTime = (time : string) => {
-    console.log('time : ', time.slice(10,15));
   
-  //   var currDate = new time(),
-  //   filterTime = currDate.getHours() + ':' + currDate.getMinutes();
-
-  //   this.state = {
-  //     currentTime: filterTime
-
-  //   }
-
-    
-  // }
-
-  // render(){
-  //   return (
-  //     <div>
-  //       <p>
-  //         { this.state.currentTime}
-  //       </p>
-  //     </div>
-  //   );
-  // }
-}
-  DateTimeToTime("2021-05-24T11:27:19.838Z");
+  // const MockData = [{
+  //   _id : "1234",
+  //   orderList : [{
+  //     qty : 1,
+  //     name : "isiam",
+  //     price : 20,
+  //     qty : 1,
+  //   },],
+  //   orderTime : '11:27:19',
+  //   receiveTime : '11:29:19',
+  //   shopId : "notaccept",
+  //   userId : "63413",
+  //   shopname : "shopname"
+  // }]
 
   return (
     <div style={{ width: "100%" }} className={classes.root}>
