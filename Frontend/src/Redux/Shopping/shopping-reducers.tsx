@@ -8,6 +8,7 @@ interface TYPE_INITIAL_STATE {
   currentKiosk: any;
   error: string;
   loading: boolean;
+  orderstatus : any;
 }
 // DATA EXAMPLE
 // {
@@ -38,6 +39,7 @@ const INITIAL_STATE: TYPE_INITIAL_STATE = {
   currentKiosk: [],
   error: '',
   loading: false,
+  orderstatus : [],
 };
 
 const shopReducer = (state = INITIAL_STATE, action: any) => {
@@ -56,7 +58,7 @@ const shopReducer = (state = INITIAL_STATE, action: any) => {
         (item: any) => (item._id === action.payload.id ? true : false)
         // console.log(item)
       );
-      console.log('inCart : ', inCart);
+      // console.log('inCart : ', inCart);
       // console.log(state.products);
       // console.log(action);
       return {
@@ -99,10 +101,15 @@ const shopReducer = (state = INITIAL_STATE, action: any) => {
         ...state,
         currentKiosk: action.payload,
       };
+    case actionTypes.LOAD_ORDER_STATUS:
+      return{
+        ...state,
+        orderstatus : action.payload,
+      }
     case actionTypes.FETCH_KIOSKS_REQUEST:
       return {
         ...state,
-        loading: true,
+      loading: true,
       };
     case actionTypes.FETCH_KIOSKS_SUCCESS:
       return {

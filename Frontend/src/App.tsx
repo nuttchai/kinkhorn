@@ -47,7 +47,6 @@ function App({current} : any) {
   useLayoutEffect(() => {
     apicall.getUserInfo()
       .then((res) => {
-
         userContext.setCurrentUser(res.data);
       })
       .catch((err) => console.error(err));

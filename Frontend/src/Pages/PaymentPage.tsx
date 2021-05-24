@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect } from 'react';
+import React, { useReducer, useEffect, useContext } from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
 import TextField from '@material-ui/core/TextField';
@@ -15,6 +15,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Avatar from '@material-ui/core/Avatar';
 import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
 import Box from '@material-ui/core/Box';
+import {UserContext} from '../Context/UserContext';
 
 function Copyright() {
   return (
@@ -138,6 +139,7 @@ const reducer = (state: State, action: Action): State => {
 }
 
 const Login = () => {
+  const userContext = useContext(UserContext);
   const classes = useStyles();
   const [state, dispatch] = useReducer(reducer, initialState);
 
@@ -158,7 +160,14 @@ const Login = () => {
   
   const handleLogin = () => {
     apicall.topUp(state.topUpAmount).then( res => console.log(res)).catch(err => console.log('err : ', err))
+    // apicall.getUserInfo()
+    // .then((res) => {
+
+    //   userContext.setCurrentUser(res.data);
+    // })
+    // .catch((err) => console.error(err));
     alert('Success!')
+    
 
   };
 

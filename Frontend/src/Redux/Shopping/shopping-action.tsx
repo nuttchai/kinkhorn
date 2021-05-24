@@ -63,6 +63,25 @@ export const loadCurrentKiosk = (clickKiosk: apicall.Imystore) => {
   };
 };
 
+export const loadOrderStatus = (order : any) => {
+  console.log('order : ',order)
+  return {
+    type: actionTypes.LOAD_ORDER_STATUS,
+    payload: {
+      orderstatus : order,
+    }
+  };
+}
+
+// export const loadOrderStatusSuccess = (order : any) =>{
+//   return {
+//     type: actionTypes.FETCH_KIOSKS_SUCCESS,
+//     payload: order,
+//   };
+// }
+
+
+
 export const adjustItemQty = (clickedItem: CartItemType, qty: any) => {
   return {
     type: actionTypes.ADJUST_QTY,
@@ -76,7 +95,7 @@ export const adjustItemQty = (clickedItem: CartItemType, qty: any) => {
 export const fetchKiosks = () => {
   return (dispatch: any) => {
     apicall.fetchKiosks().then((res) => {
-      console.log('res : ', res.data);
+      // console.log('res : ', res.data);
       const kiosks = res.data.data;
       dispatch(fetchKiosksSuccess(kiosks));
     })

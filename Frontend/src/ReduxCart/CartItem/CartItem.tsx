@@ -28,7 +28,7 @@ const CartItem = ({ item, adjustQty, removeFromCart } : any) => {
   };
 
   
-  console.log('before return : ',item);
+  // console.log('before return : ',item);
 
   return (
     <>

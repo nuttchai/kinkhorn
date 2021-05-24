@@ -1,8 +1,9 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 // import styled from 'styled-components';
 import { UserContext } from '../Context/UserContext';
 // import { connect } from "react-redux";
+import * as apicall from '../api/apicall'
 
 export default function Menu() {
   const userContext = useContext(UserContext);
@@ -16,6 +17,17 @@ export default function Menu() {
       })}
     </>
   );
+
+  // useEffect(() => {
+  //   apicall.getUserInfo()
+  //     .then((res) => {
+
+  //       userContext.setCurrentUser(res.data);
+  //     })
+  //     .catch((err) => console.error(err));
+
+  // }, []);
+
   let curUser: JSX.Element = (
     <aside
       className="main-sidebar sidebar-dark-primary elevation-4"
@@ -48,7 +60,7 @@ export default function Menu() {
               <a href="/signin" className="nav-link">
                 <i className="nav-icon fas fa-sign-in-alt" />
                 <p>
-                  Sign I
+                  Sign In
                 </p>
               </a>
             </li>

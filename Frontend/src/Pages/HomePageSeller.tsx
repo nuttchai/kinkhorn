@@ -37,30 +37,99 @@ const useStyles = makeStyles((theme) => ({
 export default function HomePageSeller() {
   const userContext = useContext(UserContext);
   const classes = useStyles();
-  const [mystore, setMyStore] = useState<apicall.IgetMyStoreResponse[]>([]);
+  const [mystore, setMyStore] = useState<any>([]);
+  // const [myqueue, setMyQueue] = useState<apicall.IgetMyStoreResponse[]>([]);
+  const [myqueue, setMyQueue] = useState<any>([]);
   // const params = { id : userContext.user._id }
+  const refreshPage = () => {
+    window.location.reload(false);
+  };
 
   useEffect(() => {
     apicall.getMyStore(userContext.user._id).then((res) => {
+      console.log('res', res.data);
       setMyStore(res.data);
-  
     });
+    
+    apicall.getQueueSeller('60aa81019f558400b7de3fd9').then((res) => {
+      console.log('res', res);
+    })
+    
+    console.log('my store : ',mystore);
+
+    mystore.map((store: any, index: number) => {
+      console.log(store._id);
+      apicall
+        .getQueueSeller(store._id)
+        .then((res) => {
+          console.log('res', index, res);
+          setMyQueue(res.data);
+        })
+        .catch((err) => console.log('err : ', index, err));
+    });
+    console.log('MyQueue : ', myqueue);
   }, []);
 
-  // console.log('myStore : ', mystore)
+  console.log('my store : ',mystore);
   const OrderContent = (
     <>
-      {mystore.map((store: any,index : number) => {
-        // console.log(store);
+      {mystore.map((store: any, index: number) => {
+        console.log('myqueue : ', myqueue);
         return (
           <>
-            <h4 style={{ margin: '4px 8px' }}>{store.shop}</h4>
-             <Link to="/order/id" key = {index}>
+            <div style ={{display : 'flex', flexFlow : 'column'}}>
+              <h4 style={{ margin: '4px 8px' }}>{store.shop} ({myqueue.length})</h4>
+            </div>
+            <Link to="/order/id" key={index}>
               <Paper className={classes.paper}>
                 <Grid container wrap="nowrap" spacing={2}>
                   <Grid item xs zeroMinWidth>
                     <Grid item xs container direction="column" spacing={2}>
-                    
+                      {myqueue.map((queue: any, index: number) => {
+                        console.log('queue : ', queue);
+                        return (
+                          <>
+                            
+                              <Grid item xs key={index}>
+                                <div
+                                  style={{
+                                    display: 'flex',
+                                    flexFlow: 'row',
+                                    justifyContent: 'space-between',
+                                  }}
+                                >
+                                  <Subtitle font="14px">{queue._id}</Subtitle>
+                                  <Subtitle>{queue.orderTime}</Subtitle>
+                                </div>
+                                <div
+                                  style={{
+                                    display: 'flex',
+                                    flexFlow: 'row',
+                                    justifyContent: 'space-between',
+                                  }}
+                                >
+                                  <div
+                                    style={{ display: 'flex', flexFlow: 'row' }}
+                                  >
+                                    <div
+                                      style={{
+                                        fontWeight: 'bold',
+                                        marginRight: '4px',
+                                      }}
+                                    >
+                                      {queue.orderList.length} items{' '}
+                                    </div>{' '}
+                                    {/* <div>for Visarut</div> */}
+                                  </div>
+                                  <div style={{ marginTop: '0' }}>
+                                    <i className="fas fa-chevron-right"></i>
+                                  </div>
+                                </div>
+                              </Grid>
+                              <ColorLine color="#C1C7CF" />
+                          </>
+                        );
+                      })}
                     </Grid>
                   </Grid>
                 </Grid>
@@ -73,6 +142,9 @@ export default function HomePageSeller() {
   );
   return (
     <div className={classes.root}>
+      <div>
+        <button onClick={refreshPage}>Click to reload!</button>
+      </div>
       <h2 style={{ margin: '4px 8px' }}>Order</h2>
       {OrderContent}
     </div>

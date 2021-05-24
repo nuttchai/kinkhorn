@@ -106,7 +106,7 @@ export interface Imystore {
 export const placeOrder = async (
   json: IPlaceOrderRequest
 ): Promise<AxiosResponse<IplaceOrderResponse>> => {
-  console.log(json);
+  // console.log(json);
   const res = await axiosInstance.post('/api/orders/customer', json);
   return res;
 };
@@ -137,12 +137,10 @@ export const getQueueCustomer = async (
 export const getQueueSeller = async (
   id: string
 ): Promise<AxiosResponse<IGetQueueSellerResponse>> => {
-  const params = { id: id };
-  console.log('params : ', params);
-  const res = await axiosInstance.get('/api/orders/queue/frontstore', {
-    params,
-  });
-  return res;
+  const path = '/api/orders/queue/frontstore/' + id
+  console.log('path : ', path);
+  const res = await axiosInstance.get(path);
+  return res.data;
 };
 // FIXME : tmr will do
 export const getHistory = async (

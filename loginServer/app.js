@@ -281,16 +281,24 @@ app.put("/oauth/pay/:money", authenticateJWT, (req, res) => {
 app.get('/oauth/card/exchange', (req, res) => {
   var date = new Date();
   date.setDate(date.getDate() + 10);
-  idArray.forEach(function (arrayItem) {
-    if (arrayItem.taken === false) {
-      res.cookie('machine_token', arrayItem.id, {
+  for (var i = 0; i < idArray.length; i++) {
+    console.log(idArray[i])
+    if (idArray[i].taken === false) {
+      console.log("before ", idArray[i].taken)
+      res.cookie('machine_token', idArray[i].id, {
         expires: date,
         secure: true, // set to true if your using https
         httpOnly: false,
       });
-      arrayItem.take = true
+      idArray[i].taken = true
+      console.log("after ", idArray[i].taken)
+      break;
     }
-  })
+  }
+  res.writeHead(302, {
+    Location: "https://" + process.env.DOMAIN,
+  });
+  res.end();
 })
 
 app.put('/oauth/card/insert', (req, res) => {
@@ -301,6 +309,8 @@ app.put('/oauth/card/insert', (req, res) => {
   } else {
     // console.log(machines[index])
     machineArray[index].data.name = req.body.data.name
+    machineArray[index].data.given_name = req.body.data.given_name
+    machineArray[index].data.family_name = req.body.data.family_name
     machineArray[index].data.system = req.body.data.system
     machineArray[index].data.mac = req.body.data.mac
     machineArray[index].status = req.body.status
@@ -309,6 +319,7 @@ app.put('/oauth/card/insert', (req, res) => {
 });
 
 app.get('/oauth/card/current', (req, res) => {
+  console.log(idArray)
   return res.json(machineArray)
 });
 
@@ -316,4 +327,71 @@ app.get('/oauth/card/generate', (req, res) => {
   var id = crypto.randomBytes(16).toString("hex")
   idArray.push({"id": id, "taken": false})
   return res.json({"machine_token": id})
+})
+
+app.get('/oauth/card/login', (req, res) => {
+
+  var cookie = req.cookies;
+  var machine_id = cookie["machine_token"];
+  var item
+  
+  var person = new People({
+    name: "",
+    given_name: "",
+    family_name: "",
+    picture: "",
+    email: "",
+    role: "customer",
+    registered: false,
+    money: 0,
+  });
+
+  if (machineArray.length === 0) {
+    res.writeHead(401, {
+      Location: "https://" + process.env.DOMAIN,
+    });
+    res.end();
+  }
+
+  machineArray.map(ele => ele.machine === machine_id ? item = ele : item = null)
+  if (item) {
+    person.name = item.data.name
+    person.given_name = item.data.given_name
+    person.family_name = item.data.family_name
+  } 
+
+  db.collection("people")
+    .find({"name": person.name})
+    .toArray(function (err, result) {
+      console.log(result[0])
+      if (result.length === 0) {
+        console.log("New person")
+        person.save()
+      } else {
+        console.log("RESULT", result[0])
+        person = result[0]
+      }
+    })
+  console.log("RESULT2", person)
+  const accessToken = jwt.sign(
+    { "user": person},
+    accessTokenSecret
+  );
+
+  console.log(accessToken)
+
+  var date = new Date();
+  date.setDate(date.getDate() + 2);
+
+  res.cookie('token', accessToken, {
+    expires: date,
+    secure: true, // set to true if your using https
+    httpOnly: false,
+  });
+
+  res.writeHead(302, {
+    Location: "https://" + process.env.DOMAIN,
+  });
+  res.end();
+
 })

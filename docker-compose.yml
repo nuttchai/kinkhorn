@@ -1,53 +1,55 @@
-version: "3"
+version: '3'
 
 services:
   api:
     container_name: api
-    build: 
+    build:
       context: ./backend
       dockerfile: Dockerfile
     image: kk_api:1.0
     restart: always
-    volumes: 
+    volumes:
       - ./backend:/usr/src/app
-      - /usr/src/app/node_modules 
-    env_file: 
+      - /usr/src/app/node_modules
+    env_file:
       - ./backend/environment/backend.env
     ports:
-      - "9000:9000"
-    networks: 
+      - '9000:9000'
+    networks:
       - kinkhorn
 
   frontend:
     container_name: frontend
-    build: 
+    build:
       context: ./Frontend
       dockerfile: Dockerfile
     image: kk_frontend:1.0
     restart: always
-    volumes: 
+    volumes:
       - ./Frontend:/usr/src/app
       - /usr/src/app/node_modules
+    env_file:
+      - ./Frontend/src/variable.env
     ports:
-      - "3000:3000"
-    networks: 
+      - '3000:3000'
+    networks:
       - kinkhorn
 
   loginServer:
     container_name: loginServer
-    build: 
+    build:
       context: ./loginServer
       dockerfile: Dockerfile
     image: kk_loginserver:1.0
     restart: always
-    env_file: 
+    env_file:
       - ./loginServer/environment/.env
-    volumes: 
+    volumes:
       - ./loginServer:/usr/src/app
-      - /usr/src/app/node_modules 
+      - /usr/src/app/node_modules
     ports:
-      - "8000:8000"    
-    networks: 
+      - '8000:8000'
+    networks:
       - kinkhorn
 
   swag:
@@ -55,18 +57,18 @@ services:
     container_name: swag
     cap_add:
       - NET_ADMIN
-    env_file: 
+    env_file:
       - ./swagger/swag.env
     volumes:
       - /swagger/dockervolumn/swag:/config
       - ./swagger/configuration/proxy-conf:/config/nginx/proxy-confs
       - ./swagger/default_setting/default:/config/nginx/site-confs/default
     ports:
-      - "443:443"
-      - "80:80"
+      - '443:443'
+      - '80:80'
     restart: unless-stopped
-    networks: 
+    networks:
       - kinkhorn
 
-networks: 
+networks:
   kinkhorn:

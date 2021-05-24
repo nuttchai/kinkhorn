@@ -37,37 +37,43 @@ const storage = multer.diskStorage({
       error = null;
     }
     cb(error, './src/images')
+    
   },
   filename: (req, file, cb) => {
+    
     const name = file.originalname.split('.')[0] // select only the file name, not its file type
         .toLowerCase()
         .split(" ")
         .join("-");
     const ext = MIME_TYPE_MAP[file.mimetype];
-    cb(null, name + "." + ext);
+    const nameFile = name + "." + ext
+    cb(null, nameFile);
     //cb(null, name + "-" + Date.now() + "." + ext);
-  }
+    
+    const fileStream = fs.readFileSync('./src/images/' + nameFile);
+    s3.upload(
+        {
+            Bucket: 'kinkhorn-bucket-1',
+            Key: nameFile,
+            Body: fileStream,
+            ContentType: 'image/' + ext,
+            ACL:'public-read'
+        },
+        function(err, data){
+            console.log(err, data);
+        }
+    )
+    console.log('AWS S3 upload passed')
+   }
+
 });
 const upload = multer({ storage: storage });
 
-router.post('/upload', upload.single('image'), (req, res) => {
-    console.log(req);
+router.post('/upload', upload.single('image'), async (req, res) => {    
     res.send('upload!')
     //console.log(req.body.body.shop)
-
+    //console.log(name + "." + ext);
     // upload to AWS S3
-    const fileStream = fs.createReadStream('script/KinKhorn/backend/src/images/*');
-    return new Promise(function(resolve, reject) {
-        fileStream.once('error', reject);
-        s3.upload(
-            {
-                Bucket: 'kinkhorn-bucket-1',
-                Key: 'testname',
-                Body: fileStream,
-                ContentType: 'image/jpg'
-            }
-        ).promise().then(resolve, reject);
-    });
 });
 
 // get shop list (frontstore side)
