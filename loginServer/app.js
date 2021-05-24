@@ -166,7 +166,9 @@ app.get("/oauth/success", (req, res) => {
     registered: false,
   });
   person.name = person.name.toUpperCase()
-  
+  person.given_name = person.given_name.toUpperCase()
+  person.family_name = person.family_name.toUpperCase()
+
   db.collection("people")
     .find({"name": person.name})
     .toArray(function (err, result) {

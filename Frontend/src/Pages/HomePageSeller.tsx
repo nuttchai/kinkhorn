@@ -47,108 +47,107 @@ export default function HomePageSeller() {
   };
 
   useEffect(() => {
+    apicall
+      .getMyStore(userContext.user._id)
+      .then((res) => {
+        console.log('res', res.data.data);
+        console.log('res', typeof res.data.data);
+        res.data.data.map((data) => {
+          return apicall
+            .getQueueSeller(data._id)
+            .then((res) => {
+              setMyQueue(res.data)
+              return { ...data, queue: res.data };
+            })
+            .then((data) => {
+              console.log('data ', data);
+              setMyStore(data);
 
-    apicall.getMyStore(userContext.user._id).then((res) => {
-      console.log('res', res.data);
-      // setMyStore(res.data);
-      return res.data
-    }).then(data => console.log('data : ', data))
-    .catch(err => console.log('err : ', err));
-    
-    // apicall.getQueueSeller('60aa81019f558400b7de3fd9').then((res) => {
-    //   console.log('res', res.data);
-    //   setMyQueue(res.data);
-    // })
-    // console.log('my store : ',mystore);
-    
-    mystore.map((store: any, index: number) => {
-      console.log(store._id);
-      apicall
-        .getQueueSeller(store._id)
-        .then((res) => {
-          console.log('res', index, res);
-          setMyQueue(res.data);
-        })
-        .catch((err) => console.log('err : ', index, err));
-    });
-
-    // console.log('MyQueue : ', myqueue);
-
+            });
+        });
+      })
+      .catch((err) => console.log('err : ', err));
   }, []);
-  
-  // console.log('my store : ',mystore);
-  
-  const OrderContent = (
+
+  let OrderContent = (
     <>
-      {mystore.map((store: any, index: number) => {
-        console.log('myqueue : ', myqueue);
-        return (
-          <>
-            <div style ={{display : 'flex', flexFlow : 'column'}}>
-              <h4 style={{ margin: '4px 8px' }}>{store.shop} ({myqueue.length})</h4>
-            </div>
-            {/* <Link to="/order/id" key={index}> */}
-            {/* <Link to ={`menu/${ele._id}`}> */}
-              <Paper className={classes.paper}>
-                <Grid container wrap="nowrap" spacing={2}>
-                  <Grid item xs zeroMinWidth>
-                    <Grid item xs container direction="column" spacing={2}>
-                      {myqueue.map((queue: any, index: number) => {
-                        console.log('queue : ', queue);
-                        return (
-                          <>
-                              <Link to = {`order/${queue._id}`} key={`${queue._id}`}>
-                                <Grid item xs key={index}>
-                                  <div
-                                    style={{
-                                      display: 'flex',
-                                      flexFlow: 'row',
-                                      justifyContent: 'space-between',
-                                    }}
-                                  >
-                                    <Subtitle font="14px">{queue._id}</Subtitle>
-                                    <Subtitle>{queue.orderTime}</Subtitle>
-                                  </div>
-                                  <div
-                                    style={{
-                                      display: 'flex',
-                                      flexFlow: 'row',
-                                      justifyContent: 'space-between',
-                                    }}
-                                  >
-                                    <div
-                                      style={{ display: 'flex', flexFlow: 'row' }}
-                                    >
-                                      <div
-                                        style={{
-                                          fontWeight: 'bold',
-                                          marginRight: '4px',
-                                        }}
-                                      >
-                                        {queue.orderList.length} items{' '}
-                                      </div>{' '}
-                                      {/* <div>for Visarut</div> */}
-                                    </div>
-                                    <div style={{ marginTop: '0' }}>
-                                      <i className="fas fa-chevron-right"></i>
-                                    </div>
-                                  </div>
-                                </Grid>
-                                <ColorLine color="#C1C7CF" />
-                              </Link>
-                          </>
-                        );
-                      })}
-                    </Grid>
-                  </Grid>
-                </Grid>
-              </Paper>
-            {/* </Link> */}
-          </>
-        );
-      })}
+      <div style={{ display: 'flex', flexFlow: 'column' }}>
+        <h4 style={{ margin: '4px 8px' }}>{mystore.shop} </h4>
+      </div>
+      <Paper className={classes.paper}>
+          <Grid container wrap="nowrap" spacing={2}>
+            <Grid item xs zeroMinWidth>
+              <Grid item xs container direction="column" spacing={2}>
+              </Grid>
+            </Grid>
+          </Grid>
+        </Paper>
     </>
   );
+
+  console.log('my queue : ',myqueue);
+  if (true) {
+    OrderContent = (
+      <>
+        <div style={{ display: 'flex', flexFlow: 'column' }}>
+          <h4 style={{ margin: '4px 8px' }}>{mystore.shop} ({myqueue.length}) </h4>
+        </div>
+        {/* <Link to="/order/id" key={index}> */}
+        <Paper className={classes.paper}>
+          <Grid container wrap="nowrap" spacing={2}>
+            <Grid item xs zeroMinWidth>
+              <Grid item xs container direction="column" spacing={2}>
+                {myqueue.map((queue: any) => {
+                  // console.log('queue : ', queue);
+                  return (
+                    <>
+                      {/* <Link to={`order/${queue._id}`} key={`${queue._id}`}> */}
+                        <Grid item xs onClick={ () => console.log('clicked',queue._id)} key={`${queue._id}`}>
+                          <div
+                            style={{
+                              display: 'flex',
+                              flexFlow: 'row',
+                              justifyContent: 'space-between',
+                            }}
+                          >
+                            <Subtitle font="14px">{queue._id}</Subtitle>
+                            <Subtitle>{queue.orderTime}</Subtitle>
+                          </div>
+                          <div
+                            style={{
+                              display: 'flex',
+                              flexFlow: 'row',
+                              justifyContent: 'space-between',
+                            }}
+                          >
+                            <div style={{ display: 'flex', flexFlow: 'row' }}>
+                              <div
+                                style={{
+                                  fontWeight: 'bold',
+                                  marginRight: '4px',
+                                }}
+                              >
+                                {queue.orderList.length} items{' '}
+                              </div>{' '}
+                            </div>
+                            <div style={{ marginTop: '0' }}>
+                              <i className="fas fa-chevron-right"></i>
+                            </div>
+                          </div>
+                        </Grid>
+                        <ColorLine color="#C1C7CF" />
+                      {/* </Link> */}
+                    </>
+                  );
+                })}
+              </Grid>
+            </Grid>
+          </Grid>
+        </Paper>
+        {/* </Link> */}
+      </>
+    );
+  }
   return (
     <div className={classes.root}>
       <div>

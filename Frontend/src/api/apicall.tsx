@@ -101,6 +101,11 @@ export interface Imystore {
   shop: string;
   status: string;
   name: string;
+  data : string;
+}
+
+export interface IchangeStatusResponse {
+  data : string;
 }
 
 export const placeOrder = async (
@@ -138,7 +143,7 @@ export const getQueueSeller = async (
   id: string
 ): Promise<AxiosResponse<IGetQueueSellerResponse>> => {
   const path = '/api/orders/queue/frontstore/' + id
-  console.log('path : ', path);
+  // console.log('path : ', path);
   const res = await axiosInstance.get(path);
   return res.data;
 };
@@ -161,11 +166,11 @@ export const getUserInfo = async (): Promise<
 
 export const getMyStore = async (
   id: string
-): Promise<AxiosResponse<IgetMyStoreResponse[]>> => {
+): Promise<AxiosResponse<IgetMyStoreResponse>> => {
   const path = '/api/shops/frontstore/' + id;
   const res = await axiosInstance.get(path);
 
-  return res.data;
+  return res;
 };
 
 export const updateMyStore = async (
@@ -213,6 +218,12 @@ export const setOpenCloseStore = async (
   };
   console.log('path : ', path);
   console.log('data : ', data);
-  const res = axiosInstance.put(path, data);
+  const res = await axiosInstance.put(path, data);
   return res;
 };
+
+export const changeStatus = async (orderId : string, status : string ) : Promise<AxiosResponse<IchangeStatusResponse>> => {
+  const path = '/api/frontstore/' + orderId + '/' + status
+  const res = await axiosInstance.put(path)
+  return res;
+} 

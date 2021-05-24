@@ -2,6 +2,8 @@ const express = require('express');
 const Order = require('../models/order');
 const OrderRecord = require('../models/orderRecord');
 const app_api = require('../app');
+const People = require('../models/people')
+const Shop = require('../models/shop')
 
 const router = express.Router();
 //const expiration = 3600 * 24; // second units
@@ -16,7 +18,38 @@ router.post('/customer', async (req, res, next) => {
       orderList: req.body.orderList
     });
 
-    console.log(req.body)
+    var total_price = 0
+    var i;
+    for (i = 0; i < order.orderList.length; i++) {
+      total_price += order.orderList[i].price * order.orderList[i].qty
+    } 
+    console.log(total_price)
+
+    const customer = await People.find({ "_id": order.userId })
+    const shop = await Shop.find({"_id": order.shopId})
+    const seller = await People.find({"_id": shop[0].ownerId})
+    console.log(customer[0])
+    console.log(seller[0])
+
+    var currMoney = customer[0].money - total_price;
+    People.updateOne(
+      { "_id": customer[0]._id },
+      { $set: { "money": currMoney } },
+      function (err, res) {
+        if (err) throw err;
+        console.log("1 record updated");
+      }
+    );
+
+    var currMoney = seller[0].money + total_price;
+    People.updateOne(
+      { "_id": seller[0]._id },
+      { $set: { "money": currMoney } },
+      function (err, res) {
+        if (err) throw err;
+        console.log("1 record updated");
+      }
+    );
 
     const orderedFood = await order.save();
     res.status(201).json({
