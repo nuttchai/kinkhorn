@@ -57,7 +57,7 @@ export interface ICreateStoreResponse {
 }
 
 export interface IGetQueueResponse {
-  Data: string;
+  data: any;
 }
 
 export interface IGetQueueSellerResponse {
@@ -136,7 +136,7 @@ export const getQueueCustomer = async (
 ): Promise<AxiosResponse<IGetQueueResponse>> => {
   const path = '/api/orders/queue/customer/' + id
   const res = await axiosInstance.get(path);
-  return res;
+  return res.data;
 };
 
 export const getQueueSeller = async (

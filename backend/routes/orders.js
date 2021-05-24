@@ -23,13 +23,10 @@ router.post('/customer', async (req, res, next) => {
     for (i = 0; i < order.orderList.length; i++) {
       total_price += order.orderList[i].price * order.orderList[i].qty
     } 
-    console.log(total_price)
 
     const customer = await People.find({ "_id": order.userId })
     const shop = await Shop.find({"_id": order.shopId})
     const seller = await People.find({"_id": shop[0].ownerId})
-    console.log(customer[0])
-    console.log(seller[0])
 
     var currMoney = customer[0].money - total_price;
     People.updateOne(
@@ -37,7 +34,6 @@ router.post('/customer', async (req, res, next) => {
       { $set: { "money": currMoney } },
       function (err, res) {
         if (err) throw err;
-        console.log("1 record updated");
       }
     );
 
@@ -47,7 +43,6 @@ router.post('/customer', async (req, res, next) => {
       { $set: { "money": currMoney } },
       function (err, res) {
         if (err) throw err;
-        console.log("1 record updated");
       }
     );
 

@@ -1,11 +1,13 @@
 import axios from "axios";
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, Component } from "react";
 import { UserContext } from "../Context/UserContext";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
+import { connect } from 'react-redux';
+import { render } from 'react-dom'; 
 // import Timeline from '@material-ui/lab/Timeline';
 // import TimelineItem from '@material-ui/lab/TimelineItem';
 // import TimelineSeparator from '@material-ui/lab/TimelineSeparator';
@@ -44,16 +46,43 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function HistoryPage() {
+const HistoryPage = ({currentOrder} : any ) => {
   const userContext = useContext(UserContext);
-  const params = { id: userContext.user._id };
   const classes = useStyles();
-  // const params = { 'id' : '---userId---'};
+  const order = currentOrder.currentOrder
+  console.log('currentOrder : ',order);
   useEffect(() => {
     // axios
     //   .get("http://143.198.208.245:9000/api/orders/queue/customer", { params })
     //   .then((res) => console.log("res :", res));
   }, []);
+
+  const DateTimeToTime = (time : string) => {
+    console.log('time : ', time.slice(10,15));
+  
+  //   var currDate = new time(),
+  //   filterTime = currDate.getHours() + ':' + currDate.getMinutes();
+
+  //   this.state = {
+  //     currentTime: filterTime
+
+  //   }
+
+    
+  // }
+
+  // render(){
+  //   return (
+  //     <div>
+  //       <p>
+  //         { this.state.currentTime}
+  //       </p>
+  //     </div>
+  //   );
+  // }
+}
+  DateTimeToTime("2021-05-24T11:27:19.838Z");
+
   return (
     <div style={{ width: "100%" }} className={classes.root}>
       <Paper className={classes.paper}>
@@ -69,10 +98,10 @@ export default function HistoryPage() {
             <Grid item xs container direction="column" spacing={1}>
               <Grid item xs>
                 <Typography gutterBottom variant="subtitle1">
-                  Canteen Name
+                  {order.shopId}
                 </Typography>
                 <Typography variant="body2" color="textSecondary">
-                  Order ID: 112546
+                  Order ID: {order._id}
                 </Typography>
               </Grid>
             </Grid>
@@ -197,3 +226,11 @@ export default function HistoryPage() {
     </div>
   );
 }
+
+const mapStateToProps = (state : any) => {
+  return {
+    currentOrder: state.shop.currentOrder,
+  };
+};
+
+export default connect(mapStateToProps)(HistoryPage);

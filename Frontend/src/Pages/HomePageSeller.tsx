@@ -46,6 +46,13 @@ export default function HomePageSeller() {
     window.location.reload(false);
   };
 
+  const handleOrderAccept = (ownerId: string) => {
+    apicall
+      .changeStatus(ownerId, 'accept')
+      .then((res) => console.log('res : ', res))
+      .catch((err) => console.log('err : ', err));
+  };
+
   useEffect(() => {
     apicall
       .getMyStore(userContext.user._id)
@@ -56,13 +63,12 @@ export default function HomePageSeller() {
           return apicall
             .getQueueSeller(data._id)
             .then((res) => {
-              setMyQueue(res.data)
+              setMyQueue(res.data);
               return { ...data, queue: res.data };
             })
             .then((data) => {
               console.log('data ', data);
               setMyStore(data);
-
             });
         });
       })
@@ -75,22 +81,23 @@ export default function HomePageSeller() {
         <h4 style={{ margin: '4px 8px' }}>{mystore.shop} </h4>
       </div>
       <Paper className={classes.paper}>
-          <Grid container wrap="nowrap" spacing={2}>
-            <Grid item xs zeroMinWidth>
-              <Grid item xs container direction="column" spacing={2}>
-              </Grid>
-            </Grid>
+        <Grid container wrap="nowrap" spacing={2}>
+          <Grid item xs zeroMinWidth>
+            <Grid item xs container direction="column" spacing={2}></Grid>
           </Grid>
-        </Paper>
+        </Grid>
+      </Paper>
     </>
   );
 
-  console.log('my queue : ',myqueue);
+  console.log('my queue : ', myqueue);
   if (true) {
     OrderContent = (
       <>
         <div style={{ display: 'flex', flexFlow: 'column' }}>
-          <h4 style={{ margin: '4px 8px' }}>{mystore.shop} ({myqueue.length}) </h4>
+          <h4 style={{ margin: '4px 8px' }}>
+            {mystore.shop} ({myqueue.length}){' '}
+          </h4>
         </div>
         {/* <Link to="/order/id" key={index}> */}
         <Paper className={classes.paper}>
@@ -102,40 +109,45 @@ export default function HomePageSeller() {
                   return (
                     <>
                       {/* <Link to={`order/${queue._id}`} key={`${queue._id}`}> */}
-                        <Grid item xs onClick={ () => console.log('clicked',queue._id)} key={`${queue._id}`}>
-                          <div
-                            style={{
-                              display: 'flex',
-                              flexFlow: 'row',
-                              justifyContent: 'space-between',
-                            }}
-                          >
-                            <Subtitle font="14px">{queue._id}</Subtitle>
-                            <Subtitle>{queue.orderTime}</Subtitle>
+                      <Grid
+                        item
+                        xs
+                        onClick={() => handleOrderAccept(queue._id)}
+                        key={`${queue._id}`}
+                      >
+                        <div
+                          style={{
+                            display: 'flex',
+                            flexFlow: 'row',
+                            justifyContent: 'space-between',
+                          }}
+                        >
+                          <Subtitle font="14px">{queue._id}</Subtitle>
+                          <Subtitle>{queue.orderTime}</Subtitle>
+                        </div>
+                        <div
+                          style={{
+                            display: 'flex',
+                            flexFlow: 'row',
+                            justifyContent: 'space-between',
+                          }}
+                        >
+                          <div style={{ display: 'flex', flexFlow: 'row' }}>
+                            <div
+                              style={{
+                                fontWeight: 'bold',
+                                marginRight: '4px',
+                              }}
+                            >
+                              {queue.orderList.length} items{' '}
+                            </div>{' '}
                           </div>
-                          <div
-                            style={{
-                              display: 'flex',
-                              flexFlow: 'row',
-                              justifyContent: 'space-between',
-                            }}
-                          >
-                            <div style={{ display: 'flex', flexFlow: 'row' }}>
-                              <div
-                                style={{
-                                  fontWeight: 'bold',
-                                  marginRight: '4px',
-                                }}
-                              >
-                                {queue.orderList.length} items{' '}
-                              </div>{' '}
-                            </div>
-                            <div style={{ marginTop: '0' }}>
-                              <i className="fas fa-chevron-right"></i>
-                            </div>
+                          <div style={{ marginTop: '0' }}>
+                            <i className="fas fa-chevron-right"></i>
                           </div>
-                        </Grid>
-                        <ColorLine color="#C1C7CF" />
+                        </div>
+                      </Grid>
+                      <ColorLine color="#C1C7CF" />
                       {/* </Link> */}
                     </>
                   );

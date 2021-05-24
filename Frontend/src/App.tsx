@@ -61,6 +61,7 @@ function App({current} : any) {
         <Route exact path='/' component={HomePage}/>
         <Route exact path='/canteen' component={CanteenPage}/>
         <Route exact path='/myactivity' component={MyActivitiesPage}/>
+        <Route exact path='/myactivity/:id' component={HisotryPage}/>
         <Route exact path='/myaccount' component={AccountPage}/>
         <Route exact path='/payment' component={PaymentPage}/>
         <Route exact path='/canteen/kiosk' component={KioskPage}/>

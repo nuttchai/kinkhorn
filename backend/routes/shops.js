@@ -1,6 +1,6 @@
 const express = require('express');
 const multer = require('multer');
-const multers3 = require('multer-s3');
+const multers3 = require('multer-s3-v3');
 
 const Shop = require('../models/shop');
 const app_api = require('../app');
@@ -31,29 +31,31 @@ const MIME_TYPE_MAP = {
     "image/jpg": "jpg"
 };
 
+const storages = multers3({
+    s3:s3,
+    bucket:AWS_BUCKET_NAME,
+    acl:'public-read',
+    contentType: (req,file,cb) => {
+        const ext = MIME_TYPE_MAP[file.mimetype];
+        cb(null,ext);
+    },
+    key:(req, file, cb) => {
+
+        const name = file.originalname.split('.')[0]
+            .toLowerCase()
+            .split(" ")
+            .join("-");
+        const ext = MIME_TYPE_MAP[file.mimetype];
+        const nameFile = name + "." + ext
+        cb(null, nameFile);
+    }
+})
+
 const upload = multer({ 
-    storage: multers3({
-        s3:s3,
-        bucket:AWS_BUCKET_NAME,
-        ACL:'public-read',
-        contentType: (req,file,cb) => {
-            const ext = MIME_TYPE_MAP[file.mimetype];
-            cb(null,ext);
-        },
-        key:(req, file, cb) => {
-    
-            const name = file.originalname.split('.')[0]
-                .toLowerCase()
-                .split(" ")
-                .join("-");
-            const ext = MIME_TYPE_MAP[file.mimetype];
-            const nameFile = name + "." + ext
-            cb(null, nameFile);
-          }
-    }) 
+    storage: storages
 });
 
-router.post('/upload', upload.single('image'), async (req, res) => {    
+router.post('/upload', upload.single('image'), async (req, res) => {  
     res.send('uploaded!')
 });
 
