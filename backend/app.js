@@ -12,7 +12,7 @@ const app = express();
 //                 { useNewUrlParser: true, useUnifiedTopology: true });
 
 // document-db
-mongoose.connect('mongodb://kinkhorn-db.cluster-ciluasfmkj9g.ap-southeast-1.docdb.amazonaws.com:27017',
+mongoose.connect(process.env.MONGO_URL,
                 { 
                   dbName: process.env.MONGO_DB,
                   retryWrites: false,
