@@ -49,36 +49,34 @@ export default function HomePageSeller() {
   useEffect(() => {
 
     apicall.getMyStore(userContext.user._id).then((res) => {
-      // console.log('res', res.data);
+      console.log('res', res.data);
       // setMyStore(res.data);
-      res.data.map((store, index: number) => {
-        console.log(store);
-        // apicall
-        //   .getQueueSeller(store._id)
-        //   .then((res) => {
-        //     console.log('res', index, res);
-        //     setMyQueue(res.data);
-        //   })
-        //   .catch((err) => console.log('err : ', index, err));
-        return (<div>
-          ...
-        </div>)
-      });
-    }).catch(err => console.log('err : ', err));
+      return res.data
+    }).then(data => console.log('data : ', data))
+    .catch(err => console.log('err : ', err));
     
     // apicall.getQueueSeller('60aa81019f558400b7de3fd9').then((res) => {
     //   console.log('res', res.data);
     //   setMyQueue(res.data);
     // })
-    
     // console.log('my store : ',mystore);
-
     
+    mystore.map((store: any, index: number) => {
+      console.log(store._id);
+      apicall
+        .getQueueSeller(store._id)
+        .then((res) => {
+          console.log('res', index, res);
+          setMyQueue(res.data);
+        })
+        .catch((err) => console.log('err : ', index, err));
+    });
 
-    console.log('MyQueue : ', myqueue);
+    // console.log('MyQueue : ', myqueue);
+
   }, []);
-
-  console.log('my store : ',mystore);
+  
+  // console.log('my store : ',mystore);
   
   const OrderContent = (
     <>

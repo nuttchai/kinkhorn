@@ -30,30 +30,7 @@ const MIME_TYPE_MAP = {
     "image/jpeg": "jpg",
     "image/jpg": "jpg"
 };
-/*
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    const isValid = MIME_TYPE_MAP[file.mimetype];
-    let error = new Error("Invalid mime type");
-    if (isValid) {
-      error = null;
-    }
-    cb(error, './src/images')
-    
-  },
-  filename: (req, file, cb) => {
-    
-    const name = file.originalname.split('.')[0] // select only the file name, not its file type
-        .toLowerCase()
-        .split(" ")
-        .join("-");
-    const ext = MIME_TYPE_MAP[file.mimetype];
-    const nameFile = name + "." + ext
-    cb(null, nameFile);
-    //cb(null, name + "-" + Date.now() + "." + ext);
-  }
-});
-*/
+
 const upload = multer({ 
     storage: multers3({
         s3:s3,
