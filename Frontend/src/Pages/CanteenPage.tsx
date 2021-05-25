@@ -52,9 +52,10 @@ interface CanteenProps {
   fetchkiosks : () => (dispatch : any) =>void,
   kioskData : any,
   loadCurrentKiosk : any,
+  refreshCart : () => (dispatch : any) => void,
 }
 
-const CanteenPage = ( {fetchkiosks , kioskData, loadCurrentKiosk} : CanteenProps) => {
+const CanteenPage = ( {fetchkiosks , kioskData, loadCurrentKiosk,refreshCart} : CanteenProps) => {
 
   useEffect(() => {
     fetchkiosks();

@@ -10,6 +10,7 @@ interface TYPE_INITIAL_STATE {
   loading: boolean;
   orderstatus : any;
   currentOrder : any;
+  onlyView : boolean;
 }
 // DATA EXAMPLE
 // {
@@ -42,6 +43,7 @@ const INITIAL_STATE: TYPE_INITIAL_STATE = {
   loading: false,
   orderstatus : [],
   currentOrder : {},
+  onlyView : false,
 };
 
 const shopReducer = (state = INITIAL_STATE, action: any) => {
@@ -74,7 +76,7 @@ const shopReducer = (state = INITIAL_STATE, action: any) => {
           : [...state.cart, { ...item, qty: action.payload.qty }],
       };
     case actionTypes.REFRESH_CART:
-      console.log('REFRESH_CART');
+      // console.log('REFRESH_CART');
       return {
         ...state,
         cart: [],
@@ -111,7 +113,8 @@ const shopReducer = (state = INITIAL_STATE, action: any) => {
     case actionTypes.LOAD_CURRENT_ORDER:
       return{
         ...state,
-        currentOrder : action.payload,
+        currentOrder : action.payload.currentOrder,
+        onlyView : action.payload.onlyView
       }
     case actionTypes.FETCH_KIOSKS_REQUEST:
       return {

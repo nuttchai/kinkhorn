@@ -33,14 +33,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface MyActivitiesPageProps {
-  loadCurrentOrder : (order : any) => (dispatch : any) => void,
+  loadCurrentOrder : (order : any,view : boolean) => (dispatch : any) => void,
 }
 
 const MyActivitiesPage = ({loadCurrentOrder} : MyActivitiesPageProps) => {
   const userContext = useContext(UserContext);
   const classes = useStyles();
   const [myactivity, setMyAcitivity] = useState<any>([]);
-  const [history, sethistory] = useState([]);
+  const [history, sethistory] = useState<any>([]);
 
   useEffect(() => {
     apicall
@@ -51,9 +51,12 @@ const MyActivitiesPage = ({loadCurrentOrder} : MyActivitiesPageProps) => {
       })
       .catch((err) => console.log('err : ', err));
 
-    // apicall.getHistory(userContext.user._id,'customer')
-    // .then((res) => console.log('res History :', res))
-    //   .catch((err) => console.log('err : ', err));
+    apicall.getHistory(userContext.user._id,'customer')
+    .then((res) => {
+      console.log('res History :', res.data.data)
+      sethistory(res.data.data)
+    })
+      .catch((err) => console.log('err : ', err));
   }, []);
 
   console.log('my act : ', myactivity);
@@ -63,16 +66,24 @@ const MyActivitiesPage = ({loadCurrentOrder} : MyActivitiesPageProps) => {
         myactivity.map( (act : any) => {
           let status;
           if (act.status === "notaccept"){
-            status = 'waiting'
+            status = (<div style ={{color : '#FF8C00'}}>
+              waiting
+            </div>)
           }
           else if (act.status === "accept"){
-            status = 'preparing'
+
+            status = (<div style ={{color : 'green'}}>
+              preparing
+            </div>)
           }
           else {
-            status = 'completed'
+            status = (<div>
+              completed
+            </div>)
           }
           return (<>
-          <Link to={`myactivity/${act._id}`} key={`$act._id`} onClick={() => loadCurrentOrder(act)} >
+          <Link to={`myactivity/${act._id}`} key={`$act._id`} onClick={() => loadCurrentOrder(act,true)} >
+          <Paper className = {classes.paper}>
           <Grid container wrap="nowrap" spacing={2} >
         <Grid item>
           <img
@@ -84,7 +95,7 @@ const MyActivitiesPage = ({loadCurrentOrder} : MyActivitiesPageProps) => {
         <Grid item xs zeroMinWidth>
           <Grid item xs container direction="column" spacing={1}>
             <Grid item xs>
-              <Typography variant="subtitle1">{act.shopId}</Typography>
+              <Typography variant="subtitle1">{act.shop}</Typography>
               <Typography variant="body2" color="textSecondary">
                 {act.orderList.length} item
               </Typography>
@@ -101,24 +112,86 @@ const MyActivitiesPage = ({loadCurrentOrder} : MyActivitiesPageProps) => {
           </Grid>
         </Grid>
       </Grid>
+      </Paper>
       </Link>
           </>)
         })
       }
     </>
   );
+
+  const myhist = (<>
+  {
+        history.map( (act : any) => {
+          let status;
+          if (act.status === "notaccept"){
+            status = (<div style ={{color : 'yellow'}}>
+              waiting
+            </div>)
+          }
+          else if (act.status === "accept"){
+
+            status = (<div style ={{color : 'green'}}>
+              preparing
+            </div>)
+          }
+          else {
+            status = (<div>
+              completed
+            </div>)
+          }
+          return (<>
+          {/* <Link to={`myactivity/${act._id}`} key={`$act._id`} onClick={() => loadCurrentOrder(act,true)} > */}
+          <Paper className = {classes.paper}>
+          <Grid container wrap="nowrap" spacing={2} >
+        <Grid item>
+          <img
+            className={classes.img}
+            alt="complex"
+            src="https://picsum.photos/70/70"
+          />
+        </Grid>
+        <Grid item xs zeroMinWidth>
+          <Grid item xs container direction="column" spacing={1}>
+            <Grid item xs>
+              <Typography variant="subtitle1">{act._id}</Typography>
+              <Typography variant="body2" color="textSecondary">
+                {act.orderList.length} item
+              </Typography>
+            </Grid>
+          </Grid>
+          <Grid item>
+            <Typography
+              variant="body2"
+              color="primary"
+              style={{ cursor: 'pointer' }}
+            >
+              {status}
+            </Typography>
+          </Grid>
+        </Grid>
+      </Grid>
+      </Paper>
+      {/* </Link> */}
+          </>)
+        })
+      }
+
+  </>)
   return (
     <div className={classes.root}>
       <h2 style={{ margin: '4px 8px' }}>My Activity</h2>
       {/* <Link to="/history"> */}
         <Paper className={classes.paper}>{myact}</Paper>
       {/* </Link> */}
+      <h2 style={{ margin: '4px 8px' }}>History</h2>
+      <Paper className={classes.paper}>{myhist}</Paper>
     </div>
   );
 }
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    loadCurrentOrder : (order : any) => dispatch(loadCurrentOrder(order)),
+    loadCurrentOrder : (order : any, view : boolean) => dispatch(loadCurrentOrder(order,view)),
   };
 };
 

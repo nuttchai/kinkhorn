@@ -1,24 +1,7 @@
-// import React, { useState, useEffect, useContext } from 'react';
 
-// import { connect } from 'react-redux';
-
-// import CartItem from './CartItem/CartItem';
-// import { Card, Container, Button } from '@material-ui/core';
-// import Subtitle from '../Components/Subtitle';
-// import { UserContext } from '../Context/UserContext';
-// import { Link } from 'react-router-dom';
-// import * as apicall from '../api/apicall';
-import { loadOrderStatus } from '../Redux/Shopping/shopping-action';
+import { loadOrderStatus, refreshCart } from '../Redux/Shopping/shopping-action';
 import { useHistory } from 'react-router-dom';
-//import time
-// import 'date-fns';
-// import Grid from '@material-ui/core/Grid';
-// import DateFnsUtils from '@date-io/date-fns';
-// import {
-//   MuiPickersUtilsProvider,
-//   KeyboardTimePicker,
-//   KeyboardDatePicker,
-// } from '@material-ui/pickers';
+
 import React, { useState, useEffect, useContext } from 'react';
 import styles from './ReduxCart.module.css';
 
@@ -48,6 +31,7 @@ import 'date-fns';
 import AccessTimeIcon from '@material-ui/icons/AccessTime';
 import TodayIcon from '@material-ui/icons/Today';
 import { deepPurple } from '@material-ui/core/colors';
+import StoreIcon from '@material-ui/icons/Store';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -72,7 +56,7 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const Cart = ({ cart, currentKiosk, loadOrderStatus }: any) => {
+const Cart = ({ cart, currentKiosk, loadOrderStatus,refreshCart }: any) => {
   let history = useHistory();
   const classes = useStyles();
   const userContext = useContext(UserContext);
@@ -82,19 +66,19 @@ const Cart = ({ cart, currentKiosk, loadOrderStatus }: any) => {
   const [selectedDate, setSelectedDate] = React.useState<Date | null>(
     new Date(),
   );
-  const handleDateChange = (date: Date | null) => {
-    setSelectedDate(date);
-  };
-
-
   const [order , setOrder]  = useState<apicall.IPlaceOrderRequest>({
     userId: userContext.user._id,
     shopId : currentKiosk.id._id,
     shop : currentKiosk.id.shop,
     area : currentKiosk.id.area,
     orderList : cart,
+    recieveTime : null,
   })
   
+  const handleDateChange = (date: Date | null) => {
+    setSelectedDate(date);
+    setOrder({...order, recieveTime : date})
+  }
   let orderButton = (<Button
     variant="contained"
     color="primary"
@@ -116,19 +100,21 @@ const Cart = ({ cart, currentKiosk, loadOrderStatus }: any) => {
     setTotalItems(items);
     setTotalPrice(price);
 
-  }, [cart, totalPrice, totalItems, setTotalPrice, setTotalItems]);
-
-
+  }, [cart, totalPrice, totalItems, setTotalPrice, setTotalItems]); 
 
   const placeOrder = (order : apicall.IPlaceOrderRequest) => {
-
+    setOrder({...order, recieveTime : selectedDate})
+    console.log('order json before placeorder', order)
     apicall.placeOrder(order)
       .then((res) => {
         console.log('res placeorder : ', res.data)
         loadOrderStatus(res.data)
+        refreshCart();
+        // console.log('refresh')
         history.push('/ordering')
       })
       .catch((err) => console.log('err : ', err));
+    
     // loadOrderStatus
   };
 
@@ -152,50 +138,34 @@ const Cart = ({ cart, currentKiosk, loadOrderStatus }: any) => {
     </>
     )
 
-    currentKioskName = (<div>KioskName</div>) 
+    currentKioskName = (
+      <div>
+        <ListItem>
+        <ListItemAvatar>
+            <Avatar className={classes.avatar}>
+              <StoreIcon />
+            </Avatar>
+            </ListItemAvatar>
+            <ListItemText>
+            <Box fontWeight="fontWeightBold">
+            {currentKiosk.id.shop}
+          </Box>
+            
+            </ListItemText>
+            </ListItem>
+            </div>)
   }
 
-  
+  // console.log('date : ', selectedDate);
+  console.log('order json :', order)
   return (<>
-    {/* <Container maxWidth="lg">
-      <h2>My Cart</h2>
-      <Card>
-
-            <div>{currentKioskName}</div>
-          </Card>
-          <Subtitle>Order Summary</Subtitle>
-          <Card>
-            <div>
-              {cart.map((item: any) => (
-                <CartItem key={item._id} item={item} />
-              ))}
-            </div>
-            ------
-            <div>
-              Total : ({totalItems} items)
-              <div>{totalPrice} Baht</div>
-            </div>
-          </Card>
-          <Subtitle>Payment Details</Subtitle>
-          <Card>
-            <i className="fas fa-wallet" style={{ marginRight: '4px' }}></i>{' '}
-            {userContext.user.money} Baht
-          </Card>
-            {orderButton}
-    </Container> */}
      <Container maxWidth="lg">
       <h2>My Cart</h2>
       <Card >
-            {/* <div>back</div> */}
             <div>{currentKioskName}</div>
           </Card>
-          {/* <Typography>Order Summary</Typography> */}
+
           <Card style={{ marginTop: '16px' }}>
-            {/* <div>
-              {cart.map((item: any) => (
-                <CartItem key={item._id} item={item} />
-              ))}
-            </div> */}
             <div>
             <ListItem>
           <ListItemAvatar>
@@ -214,7 +184,7 @@ const Cart = ({ cart, currentKiosk, loadOrderStatus }: any) => {
           <ListItem>
           <ListItemText>
           {/* <Box textAlign="left"> */}
-            Total Item: (0)
+            Total Item: ({cart.length})
           {/* </Box> */}
           </ListItemText>
           </ListItem>
@@ -350,6 +320,7 @@ const mapStateToProps = (state: any) => {
 const mapDispatchToProps = (dispatch: any) => {
   return {
     loadOrderStatus : (order : any) => dispatch(loadOrderStatus(order)),
+    refreshCart : () => dispatch(refreshCart()),
   };
 };
 

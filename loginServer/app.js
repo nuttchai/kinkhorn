@@ -8,6 +8,8 @@ const fetch = require("node-fetch");
 const mongoose = require("mongoose");
 const People = require("./models/people");
 const crypto = require("crypto");
+const { promisify } = require("util");
+
 
 app.use(bodyParser.json());
 
@@ -36,6 +38,21 @@ db.on("error", console.error.bind(console, "CONNECTION ERROR"));
 db.once("open", function () {
   console.log("connected sucessfully!!");
 });
+
+// redis
+const redisClient = require("redis").createClient;
+const redis = redisClient({
+  host: process.env.REDIS_HOST,
+  port: process.env.REDIS_PORT,
+  password: process.env.REDIS_PASS
+});
+
+// check redis connection error
+redis.on('error', err => {
+  console.log('Error ' + err);
+});
+
+const getAsync = promisify(redis.get).bind(redis);
 
 app.use(function (req, res, next) {
   res.header(
@@ -276,63 +293,56 @@ app.put("/oauth/pay/:money", authenticateJWT, (req, res) => {
   res.sendStatus(200);
 });
 
-app.get('/oauth/card/exchange', (req, res) => {
-  var date = new Date();
-  date.setDate(date.getDate() + 10);
-  for (var i = 0; i < idArray.length; i++) {
-    console.log(idArray[i])
-    if (idArray[i].taken === false) {
-      console.log("before ", idArray[i].taken)
-      res.cookie('machine_token', idArray[i].id, {
-        expires: date,
-        secure: true, // set to true if your using https
-        httpOnly: false,
-      });
-      idArray[i].taken = true
-      console.log("after ", idArray[i].taken)
-      break;
+// app.get('/oauth/card/exchange', async (req, res) => {
+//   const redisId = "card" + process.env.MACHINE
+//   const getOrderFromRedis = await getAsync(redisId);
+//   const accessToken = jwt.sign(
+//     getOrderFromRedis,
+//     accessTokenSecret
+//   );
+//   // console.log(getOrderFromRedis)
+//   res.cookie('machine_token', accessToken, {
+//     expires: date,
+//     secure: true, // set to true if your using https
+//     httpOnly: false,
+//   });
+//   res.writeHead(302, {
+//     Location: "https://" + process.env.DOMAIN,
+//   });
+//   res.end();
+// })
+
+app.put('/oauth/card/insert', async (req, res) => {
+  // console.log(req.body)
+  var machine = {
+    "machine": process.env.MACHINE,
+    "status": false,
+    "data": {
+      "name": null,
+      "given_name": null,
+      "family_name": null,
+      "system": null,
+      "mac": null
     }
   }
-  res.writeHead(302, {
-    Location: "https://" + process.env.DOMAIN,
-  });
-  res.end();
-})
-
-app.put('/oauth/card/insert', (req, res) => {
-  var index = machineArray.findIndex(x => x.machine == req.body.machine)
-  // console.log(index)
-  if (index === -1) {
-    machineArray.push(req.body)
-  } else {
-    // console.log(machines[index])
-    machineArray[index].data.name = req.body.data.name
-    machineArray[index].data.given_name = req.body.data.given_name
-    machineArray[index].data.family_name = req.body.data.family_name
-    machineArray[index].data.system = req.body.data.system
-    machineArray[index].data.mac = req.body.data.mac
-    machineArray[index].status = req.body.status
-  }
-  res.send(req.body);    // echo the result back
+  machine.machine = req.body.machine
+  machine.data.name = req.body.data.name
+  machine.data.given_name = req.body.data.given_name
+  machine.data.family_name = req.body.data.family_name
+  machine.data.system = req.body.data.system
+  machine.data.mac = req.body.data.mac
+  machine.status = req.body.status
+  // console.log(machine)
+  await redis.set("card" + process.env.MACHINE, JSON.stringify(machine));
+  res.send(machine);    // echo the result back
 });
 
-app.get('/oauth/card/current', (req, res) => {
-  console.log(idArray)
-  return res.json(machineArray)
-});
+app.get('/oauth/card/login', async (req, res) => {
+  const redisId = "card" + process.env.MACHINE
+  const getOrderFromRedis = await getAsync(redisId);
 
-app.get('/oauth/card/generate', (req, res) => {
-  var id = crypto.randomBytes(16).toString("hex")
-  idArray.push({"id": id, "taken": false})
-  return res.json({"machine_token": id})
-})
+  var status = JSON.parse(getOrderFromRedis).status
 
-app.get('/oauth/card/login', (req, res) => {
-
-  var cookie = req.cookies;
-  var machine_id = cookie["machine_token"];
-  var item
-  
   var person = new People({
     name: "",
     given_name: "",
@@ -344,39 +354,35 @@ app.get('/oauth/card/login', (req, res) => {
     money: 0,
   });
 
-  if (machineArray.length === 0) {
-    res.writeHead(401, {
-      Location: "https://" + process.env.DOMAIN,
-    });
-    res.end();
+  if (!status) {
+    return res.redirect("/")
   }
 
-  machineArray.map(ele => ele.machine === machine_id ? item = ele : item = null)
-  if (item) {
-    person.name = item.data.name
-    person.given_name = item.data.given_name
-    person.family_name = item.data.family_name
-  } 
+  console.log("Person", JSON.parse(getOrderFromRedis).data.name) 
+
+  person.name = JSON.parse(getOrderFromRedis).data.name
+  person.given_name = JSON.parse(getOrderFromRedis).data.given_name
+  person.family_name = JSON.parse(getOrderFromRedis).data.family_name
 
   db.collection("people")
     .find({"name": person.name})
     .toArray(function (err, result) {
-      console.log(result[0])
+      // console.log(result[0])
       if (result.length === 0) {
         console.log("New person")
         person.save()
       } else {
-        console.log("RESULT", result[0])
+        // console.log("RESULT", result[0])
         person = result[0]
       }
     })
-  console.log("RESULT2", person)
+  // console.log("RESULT2", person)
   const accessToken = jwt.sign(
     { "user": person},
     accessTokenSecret
   );
 
-  console.log(accessToken)
+  // console.log(accessToken)
 
   var date = new Date();
   date.setDate(date.getDate() + 2);

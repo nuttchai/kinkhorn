@@ -60,6 +60,7 @@ const SingleItem = ({ current, addToCart }: any) => {
   };
   return (
     <>
+    <Link to = '/'> <i className="fas fa-chevron-left"/> </Link>
       <Styledlink>
         <div>
           {/* FIXME : src={item.image} */}
@@ -78,7 +79,7 @@ const SingleItem = ({ current, addToCart }: any) => {
           </Row>
           <Row>
             <Col>
-              <Subtitle>Food name in eng</Subtitle>
+              <Subtitle>{curItem.description}</Subtitle>
             </Col>
           </Row>
         </StyledKiosk>

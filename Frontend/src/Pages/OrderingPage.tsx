@@ -63,11 +63,19 @@ const OrderingPage = ({orderstatus} : any) => {
         setTotalPrice(price);
       }, [totalPrice, totalItems, setTotalPrice, setTotalItems]);
 
-    console.log('orderstatus : ',orderstatus);
-    // console.log('myorder : ',myorder);
+    // console.log('orderstatus : ',orderstatus);
+    console.log('myorder : ',myorder);
+
+    let hour;
+    let minute;
+    hour = Number( myorder.orderInfo.recieveTime.slice(11,13))
+    minute = Number(myorder.orderInfo.recieveTime.slice(14,16))
+    console.log(minute)
+    console.log(hour+7)
+
     return (
-        <>
-         <div className="content-wrapper" style = {{margin : '16px'}}>
+
+         <div style = {{margin : '16px'}}>
             <h3>Order status</h3>
             <div>
                 <div>Order ID : {myorder.orderId}</div>
@@ -75,7 +83,7 @@ const OrderingPage = ({orderstatus} : any) => {
             </div>
         <div>
             <h4>
-                ETA : 15 Min
+                {/* ETA : 15 Min */}
             </h4>
             <Content>
                 <div>
@@ -84,7 +92,7 @@ const OrderingPage = ({orderstatus} : any) => {
                 </div>
                 <QueryBuilderSharpIcon fontSize="large" style = {{ margin : '0px 8px'}}/>
                 <div> <BoldStyled> Order Placed</BoldStyled>  <Subtitle>We have recieved your order</Subtitle></div>
-                <TimeStlyed>10:04</TimeStlyed>
+                <TimeStlyed>{myorder.orderInfo.orderTime.slice(11,16)}</TimeStlyed>
             </Content>
             <Content>
                 <div>
@@ -93,7 +101,7 @@ const OrderingPage = ({orderstatus} : any) => {
                 </div>
                 <FastfoodRoundedIcon fontSize="large" style = {{ margin : '0px 8px'}}/>
                 <div> <BoldStyled> Order Processed</BoldStyled>  <Subtitle>We are preparing your order</Subtitle></div>
-                <TimeStlyed>10:08</TimeStlyed>
+                <TimeStlyed>{hour+7}:{minute-15}</TimeStlyed>
             </Content>
 
             <Content>
@@ -102,15 +110,14 @@ const OrderingPage = ({orderstatus} : any) => {
                     <VerticalLine height = '80px' color = {'#'+color3}/>
                 </div>
                 <LocalMallRoundedIcon fontSize="large" style = {{ margin : '0px 8px'}}/>
-                <div> <BoldStyled>Ready to Pickup</BoldStyled>  <Subtitle>Order#234562 from Tasty Food</Subtitle></div>
-                <TimeStlyed>11:00</TimeStlyed>
+                <div> <BoldStyled>Ready to Pickup</BoldStyled>  <Subtitle>Order{myorder.orderId}</Subtitle></div>
+                <TimeStlyed> {hour+7}{myorder.orderInfo.recieveTime.slice(13,16)}</TimeStlyed>
             </Content>
         </div>
-        <Button variant = 'contained' onClick={() => handletest()}>
+        {/* <Button variant = 'contained' onClick={() => handletest()}>
             ...
-        </Button>
+        </Button> */}
         </div>
-        </>
                
     )
 }

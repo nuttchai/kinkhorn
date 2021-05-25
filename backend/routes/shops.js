@@ -35,8 +35,12 @@ const storages = multers3({
     bucket:AWS_BUCKET_NAME,
     ACL:'public-read',
     contentType: (req,file,cb) => {
-        const ext = MIME_TYPE_MAP[file.mimetype];
-        cb(null,ext);
+        const isValid = MIME_TYPE_MAP[file.mimetype];
+        let error = new Error("Invalid mime type");
+        if (isValid) {
+            error = null;
+        }
+        cb(error,isValid);
     },
     key:(req,file,cb) => {
         const name = file.originalname.split('.')[0]
@@ -46,13 +50,6 @@ const storages = multers3({
         const ext = MIME_TYPE_MAP[file.mimetype];
         const nameFile = name + "." + ext
         cb(null, nameFile);
-    },
-    fileFilter:(req,file,cb)=>{
-        if  (file.mimetype != "image/png" | "image/jpg" ){
-            RegExp.fileValidationError = "Mimetype goes wrong"
-            return cb(null,false, new Error('Mimetype goes wrong'));
-        }
-        cb(null,true);
     }
 })
 
@@ -61,10 +58,11 @@ const upload = multer({
 });
 
 router.post('/upload', upload.single('image'), async (req, res) => {  
-    if(req.fileValidationError){
-        return res.send('FileValidationError')
+    if(req.file.mimetype != "image/png" | "image/jpg" ){
+        res.send('FileValidationError');
+        return
     }
-    res.send('uploaded!')
+    res.send('uploaded!');
 });
 
 // get shop list (frontstore side)
@@ -230,9 +228,11 @@ router.delete("/frontstore/:shopId", async (req, res, next) => {
 
         //find ownerId from given shop (use to update redis)
         const shopId = req.params.shopId
-        const givenShop = await Shop.findOne({ _id: req.params.shopId });
+        console.log('shopID : ',shopId)
+        const givenShop = await Shop.findOne({ _id: shopId });
+        console.log(givenShop)
         const ownerId = givenShop.ownerId
-
+        console.log('ownerId : ',ownerId)
         //delete shop in mongodb
         Shop.deleteOne({ _id: shopId })
             .then(result => {

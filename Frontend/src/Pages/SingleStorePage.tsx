@@ -23,6 +23,7 @@ import produce from 'immer';
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
 import DeleteIcon from '@material-ui/icons/Delete';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -65,6 +66,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SingleStorePage = ({ currentKiosk }: any) => {
+  let history = useHistory();
   const classes = useStyles();
   const [state, setState] = useState({
     storeStatus: false,
@@ -139,12 +141,14 @@ const SingleStorePage = ({ currentKiosk }: any) => {
   );
 
   const DeleteStore = () => {
-    console.log('id delte : ', currentKiosk.id._id);
+    console.log('id delte : ', currentKiosk);
     apicall
       .deleteStore(currentKiosk.id._id)
       .then((res) => console.log('delete res : ', res))
       .catch((err) => console.log('err delete : ', err));
-  };
+
+    history.push('/order')
+    };
 
   const CustomSwitch = withStyles({
     switchBase: {

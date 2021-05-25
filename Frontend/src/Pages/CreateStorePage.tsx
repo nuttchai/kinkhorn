@@ -21,6 +21,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Box from '@material-ui/core/Box';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import Divider from '@material-ui/core/Divider';
+import { useHistory } from 'react-router-dom';
 
 
 export interface menuType {
@@ -87,6 +88,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function CreateStorePage() {
+  let history = useHistory();
   const userContext = useContext(UserContext).user;
   const [file, setFile] = useState("");
   const classes = useStyles();
@@ -117,6 +119,8 @@ export default function CreateStorePage() {
     apicall.createStore(store)
       .then(res => console.log('res : ',res))
       .catch(err => console.log('err : ',err))
+    
+      history.push('/order');
   };
   
   const handleUpload = (event : any) => {

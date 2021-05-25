@@ -9,6 +9,8 @@ import Box from '@material-ui/core/Box';
 import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import * as apicall from '../api/apicall';
+import { useHistory } from 'react-router-dom';
+import CartItem from '../ReduxCart/CartItem/CartItem';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,10 +37,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SingleOrderPage = ({ currentOrder }: any) => {
+const SingleOrderPage = ({ currentOrder,onlyView }: any) => {
+  let history = useHistory();
   const userContext = useContext(UserContext);
   const classes = useStyles();
-  const order = currentOrder.currentOrder;
+  console.log(currentOrder)
+  const order = currentOrder;
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalItems, setTotalItems] = useState(0);
 
@@ -62,8 +66,11 @@ const SingleOrderPage = ({ currentOrder }: any) => {
       .changeStatus(order._id, 'complete')
       .then((res) => console.log('res done : ', res))
       .catch((err) => console.log(err));
+    apicall.deleteOrder('complete',order._id)
+    .then((res) => console.log('res deleted : ',res))
+    .catch((err) => console.log(err))
+    history.push('/order')
   };
-
   return (
     <>
       <div style={{ width: '100%' }} className={classes.root}>
@@ -71,24 +78,8 @@ const SingleOrderPage = ({ currentOrder }: any) => {
           <Grid container spacing={3}>
             <Grid item xs={12}>
               <Box fontWeight="fontWeightLight" m={-0.5}>
-                {order._id}
+                ORDER ID : {order._id}
               </Box>
-            </Grid>
-            {/* <Grid item xs={1}>
-        <Typography variant="body2">
-          <Box fontWeight="fontWeightBold" >
-              {totalPrice}
-              </Box>
-              </Typography>
-              
-        
-        </Grid> */}
-            <Grid item xs={4}>
-              {/* <Typography variant="body2">
-          <Box fontWeight="fontWeightBold" >
-              Order for {order.userId}
-              </Box>
-              </Typography> */}
             </Grid>
             <Grid item xs={7}>
               <Typography variant="body2">
@@ -108,7 +99,7 @@ const SingleOrderPage = ({ currentOrder }: any) => {
               <Grid item xs container direction="column" spacing={1}>
                 <Grid item xs>
                   <Typography variant="body2" gutterBottom>
-                    <i className="fas fa-map-marker-alt" /> Canteen {order.area}
+                    <i className="fas fa-map-marker-alt" /> Canteen A
                   </Typography>
                 </Grid>
               </Grid>
@@ -127,12 +118,22 @@ const SingleOrderPage = ({ currentOrder }: any) => {
             {order.orderList.map((menu: any) => {
               return (
                 <>
-                  {menu.qty} ||
-                  {menu.name} ||
-                  {menu.price}
+                <Grid container spacing={2} >
+                <Grid item xs={2} style = {{paddingLeft : '16px',fontWeight : 'bold'}}>
+                  {menu.qty}x
+                </Grid>
+                <Grid item xs={7}>{menu.name}</Grid>
+                <Grid item xs={3}>{menu.price}</Grid>
+                </Grid>
                 </>
               );
             })}
+
+            {/* <Box fontWeight="fontWeightLight" m={2} textAlign="justify">
+              {order.orderList.map((menu: any) => (
+                <CartItem key={menu._id} item={menu} />
+              ))}
+            </Box> */}
           </Grid>
         </Paper>
         <Paper className={classes.paper}>
@@ -169,7 +170,7 @@ const SingleOrderPage = ({ currentOrder }: any) => {
           </Grid>
           <Grid item></Grid>
         </Paper>
-        <Button variant='contained' color="primary" onClick={() => handleDone()}>DONE</Button>
+        {onlyView ? <div></div>:<Button variant='contained' color="primary" onClick={() => handleDone()}>READY TO PICKUP</Button>}
       </div>
     </>
   );
@@ -178,6 +179,7 @@ const SingleOrderPage = ({ currentOrder }: any) => {
 const mapStateToProps = (state: any) => {
   return {
     currentOrder: state.shop.currentOrder,
+    onlyView : state.shop.onlyView
   };
 };
 

@@ -7,6 +7,7 @@ export interface IPlaceOrderRequest {
   shop : string;
   area : string;
   orderList: any[];
+  recieveTime : any;
 }
 
 export interface IGetQueueRequest {
@@ -89,7 +90,9 @@ export interface IUpdateMyStoreResponse {
 }
 
 export interface IGetHistoryResponse {
-  data: string;
+  data: {
+    data : string;
+  };
 }
 
 export interface Imystore {
@@ -104,6 +107,10 @@ export interface Imystore {
 }
 
 export interface IchangeStatusResponse {
+  data : string;
+}
+
+export interface IdeleteOrder {
   data : string;
 }
 
@@ -142,6 +149,7 @@ export const getQueueSeller = async (
   id: string
 ): Promise<AxiosResponse<IGetQueueSellerResponse>> => {
   const path = '/api/orders/queue/frontstore/' + id
+  // const path = '/api/queue/frontstore/' + id
   // console.log('path : ', path);
   const res = await axiosInstance.get(path);
   return res.data;
@@ -151,7 +159,9 @@ export const getHistory = async (
   id: string,
   role: string
 ): Promise<AxiosResponse<IGetHistoryResponse>> => {
-  const path = '/api/orders/record/' + role + '/' + id;
+  // const path = '/api/orders/record/' + role + '/' + id;
+  const path = '/api/orders/record/' + role + '/' + id
+  console.log(path)
   const res = await axiosInstance.get(path);
   return res;
 };
@@ -200,7 +210,7 @@ export const topUp = async (
   amount: string
 ): Promise<AxiosResponse<ItopUpResponse>> => {
   const path = '/oauth/topup/' + amount;
-  console.log(path);
+  // console.log(path);
   const res = await axiosInstance.put(path);
   return res;
 };
@@ -215,8 +225,8 @@ export const setOpenCloseStore = async (
     _id: shopId,
     ownerId: ownerId,
   };
-  console.log('path : ', path);
-  console.log('data : ', data);
+  // console.log('path : ', path);
+  // console.log('data : ', data);
   const res = await axiosInstance.put(path, data);
   return res;
 };
@@ -225,4 +235,10 @@ export const changeStatus = async (orderId : string, status : string ) : Promise
   const path = '/api/orders/frontstore/' + orderId + '/' + status
   const res = await axiosInstance.put(path)
   return res;
-} 
+}
+
+export const deleteOrder = async (cmd : string, id : string ) : Promise<AxiosResponse<IdeleteOrder>> => {
+  const path = '/api/orders/' + cmd + '/' + id
+  const res = await axiosInstance.delete(path)
+  return res;
+}

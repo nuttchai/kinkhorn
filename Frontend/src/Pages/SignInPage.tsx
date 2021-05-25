@@ -1,6 +1,10 @@
 import Button from '@material-ui/core/Button';
+import { useScreenClass } from 'react-grid-system';
+import { useMemo } from 'react'
 
 function SignInPage() {
+  const screenClass = useScreenClass();
+  const isMobile = useMemo(() => ['xs', 'sm'].includes(screenClass), [screenClass]);
   return (
     <>
       <div
@@ -16,6 +20,7 @@ function SignInPage() {
           </div>
           <a href="https://kinkhorn.pongpich.xyz/oauth/google"> 
             {/* Sign In With KMITL */}
+            <div style = {{ display : 'flex',flexFlow : 'column', alignItems : 'center', margin : '8px'}}>
             <Button
               variant="contained"
               color="primary"
@@ -23,8 +28,28 @@ function SignInPage() {
             >
               Sign In With KMITL
             </Button>
+            </div>
           </a>
+
+            {isMobile ? <div></div>:
+            <>
+            <div style ={{display : 'flex',justifyContent : 'center',flexFlow : 'column'}}>
+              <a href="https://kinkhorn.pongpich.xyz/oauth/card/login">  <Button
+                  variant="contained"
+                  color="default"
+                  aria-label="contained primary button group"
+                  >
+                    Guest Log In
+                  </Button>
+              </a>
+              <a href="https://kinkhorn.pongpich.xyz/oauth/card/exchange" style={{fontSize : '16px'}}>
+                  exchange oauth card
+              </a>
+            </div>
+            </>
+                }
         </div>
+        
       </div>
     </>
   );

@@ -73,12 +73,13 @@ export const loadOrderStatus = (order : any) => {
   };
 }
 
-export const loadCurrentOrder = (order : any) => {
+export const loadCurrentOrder = (order : any,view : boolean) => {
   console.log('load current order ',order)
   return {
     type : actionTypes.LOAD_CURRENT_ORDER,
     payload : {
       currentOrder : order,
+      onlyView : view,
     }
   }
 }
