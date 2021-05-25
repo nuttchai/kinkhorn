@@ -16,7 +16,9 @@ services:
     #   - '9000:9000'
     networks:
       - kinkhorn
-  
+    deploy:
+      replicas: 1
+      
   frontend:
     container_name: frontend
     image: nuttchai/kk_frontend:k8s1.0
@@ -32,6 +34,8 @@ services:
     #   - '3000:3000'
     networks:
       - kinkhorn
+    deploy:
+      replicas: 1
 
   loginserver:
     container_name: loginserver
@@ -46,7 +50,9 @@ services:
       - '8000:8000'
     networks:
       - kinkhorn
-    
+    deploy:
+      replicas: 1
+
   # mongodb:
   #   image: mongo
   #   container_name: mongodb
@@ -62,7 +68,7 @@ services:
   #     - backend
 
   swag:
-    image: ghcr.io/linuxserver/swag
+    image: ghcr.io/linuxserver/swag:latest
     container_name: swag
     cap_add:
       - NET_ADMIN
@@ -78,45 +84,8 @@ services:
     restart: unless-stopped
     networks:
       - kinkhorn
-
-networks:
-  kinkhorn:
-
-
-  loginServer:
-    container_name: loginServer
-    build:
-      context: ./loginServer
-      dockerfile: Dockerfile
-    image: kk_loginserver:1.0
-    restart: always
-    env_file:
-      - ./loginServer/environment/.env
-    volumes:
-      - ./loginServer:/usr/src/app
-      - /usr/src/app/node_modules
-    ports:
-      - '8000:8000'
-    networks:
-      - kinkhorn
-
-  swag:
-    image: ghcr.io/linuxserver/swag
-    container_name: swag
-    cap_add:
-      - NET_ADMIN
-    env_file:
-      - ./swagger/swag.env
-    volumes:
-      - /swagger/dockervolumn/swag:/config
-      - ./swagger/configuration/proxy-conf:/config/nginx/proxy-confs
-      - ./swagger/default_setting/default:/config/nginx/site-confs/default
-    ports:
-      - '443:443'
-      - '80:80'
-    restart: unless-stopped
-    networks:
-      - kinkhorn
-
+    deploy:
+      replicas: 1
+      
 networks:
   kinkhorn:
