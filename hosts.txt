@@ -1,4 +1,0 @@
-localhost
-
-docker ansible_host=10.0.0.198
-master ansible_connection=ssh ansible_host=13.229.31.140 ansible_user=ubuntu ansible_ssh_private_key_file=./cie-group3.pem
