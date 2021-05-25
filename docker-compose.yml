@@ -3,37 +3,85 @@ version: '3'
 services:
   api:
     container_name: api
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
-    image: kk_api:1.0
+    image: nuttchai/kk_api:k8s1.0
     restart: always
     volumes:
       - ./backend:/usr/src/app
       - /usr/src/app/node_modules
     env_file:
       - ./backend/environment/backend.env
-    ports:
-      - '9000:9000'
+    expose: 
+      - '9000'
+    # ports:
+    #   - '9000:9000'
     networks:
       - kinkhorn
-
+  
   frontend:
     container_name: frontend
-    build:
-      context: ./Frontend
-      dockerfile: Dockerfile
-    image: kk_frontend:1.0
+    image: nuttchai/kk_frontend:k8s1.0
     restart: always
     volumes:
       - ./Frontend:/usr/src/app
       - /usr/src/app/node_modules
     env_file:
       - ./Frontend/src/variable.env
-    ports:
-      - '3000:3000'
+    expose: 
+      - '3000'
+    # ports:
+    #   - '3000:3000'
     networks:
       - kinkhorn
+
+  loginserver:
+    container_name: loginserver
+    image: nuttchai/kk_loginserver:k8s1.0
+    restart: always
+    env_file:
+      - ./loginServer/environment/.env
+    volumes:
+      - ./loginServer:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - '8000:8000'
+    networks:
+      - kinkhorn
+    
+  # mongodb:
+  #   image: mongo
+  #   container_name: mongodb
+  #   restart: unless-stopped
+  #   volumes:
+  #     - ./mongodb/data:/data/db
+  #   expose: 
+  #    - '27017'
+  #   # ports:
+  #   #   - '27017:27017'
+  #   command: [--auth]
+  #   networks:
+  #     - backend
+
+  swag:
+    image: ghcr.io/linuxserver/swag
+    container_name: swag
+    cap_add:
+      - NET_ADMIN
+    env_file:
+      - ./swagger/swag.env
+    volumes:
+      - /swagger/dockervolumn/swag:/config
+      - ./swagger/configuration/proxy-conf:/config/nginx/proxy-confs
+      - ./swagger/default_setting/default:/config/nginx/site-confs/default
+    ports:
+      - '443:443'
+      - '80:80'
+    restart: unless-stopped
+    networks:
+      - kinkhorn
+
+networks:
+  kinkhorn:
+
 
   loginServer:
     container_name: loginServer
